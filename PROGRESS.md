@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** Phase 0 ✅ complete → **next: Phase 1 (the `split-text` vertical slice).**
+- **Current phase:** Phase 1 in progress — SplitText core + 3 skins + live demo + unit tests ✅ (PR #2, branch `feat/phase-1-split-text`, stacked on the Phase 0 PR). **Remaining:** jsrepo registry/CLI, Playwright parity/E2E, code-tabs + MDX docs.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green · `pnpm build` green.
+- **Health:** `pnpm verify` green (35 tests) · `pnpm build` green (2 pages).
 
 ## How to resume
 
@@ -15,18 +15,19 @@
 cd D:\Jolt-UI
 pnpm install
 pnpm verify        # typecheck + lint + test  (expect green)
-pnpm dev           # open the site; you should see 3 hello-islands (React/Vue/Svelte)
+pnpm dev           # site: '/' hello-islands, '/components/split-text' the SplitText demo (3 frameworks)
 ```
 
 Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
-## Next up (Phase 1) — concrete first steps
+## Next up (Phase 1, remaining)
 
-1. Create `packages/core` (package.json, tsconfig, vitest.config). Add `schemas/split-text.ts` (Zod props + defaults) and a failing unit test for the schema defaults.
-2. Add `primitives/split-text.ts` (framework-agnostic GSAP behavior) + `motion.ts` (reduced-motion + client-side plugin registration). Add `gsap` as a dependency of `core`.
-3. Build `SplitText` in each of `@jolt/{react,vue,svelte}` as a thin skin calling the core; unit-test DOM parity + unmount cleanup per framework.
-4. Add a component page in `apps/site` with 3 live islands + code tabs (add `astro-expressive-code`).
-5. Scaffold `packages/registry` (jsrepo) + a `registry:check` sync test; add a Playwright parity + CLI-smoke E2E.
+SplitText core + skins + demo + unit tests are done (PR #2). What's left in Phase 1:
+
+1. **Registry (`packages/registry`)**: jsrepo config exposing `react|vue|svelte/split-text` blocks + shared `lib/core` & `lib/tokens`; build into `apps/site/public/r`. Add a `registry:check` sync test (source === block === code-tab) and wire it into `verify`.
+2. **CLI smoke E2E**: `jsrepo add` against the locally-built registry into a fixture project → it typechecks. Never hits the live origin.
+3. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
+4. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table.
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -41,6 +42,16 @@ Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-compo
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 1 vertical slice: SplitText (core + 3 skins + demo)
+
+Built the first real component end-to-end. `@jolt/core` now holds the single sources: `splitTextSchema` (Zod props/defaults), `splitSegments` (pure splitter), `createSplitText` (GSAP primitive returning a `revert()`), and `prefersReducedMotion`. Each of `@jolt/{react,vue,svelte}` has a thin `SplitText` skin that renders the segment spans and calls the core on mount / reverts on unmount. New demo page `/components/split-text` shows all three live islands.
+
+Tests (35 total, green): core — splitter, schema defaults, reduced-motion, revert; per-framework — DOM parity (same aria-label, segment count, text across all three) + lifecycle (create-on-mount / revert-on-unmount, via a mocked core). SSR check: the demo page renders all three islands (3 aria-labels, 56 segment spans).
+
+Decision **D-011**: Vue's SFC compiler can't resolve the zod-inferred `defineProps` type, so the Vue skin declares a local `Props` interface mirroring the schema (React/Svelte use the inferred type directly).
+
+**Remaining in Phase 1:** registry/CLI, parity + CLI-smoke E2E, code-tabs + MDX docs (see "Next up").
 
 ### 2026-06-27 — Renamed to Jolt UI + migrated to the GitHub clone
 
