@@ -1,0 +1,17 @@
+<button
+  id="theme-toggle"
+  type="button"
+  class="rounded border px-3 py-1"
+  aria-label="Toggle color theme"
+>
+  🌓 Theme
+</button>
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+    root.dataset.theme = next;
+    localStorage.setItem('jolt-theme', next);
+  });
+</script>

@@ -1,0 +1,24 @@
+{
+  "name": "@jolt/react",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jolt UI React component skins.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@jolt/tokens": "workspace:*",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4"
+  }
+}

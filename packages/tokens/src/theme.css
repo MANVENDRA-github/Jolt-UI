@@ -1,0 +1,25 @@
+/* Jolt UI design tokens — the single source of visual identity (Tailwind v4 @theme).
+   Every framework package and the site import this file; nothing redefines these values. */
+@theme {
+  /* Brand palette */
+  --color-jolt-bg: #0b0b0f;
+  --color-jolt-fg: #f5f5f7;
+  --color-jolt-accent: #6d5efc;
+
+  /* Motion language (mirrored in tokens.ts; a parity test asserts they match) */
+  --ease-jolt-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-jolt-base: 600ms;
+  --duration-jolt-fast: 300ms;
+  --jolt-stagger: 30ms;
+}
+
+/* Theme surfaces, switched via [data-theme] on <html> (consumed by the site + demos). */
+:root,
+[data-theme='dark'] {
+  --jolt-surface: #0b0b0f;
+  --jolt-text: #f5f5f7;
+}
+[data-theme='light'] {
+  --jolt-surface: #ffffff;
+  --jolt-text: #11111a;
+}
