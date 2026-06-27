@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** Phase 1 — SplitText + **jsrepo registry** merged to `main` (PRs #1/#3/#4); **CLI-smoke E2E** ✅ (branch `feat/phase-1-cli-smoke`, PR pending). **Remaining:** Playwright parity E2E, code-tabs + MDX docs.
+- **Current phase:** Phase 1 — SplitText + registry + CLI-smoke merged to `main` (PRs #1/#3/#4/#5); **Playwright parity E2E** ✅ (branch `feat/phase-1-parity-e2e`, PR pending). **Remaining:** code-tabs + MDX docs.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm test:cli` green · `pnpm build` green (2 pages + registry).
+- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm test:cli` + `pnpm test:e2e` green · `pnpm build` green (3 pages + registry).
 
 ## How to resume
 
@@ -16,6 +16,7 @@ cd D:\Jolt-UI
 pnpm install
 pnpm verify        # typecheck + lint + test + registry:check  (expect green)
 pnpm test:cli      # E2E: jsrepo add into a temp fixture -> bundles core + consumer typechecks
+pnpm test:e2e      # E2E: Playwright cross-framework parity for SplitText (real browser)
 pnpm dev           # site: '/' hello-islands, '/components/split-text' the SplitText demo (3 frameworks)
 ```
 
@@ -23,10 +24,11 @@ Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-compo
 
 ## Next up (Phase 1, remaining)
 
-SplitText + the jsrepo registry + CLI-smoke E2E are done. What's left in Phase 1:
+SplitText + registry + CLI-smoke + parity E2E are done. What's left in Phase 1:
 
-1. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
-2. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
+1. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
+
+After that, Phase 1 is complete → Phase 2 (fill the Text-Animations category to ~8–12 components).
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -41,6 +43,10 @@ SplitText + the jsrepo registry + CLI-smoke E2E are done. What's left in Phase 1
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 1: Playwright parity E2E
+
+Added Playwright (`@playwright/test` + chromium) and `e2e/split-text-parity.spec.ts` (`pnpm test:e2e`, wired into CI after build). Against the Astro dev server with `reducedMotion: 'reduce'` (so the core renders its static final state), it loads an internal harness (`/internal/split-text-parity`, identical text in all three frameworks) and asserts: every island hydrates; identical segment count + text (DOM parity); and the three rendered cells are **pixel-identical** (compared to each other via pixelmatch within one run → OS-independent, no committed golden). Also fixed a latent dev-SSR bug — `@jolt/core`'s raw `.ts` wasn't in `vite.ssr.noExternal`; switched to a `[/^@jolt\//]` regex (build already worked, dev now does too). `pnpm verify` + `test:cli` + `test:e2e` + `build` (3 pages) all green.
 
 ### 2026-06-28 — Phase 1: CLI-smoke E2E
 

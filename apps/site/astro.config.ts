@@ -11,9 +11,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      // Transform our workspace packages (incl. .vue/.svelte) on the server,
-      // instead of treating them as external node_modules.
-      noExternal: ['@jolt/react', '@jolt/vue', '@jolt/svelte', '@jolt/tokens'],
+      // Transform all our workspace packages (incl. @jolt/core's raw .ts and the
+      // .vue/.svelte skins) on the server, instead of treating them as external
+      // node_modules — otherwise dev SSR tries to load the raw .ts via Node.
+      noExternal: [/^@jolt\//],
     },
   },
 });

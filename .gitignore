@@ -6,6 +6,9 @@ coverage/
 apps/site/public/r/
 # CLI-smoke E2E throwaway fixture
 .cli-smoke-tmp/
+# Playwright
+test-results/
+playwright-report/
 *.log
 .DS_Store
 .env
