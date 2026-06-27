@@ -1,0 +1,27 @@
+/* GradientText — CSS-only animated gradient clipped to the text. Self-contained
+   (no token deps); the skin sets --jolt-gradient (built from the colors prop) and
+   --jolt-duration. The gradient repeats its first color so the scroll loops
+   seamlessly. */
+@keyframes jolt-gradient-text {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.jolt-gradient-text {
+  display: inline-block;
+  background-image: var(--jolt-gradient, linear-gradient(90deg, #6ee7b7, #3b82f6, #a78bfa, #6ee7b7));
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: jolt-gradient-text var(--jolt-duration, 4s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-gradient-text {
+    animation: none;
+    background-position: 0% center;
+  }
+}

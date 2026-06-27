@@ -2,9 +2,9 @@
 // Internal E2E harness: every component, same text, three frameworks — the
 // Playwright parity test asserts the frameworks render identically.
 import Base from '../../layouts/Base.astro';
-import { SplitText as RSplit, BlurIn as RBlur, Wave as RWave } from '@jolt/react';
-import { SplitText as VSplit, BlurIn as VBlur, Wave as VWave } from '@jolt/vue';
-import { SplitText as SSplit, BlurIn as SBlur, Wave as SWave } from '@jolt/svelte';
+import { SplitText as RSplit, BlurIn as RBlur, Wave as RWave, GradientText as RGrad, ShinyText as RShiny } from '@jolt/react';
+import { SplitText as VSplit, BlurIn as VBlur, Wave as VWave, GradientText as VGrad, ShinyText as VShiny } from '@jolt/vue';
+import { SplitText as SSplit, BlurIn as SBlur, Wave as SWave, GradientText as SGrad, ShinyText as SShiny } from '@jolt/svelte';
 
 const TEXT = 'Jolt UI';
 ---
@@ -20,5 +20,11 @@ const TEXT = 'Jolt UI';
     <div data-testid="wave-react"><RWave text={TEXT} /></div>
     <div data-testid="wave-vue"><VWave text={TEXT} /></div>
     <div data-testid="wave-svelte"><SWave text={TEXT} /></div>
+    <div data-testid="gradient-text-react"><RGrad text={TEXT} /></div>
+    <div data-testid="gradient-text-vue"><VGrad text={TEXT} /></div>
+    <div data-testid="gradient-text-svelte"><SGrad text={TEXT} /></div>
+    <div data-testid="shiny-text-react"><RShiny text={TEXT} /></div>
+    <div data-testid="shiny-text-vue"><VShiny text={TEXT} /></div>
+    <div data-testid="shiny-text-svelte"><SShiny text={TEXT} /></div>
   </div>
 </Base>

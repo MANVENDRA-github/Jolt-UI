@@ -14,6 +14,7 @@ function describeType(schema: z.ZodTypeAny): string {
   if (schema instanceof z.ZodNumber) return 'number';
   if (schema instanceof z.ZodBoolean) return 'boolean';
   if (schema instanceof z.ZodEnum) return schema.options.map((o: string) => `'${o}'`).join(' | ');
+  if (schema instanceof z.ZodArray) return `${describeType(schema.element)}[]`;
   return 'unknown';
 }
 
