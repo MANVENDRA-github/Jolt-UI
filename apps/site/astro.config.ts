@@ -3,11 +3,13 @@ import react from '@astrojs/react';
 import vue from '@astrojs/vue';
 import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
+import expressiveCode from 'astro-expressive-code';
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), vue(), svelte(), mdx()],
+  // expressive-code must come before mdx.
+  integrations: [react(), vue(), svelte(), expressiveCode({ themes: ['github-dark'] }), mdx()],
   vite: {
     plugins: [tailwindcss()],
     ssr: {

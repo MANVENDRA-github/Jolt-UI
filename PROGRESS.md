@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** Phase 1 — SplitText + registry + CLI-smoke merged to `main` (PRs #1/#3/#4/#5); **Playwright parity E2E** ✅ (branch `feat/phase-1-parity-e2e`, PR pending). **Remaining:** code-tabs + MDX docs.
+- **Current phase:** **Phase 1 COMPLETE** — SplitText + registry + both E2E gates merged (PRs #1/#3/#4/#5/#6); the docs slice (code-tabs + schema-driven props table) is on `feat/phase-1-docs` (PR pending). **Next: Phase 2** — fill the Text-Animations category.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm test:cli` + `pnpm test:e2e` green · `pnpm build` green (3 pages + registry).
+- **Health:** `pnpm verify` green (37 tests + registry:check) · `pnpm test:cli` + `pnpm test:e2e` green · `pnpm build` green (3 pages + registry).
 
 ## How to resume
 
@@ -20,15 +20,11 @@ pnpm test:e2e      # E2E: Playwright cross-framework parity for SplitText (real 
 pnpm dev           # site: '/' hello-islands, '/components/split-text' the SplitText demo (3 frameworks)
 ```
 
-Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-component steps.
+Then open `ROADMAP.md` → Phase 2, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
-## Next up (Phase 1, remaining)
+## Next up — Phase 2 (fill the Text-Animations category)
 
-SplitText + registry + CLI-smoke + parity E2E are done. What's left in Phase 1:
-
-1. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
-
-After that, Phase 1 is complete → Phase 2 (fill the Text-Animations category to ~8–12 components).
+Phase 1 is complete. Phase 2 adds ~8–12 Text-Animation components, each following the SplitText template (`COMPONENT_GUIDE.md`): schema in `@jolt/core`, three thin skins, demo + props table on the site, a registry entry, unit + parity tests. Mostly CSS-only (Blur In, Gradient Text, Shiny Text, Typewriter, Rotating Words, Wave/Bounce) plus a few GSAP (Scramble/Decrypt, Count Up, Scroll-Velocity). Add a category index page. A reusable `gen-component` scaffolder (Phase 3) will make each one a small PR.
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -43,6 +39,10 @@ After that, Phase 1 is complete → Phase 2 (fill the Text-Animations category t
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 1 (final slice): code tabs + schema-driven props table
+
+Closed out Phase 1. The component page (`/components/split-text`) now has: live demos, an **install** block, **tabbed source** (React/Vue/Svelte) with copy buttons via `astro-expressive-code`, and a **props table generated from the schema**. To make the table schema-derived, added `.describe()` to each `splitTextSchema` field plus a `splitTextPropsTable()` helper in `@jolt/core` (introspects the schema via zod `instanceof` narrowing — no `any`), with tests asserting it can't drift. Added `@jolt/core` + `astro-expressive-code` to the site's deps. Also hardened `cli-smoke.mjs` — it now snapshots/restores the *pre-run* lockfile instead of `git checkout HEAD`, so it can't clobber uncommitted lockfile changes. `pnpm verify` (37 tests) + `test:cli` + `test:e2e` + `build` (3 pages) green. **Phase 1 complete.**
 
 ### 2026-06-28 — Phase 1: Playwright parity E2E
 

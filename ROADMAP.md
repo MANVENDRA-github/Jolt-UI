@@ -14,7 +14,9 @@ Delivered: pnpm workspace; TS strict + `tsconfig.base`; ESLint flat + Prettier; 
 
 ---
 
-## ▶ Phase 1 — Vertical slice: one GSAP component, end-to-end, tri-framework
+## ✅ Phase 1 — Vertical slice: one GSAP component, end-to-end, tri-framework — **DONE (2026-06-28)**
+
+Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (jsrepo registry, own-the-code bundling), #5 (CLI-smoke E2E), #6 (Playwright parity E2E), and the docs slice (code-tabs + schema-driven props table). `pnpm verify` + `test:cli` + `test:e2e` + `build` all green; the `split-text` registry installs into a real consumer and type-checks.
 
 **Goal:** prove the *entire* pipeline on the hardest path so the rest is downhill. Component: `split-text` (a GSAP split/stagger reveal).
 
