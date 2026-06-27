@@ -1,0 +1,24 @@
+{
+  "name": "@jolt/svelte",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jolt UI Svelte component skins.",
+  "exports": {
+    ".": {
+      "types": "./types.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "@jolt/tokens": "workspace:*",
+    "svelte": "^5"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5",
+    "@testing-library/svelte": "^5"
+  }
+}

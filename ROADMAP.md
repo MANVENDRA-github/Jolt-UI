@@ -1,0 +1,46 @@
+# ROADMAP — Jolt UI
+
+Build order. Each phase is a session-sized slice that ends **runnable + verified + merged**. Don't scaffold ahead of the current phase. Mark phases done here and mirror the live state in `PROGRESS.md`.
+
+---
+
+## ✅ Phase 0 — Foundation & tooling — **DONE (2026-06-27)**
+
+**Goal:** an empty but fully-wired monorepo that lints, typechecks, tests, and builds an Astro shell proving React + Vue + Svelte coexist + hydrate on one page.
+
+Delivered: pnpm workspace; TS strict + `tsconfig.base`; ESLint flat + Prettier; Vitest (one project per framework, trivial test each); `@jolt/tokens` (`theme.css` + `tokens.ts` + parity test); Astro site rendering one hello-island per framework with dark-mode toggle; `pnpm verify`; GitHub Actions CI; all tracking docs.
+
+**Exit criteria — met:** `pnpm verify` green (typecheck + lint + 8 tests); `pnpm build` green (3 framework bundles, 1 page); all three islands render in SSR output. See `PROGRESS.md` for captured output.
+
+---
+
+## ▶ Phase 1 — Vertical slice: one GSAP component, end-to-end, tri-framework
+
+**Goal:** prove the *entire* pipeline on the hardest path so the rest is downhill. Component: `split-text` (a GSAP split/stagger reveal).
+
+**Deliverables:**
+- `packages/core`: Zod prop schema (`schemas/split-text.ts`) + framework-agnostic GSAP primitive (`primitives/split-text.ts`) + `motion.ts` (reduced-motion + plugin registration).
+- Three thin skins: `@jolt/{react,vue,svelte}` SplitText calling the core, reverting on unmount.
+- Site: a component page with 3 live islands + tabbed source (expressive-code) + copy button + MDX doc with a schema-generated props table.
+- `packages/registry`: jsrepo config; `react|vue|svelte/split-text` blocks + shared `lib/core` & `lib/tokens` blocks.
+- Tests: per-framework unit tests (DOM parity for same props, cleanup on unmount, reduced-motion path); Playwright **parity** E2E; **CLI smoke** (jsrepo add into a fixture → typecheck); `registry:check` sync test.
+
+**Exit criteria:** demo live via `pnpm dev`; `npx jsrepo add` (local origin) installs + fixture typechecks; parity + copy + hydration E2E green; `pnpm registry:check` green; `pnpm verify` green.
+
+---
+
+## Phase 2 — Fill the category to 8–12
+
+Each component follows the Phase-1 template (mostly CSS-only, a few GSAP): Blur In, Gradient Text, Shiny Text, Typewriter, Rotating Words, Wave/Bounce (CSS); Split Reveal (P1), Scramble/Decrypt, Count Up, Scroll-Velocity (GSAP). Category index page + search. Parity goldens for all.
+
+## Phase 3 — Registry & copy-paste UX + scaffolder
+
+Install tabs (pnpm/npm + jsrepo), dependency/peer badges, `scripts/gen-component.ts` (stamps schema + 3 skins + demos + tests + MDX from one contract), `registry:check` wired into `verify`.
+
+## Phase 4 — Deploy + docs + SEO
+
+Cloudflare Pages/Workers (site + `/r/*` registry from one origin); Getting-Started / Theming / Accessibility / Contributing docs; sitemap + per-component OG images + JSON-LD; Pagefind search in prod.
+
+## Later (out of v1 scope)
+
+Backgrounds (Three.js) + more categories · JS / plain-CSS variants via the scaffolder · more frameworks (Solid, Angular, web components) · shadcn-registry JSON + MCP server · pro templates/themes · Turborepo (only if build caching warrants).

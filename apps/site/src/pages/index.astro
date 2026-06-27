@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { Hello as ReactHello } from '@jolt/react';
+import { Hello as VueHello } from '@jolt/vue';
+import { Hello as SvelteHello } from '@jolt/svelte';
+---
+
+<Base title="Jolt UI — multi-framework gallery">
+  <h1 class="text-3xl font-bold">Jolt UI</h1>
+  <p class="mt-2 opacity-80">One design language. Three frameworks. Phase 0 smoke test:</p>
+  <ul class="mt-6 space-y-2">
+    <li><ReactHello name="Jolt UI" client:visible /></li>
+    <li><VueHello name="Jolt UI" client:visible /></li>
+    <li><SvelteHello name="Jolt UI" client:visible /></li>
+  </ul>
+</Base>

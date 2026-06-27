@@ -1,0 +1,60 @@
+{
+  "name": "jolt-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jolt UI — multi-framework animated UI component gallery (React + Vue + Svelte from one design language).",
+  "license": "LicenseRef-MIT-Commons-Clause",
+  "packageManager": "pnpm@10.16.1",
+  "engines": {
+    "node": ">=20.3.0",
+    "pnpm": ">=10"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @jolt/site dev",
+    "build": "pnpm --filter @jolt/site build",
+    "preview": "pnpm --filter @jolt/site preview",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@testing-library/jest-dom": "^6",
+    "@types/node": "^22",
+    "@vitest/coverage-v8": "^3",
+    "eslint": "^9",
+    "globals": "^15",
+    "jsdom": "^25",
+    "prettier": "^3",
+    "prettier-plugin-astro": "^0.14",
+    "prettier-plugin-svelte": "^3",
+    "svelte-check": "^4",
+    "typescript": "^5",
+    "typescript-eslint": "^8",
+    "vite": "^6",
+    "vitest": "^3",
+    "vue-tsc": "^2"
+  },
+  "pnpm": {
+    "overrides": {
+      "react": "^19",
+      "react-dom": "^19",
+      "vue": "^3.5",
+      "svelte": "^5",
+      "vite": "^6"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@tailwindcss/oxide",
+      "sharp",
+      "@parcel/watcher"
+    ]
+  }
+}

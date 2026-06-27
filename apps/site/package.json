@@ -1,0 +1,35 @@
+{
+  "name": "@jolt/site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jolt UI gallery + docs site (Astro, multi-framework islands).",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9",
+    "@astrojs/mdx": "^4",
+    "@astrojs/react": "^4",
+    "@astrojs/svelte": "^7",
+    "@astrojs/vue": "^5",
+    "@tailwindcss/vite": "^4",
+    "@jolt/react": "workspace:*",
+    "@jolt/svelte": "workspace:*",
+    "@jolt/tokens": "workspace:*",
+    "@jolt/vue": "workspace:*",
+    "astro": "^5",
+    "react": "^19",
+    "react-dom": "^19",
+    "svelte": "^5",
+    "tailwindcss": "^4",
+    "vue": "^3.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}
