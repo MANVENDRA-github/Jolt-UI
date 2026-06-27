@@ -13,15 +13,15 @@ const fixture = join(tmp, 'fixture');
 const registryUrl = `fs://${resolve(root, 'apps/site/public/r/react').replaceAll('\\', '/')}`;
 
 const run = (cmd, cwd) => execSync(cmd, { cwd, stdio: 'inherit' });
+
+// `jsrepo add` installs the component's deps into the fixture, which transiently
+// records the throwaway fixture in the root pnpm-lock.yaml. We snapshot the lockfile
+// just before the add and restore that exact content afterward — removing the
+// fixture's trace while preserving any unrelated (e.g. uncommitted) lockfile state.
+const lockfilePath = resolve(root, 'pnpm-lock.yaml');
+let lockfileBackup = null;
 const restoreLockfile = () => {
-  // `jsrepo add` installs the component's deps into the fixture, which transiently
-  // records the throwaway fixture in the root pnpm-lock.yaml. Restore the committed
-  // lockfile so the smoke test leaves no trace.
-  try {
-    execSync('git checkout HEAD -- pnpm-lock.yaml', { cwd: root, stdio: 'ignore' });
-  } catch {
-    /* not a git checkout, or nothing to restore — fine */
-  }
+  if (lockfileBackup !== null) writeFileSync(lockfilePath, lockfileBackup);
 };
 const cleanup = () => {
   rmSync(tmp, { recursive: true, force: true });
@@ -92,6 +92,7 @@ writeFileSync(
 writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=false\n');
 
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
+lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
 run(`pnpm exec jsrepo add split-text --yes --cwd "${fixture}"`, root);
 
 // 3. Assert the install is correct and self-contained.
