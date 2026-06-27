@@ -9,6 +9,25 @@ const TEXT = 'Jolt UI';
 test('every component renders identically across React, Vue, and Svelte', async ({ page }) => {
   await page.goto('/internal/parity');
 
+  // Freeze every animation at a deterministic end-state before comparing. The
+  // context already requests reduced-motion (so components render their static
+  // final state), but a *looping* CSS animation (e.g. Wave's infinite bob) only
+  // freezes if that emulation is honored at paint time — which is unreliable on
+  // headless CI Chromium, where the still-running loop is then captured at
+  // slightly different phases per cell. Forcing duration→0 + a single iteration
+  // collapses any animation to its final frame regardless, so the pixel
+  // comparison sees the same frozen frame across all three frameworks.
+  await page.addStyleTag({
+    content: `*, *::before, *::after {
+      animation-duration: 0s !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+      animation-fill-mode: forwards !important;
+      transition-duration: 0s !important;
+      transition-delay: 0s !important;
+    }`,
+  });
+
   for (const id of COMPONENTS) {
     // Each framework reaches the reduced-motion final state.
     for (const fw of FRAMEWORKS) {
