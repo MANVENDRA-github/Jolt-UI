@@ -10,3 +10,7 @@ export { blurInSchema, blurInMeta } from './schemas/blur-in';
 export type { BlurInProps } from './schemas/blur-in';
 export { waveSchema, waveMeta } from './schemas/wave';
 export type { WaveProps } from './schemas/wave';
+export { gradientTextSchema, gradientTextMeta } from './schemas/gradient-text';
+export type { GradientTextProps } from './schemas/gradient-text';
+export { shinyTextSchema, shinyTextMeta } from './schemas/shiny-text';
+export type { ShinyTextProps } from './schemas/shiny-text';

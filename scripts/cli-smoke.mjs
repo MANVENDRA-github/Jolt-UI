@@ -93,7 +93,10 @@ writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=f
 
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
 lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
-run(`pnpm exec jsrepo add split-text blur-in wave --yes --cwd "${fixture}"`, root);
+run(
+  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text --yes --cwd "${fixture}"`,
+  root,
+);
 
 // 3. Assert the install is correct and self-contained.
 const srcDir = join(fixture, 'src');
@@ -123,6 +126,8 @@ if (tests.length) die(`test files leaked into the install: ${tests.join(', ')}`)
 for (const [skin, sheet] of [
   ['BlurIn.tsx', 'blur-in.css'],
   ['Wave.tsx', 'wave.css'],
+  ['GradientText.tsx', 'gradient-text.css'],
+  ['ShinyText.tsx', 'shiny-text.css'],
 ]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
   if (!files.some((f) => f.endsWith(sheet))) die(`${sheet} stylesheet not bundled`);

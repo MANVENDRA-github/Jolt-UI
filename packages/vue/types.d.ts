@@ -26,3 +26,12 @@ export declare const Wave: DefineComponent<{
   stagger?: number;
   delay?: number;
 }>;
+export declare const GradientText: DefineComponent<{
+  text: string;
+  colors?: string[];
+  duration?: number;
+}>;
+export declare const ShinyText: DefineComponent<{
+  text: string;
+  duration?: number;
+}>;

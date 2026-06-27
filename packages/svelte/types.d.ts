@@ -30,3 +30,9 @@ export declare const Wave: (props: {
   stagger?: number;
   delay?: number;
 }) => unknown;
+export declare const GradientText: (props: {
+  text: string;
+  colors?: string[];
+  duration?: number;
+}) => unknown;
+export declare const ShinyText: (props: { text: string; duration?: number }) => unknown;

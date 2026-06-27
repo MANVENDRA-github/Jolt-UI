@@ -2,7 +2,12 @@ import { expect, test } from '@playwright/test';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 
-const COMPONENTS = ['split-text', 'blur-in', 'wave'] as const;
+// Per-char components split the text into aria-hidden segments (the full text is
+// carried on an aria-label); whole-text components render the text directly, so
+// it's natively accessible — no segments, no aria-label.
+const PER_CHAR = ['split-text', 'blur-in', 'wave'] as const;
+const WHOLE_TEXT = ['gradient-text', 'shiny-text'] as const;
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -29,25 +34,35 @@ test('every component renders identically across React, Vue, and Svelte', async 
   });
 
   for (const id of COMPONENTS) {
-    // Each framework reaches the reduced-motion final state.
-    for (const fw of FRAMEWORKS) {
-      await expect(page.locator(`[data-testid="${id}-${fw}"] [aria-label="${TEXT}"]`)).toBeVisible();
-      await expect(
-        page.locator(`[data-testid="${id}-${fw}"] [data-jolt-segment]`).first(),
-      ).toBeVisible();
-    }
+    const isPerChar = (PER_CHAR as readonly string[]).includes(id);
 
-    // DOM parity: identical segment count + text across frameworks.
-    const counts: number[] = [];
+    // DOM parity: every framework shows the same accessible text. Per-char
+    // components additionally expose it via aria-label + aria-hidden segments.
     const texts: (string | null)[] = [];
     for (const fw of FRAMEWORKS) {
-      counts.push(await page.locator(`[data-testid="${id}-${fw}"] [data-jolt-segment]`).count());
-      texts.push(
-        await page.locator(`[data-testid="${id}-${fw}"] [aria-label]`).first().textContent(),
-      );
+      const cell = page.locator(`[data-testid="${id}-${fw}"]`);
+      await expect(cell).toBeVisible();
+      // Read text from the element that carries it — the aria-label span for
+      // per-char components, the component's own span for whole-text — so a
+      // client:load island's inline hydration script never leaks into textContent.
+      const textEl = isPerChar
+        ? cell.locator(`[aria-label="${TEXT}"]`)
+        : cell.locator('span').first();
+      if (isPerChar) {
+        await expect(textEl).toBeVisible();
+        await expect(cell.locator('[data-jolt-segment]').first()).toBeVisible();
+      }
+      texts.push((await textEl.textContent())?.trim() ?? null);
     }
-    expect(new Set(counts).size, `${id}: segment counts differ: ${counts.join(', ')}`).toBe(1);
     expect(new Set(texts).size, `${id}: text differs: ${texts.join(' | ')}`).toBe(1);
+
+    if (isPerChar) {
+      const counts: number[] = [];
+      for (const fw of FRAMEWORKS) {
+        counts.push(await page.locator(`[data-testid="${id}-${fw}"] [data-jolt-segment]`).count());
+      }
+      expect(new Set(counts).size, `${id}: segment counts differ: ${counts.join(', ')}`).toBe(1);
+    }
 
     // Visual parity: each framework's cell is pixel-identical to React's (compared
     // within one run → OS-independent, no committed golden).

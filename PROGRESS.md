@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **PR 2a (Blur In + Wave)** built + fully green on `feat/phase-2a-blur-wave` (PR pending); it establishes the CSS-only distribution pattern. Phase 1 complete + merged (PRs #1–#7). **Remaining 2x:** 2b Gradient/Shiny · 2c Typewriter/Rotating · 2d Count Up/Scramble · 2e Scroll-Velocity + category index.
+- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **PR 2b (Gradient Text + Shiny Text)** built + fully green on `feat/phase-2b-gradient-shiny` (PR pending); it adds the whole-text CSS-only sub-pattern. PR 2a (Blur In + Wave) merged (PR #8); Phase 1 merged (PRs #1–#7). **Remaining:** 2c Typewriter/Rotating · 2d Count Up/Scramble · 2e Scroll-Velocity + category index.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (**58 tests** + registry:check, astro check 11 pages) · `pnpm test:cli` (adds split-text + blur-in + wave → consumer typechecks) + `pnpm test:e2e` (parity across all 3 components) green.
+- **Health:** `pnpm verify` green (**71 tests** + registry:check, astro check 13 pages) · `pnpm test:cli` (adds 5 components → consumer typechecks) + `pnpm test:e2e` (parity across all 5 components) green.
 
 ## How to resume
 
@@ -16,8 +16,8 @@ cd D:\Jolt-UI
 pnpm install
 pnpm verify        # typecheck + lint + test + registry:check  (expect green)
 pnpm test:cli      # E2E: jsrepo add into a temp fixture -> bundles core + consumer typechecks
-pnpm test:e2e      # E2E: Playwright cross-framework parity for SplitText (real browser)
-pnpm dev           # site: '/' hello-islands, '/components/split-text' the SplitText demo (3 frameworks)
+pnpm test:e2e      # E2E: Playwright cross-framework parity for every component (real browser)
+pnpm dev           # site: '/components/<id>' demos (split-text, blur-in, wave, gradient-text, shiny-text)
 ```
 
 Then open `ROADMAP.md` → Phase 2, and `COMPONENT_GUIDE.md` for the add-a-component steps.
@@ -39,6 +39,17 @@ Phase 1 is complete. Phase 2 adds ~8–12 Text-Animation components, each follow
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 2 PR 2b: Gradient Text + Shiny Text (whole-text CSS-only)
+
+Added the next two Text-Animation components and the **whole-text** CSS-only sub-pattern (vs the per-character Blur In/Wave). **Gradient Text** (a flowing multi-color gradient) and **Shiny Text** (a sweeping sheen) both use `background-clip: text` on the whole string — **no segmentation, no aria-label** (the text renders directly and is natively accessible).
+
+- Same shared-CSS distribution as 2a (`@jolt/core/src/styles/<id>.css`, skins set `--jolt-*` from props, bundled via the registry's core item). Gradient builds `--jolt-gradient` from a `colors` array, repeating the first stop so the scroll loops seamlessly.
+- **Generalized `propsTable`** to describe array props (`string[]`) for Gradient's `colors` — TDD red → green.
+- **Parity harness/spec now handles two component kinds:** per-char (aria-label + aria-hidden segments) and whole-text (text read from the component's own span). Reading the text from the text-bearing element — not the whole cell — keeps a `client:load` island's inline hydration script out of the comparison.
+- Each component: `.describe()`'d Zod schema + shared CSS + 3 skins + barrels + type shims + demo page (`/components/<id>`) + 2 unit tests (text content + CSS-var mapping) + registry item.
+
+Green local: `pnpm verify` (**71 tests** + registry:check, astro check 13 pages) · `pnpm test:cli` (5 components) · `pnpm test:e2e` (parity all 5). On `feat/phase-2b-gradient-shiny`; PR pending. Decision **D-016** (whole-text sub-pattern).
 
 ### 2026-06-28 — Phase 2 PR 2a: Blur In + Wave (CSS-only distribution proven)
 
