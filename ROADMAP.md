@@ -31,9 +31,20 @@ Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (j
 
 ---
 
-## Phase 2 — Fill the category to 8–12
+## Phase 2 — Fill the Text-Animations category (~9 components) — **IN PROGRESS**
 
-Each component follows the Phase-1 template (mostly CSS-only, a few GSAP): Blur In, Gradient Text, Shiny Text, Typewriter, Rotating Words, Wave/Bounce (CSS); Split Reveal (P1), Scramble/Decrypt, Count Up, Scroll-Velocity (GSAP). Category index page + search. Parity goldens for all.
+~2 components per PR (each its own small, phone-reviewable PR the maintainer merges). Every component follows the per-component slice in `COMPONENT_GUIDE.md` and **one of three proven patterns**: per-char CSS-only, whole-text CSS-only, or GSAP.
+
+| PR | Components | Pattern | Status |
+|----|-----------|---------|--------|
+| Phase 1 | Split Text | GSAP | ✅ merged (#1–#7) |
+| 2a | Blur In · Wave | per-char CSS | ✅ merged (#8) |
+| 2b | Gradient Text · Shiny Text | whole-text CSS | ✅ merged (#9) |
+| **2c** | **Typewriter · Rotating Words** | CSS (structural) | ⬜ **next** |
+| 2d | Count Up · Scramble | GSAP | ⬜ |
+| 2e | Scroll-Velocity + category index page | GSAP (ScrollTrigger) | ⬜ |
+
+Gates per PR: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e` green. Cross-framework parity is enforced by the Playwright harness (`/internal/parity` + `e2e/parity.spec.ts`), which **freezes animations to a deterministic frame** (DECISIONS D-015) — reduced-motion alone won't freeze a looping animation on CI. Live state, the three patterns, and solved gotchas: `PROGRESS.md` → “Next up”; rationale: `DECISIONS.md` (D-008, D-011–D-016).
 
 ## Phase 3 — Registry & copy-paste UX + scaffolder
 
