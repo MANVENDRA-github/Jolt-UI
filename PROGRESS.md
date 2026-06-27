@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** Phase 1 in progress — SplitText core + 3 skins + live demo + unit tests ✅ (PR #2, branch `feat/phase-1-split-text`, stacked on the Phase 0 PR). **Remaining:** jsrepo registry/CLI, Playwright parity/E2E, code-tabs + MDX docs.
+- **Current phase:** Phase 1 — SplitText (PRs #1 + #3 merged to `main`) and the **jsrepo registry** ✅ (branch `feat/phase-1-registry`, PR pending). **Remaining:** CLI-smoke E2E, Playwright parity E2E, code-tabs + MDX docs.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (35 tests) · `pnpm build` green (2 pages).
+- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm build` green (2 pages + registry).
 
 ## How to resume
 
@@ -22,12 +22,11 @@ Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-compo
 
 ## Next up (Phase 1, remaining)
 
-SplitText core + skins + demo + unit tests are done (PR #2). What's left in Phase 1:
+SplitText (merged) + the jsrepo registry (this branch) are done. What's left in Phase 1:
 
-1. **Registry (`packages/registry`)**: jsrepo config exposing `react|vue|svelte/split-text` blocks + shared `lib/core` & `lib/tokens`; build into `apps/site/public/r`. Add a `registry:check` sync test (source === block === code-tab) and wire it into `verify`.
-2. **CLI smoke E2E**: `jsrepo add` against the locally-built registry into a fixture project → it typechecks. Never hits the live origin.
-3. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
-4. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table.
+1. **CLI-smoke E2E**: `jsrepo add` against the locally-built registry into a temp fixture project → assert the core is bundled, the `@/jolt-core` import lands, and the fixture typechecks. Never hits the live origin.
+2. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
+3. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -42,6 +41,10 @@ SplitText core + skins + demo + unit tests are done (PR #2). What's left in Phas
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 1: jsrepo registry (own-the-code bundling)
+
+Added a jsrepo registry: `jsrepo.config.ts`, a root `tsconfig.json` (for jsrepo's `@/jolt-core` alias), and `scripts/registry-check.mjs`. Three per-framework registries build to `apps/site/public/r/{react,vue,svelte}`; each `split-text` component **bundles** the shared `core` (registry dependency) so consumers own 100% of the code. Achieved via a jsrepo `build.transforms` rewrite of `@jolt/core` → `@/jolt-core` that runs before import resolution — **source stays `@jolt/core`, so runtime/Vitest/type-checking are unchanged**. Core ships with subdirs preserved, tests excluded (`!(*.test).ts`). `registry:build` is part of `build`; `registry:check` is part of `verify` (asserts core bundled, no `@jolt/core` npm dep, import rewritten, no tests leaked). Output is git-ignored (regenerated). Full findings + jsrepo gotchas in DECISIONS **D-012**. `pnpm verify` (incl. registry:check) + `pnpm build` green.
 
 ### 2026-06-28 — Phase 1 vertical slice: SplitText (core + 3 skins + demo)
 
