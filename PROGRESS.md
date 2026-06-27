@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **PR 2b (Gradient Text + Shiny Text)** built + fully green on `feat/phase-2b-gradient-shiny` (PR pending); it adds the whole-text CSS-only sub-pattern. PR 2a (Blur In + Wave) merged (PR #8); Phase 1 merged (PRs #1–#7). **Remaining:** 2c Typewriter/Rotating · 2d Count Up/Scramble · 2e Scroll-Velocity + category index.
-- **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (**71 tests** + registry:check, astro check 13 pages) · `pnpm test:cli` (adds 5 components → consumer typechecks) + `pnpm test:e2e` (parity across all 5 components) green.
+- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (PR #8) · Gradient Text + Shiny Text (PR #9) — **5 of ~9 components.** **Next: PR 2c (Typewriter + Rotating Words).** The full remaining plan, the three proven component patterns, and the baked-in gotchas are in **“Next up — Phase 2”** below. Phase 0–1 merged (PRs #1–#7).
+- **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
+- **Health (on `main`):** `pnpm verify` green (**71 tests** + registry:check, astro check 13 pages) · `pnpm test:cli` (adds all 5 components → consumer typechecks) · `pnpm test:e2e` (parity across all 5) green.
 
 ## How to resume
 
@@ -24,7 +24,28 @@ Then open `ROADMAP.md` → Phase 2, and `COMPONENT_GUIDE.md` for the add-a-compo
 
 ## Next up — Phase 2 (fill the Text-Animations category)
 
-Phase 1 is complete. Phase 2 adds ~8–12 Text-Animation components, each following the SplitText template (`COMPONENT_GUIDE.md`): schema in `@jolt/core`, three thin skins, demo + props table on the site, a registry entry, unit + parity tests. Mostly CSS-only (Blur In, Gradient Text, Shiny Text, Typewriter, Rotating Words, Wave/Bounce) plus a few GSAP (Scramble/Decrypt, Count Up, Scroll-Velocity). Add a category index page. A reusable `gen-component` scaffolder (Phase 3) will make each one a small PR.
+Phase 2 fills the Text-Animations category, ~2 components per PR, each its own small PR the maintainer merges. **Shipped:** SplitText (GSAP), Blur In + Wave (per-char CSS), Gradient Text + Shiny Text (whole-text CSS). **Remaining PRs (approved batching):**
+
+- **PR 2c — Typewriter + Rotating Words** (CSS-only, structural). Typewriter: `steps()` width/character reveal + a blinking caret. Rotating Words: cycle a list of words (vertical slide/fade); takes a `words: string[]` prop (the `propsTable` array support landed in 2b). Reduced-motion → show the full/first word statically.
+- **PR 2d — Count Up + Scramble** (GSAP). Count Up: animate a number to a target. Scramble: ScrambleText-style decode. Use the GSAP pattern below (core `animation/<id>.ts` factory; register `ScrambleTextPlugin` in `core/motion.ts`); reduced-motion → final value/text.
+- **PR 2e — Scroll-Velocity + category index page** (GSAP ScrollTrigger). A marquee whose speed reacts to scroll velocity; then build `/components` (or `/components/index.astro`) listing every component with a live mini-preview. Register `ScrollTrigger` in `core/motion.ts`; guard `window`.
+
+### The per-component slice (repeat this — see `COMPONENT_GUIDE.md` for the full checklist)
+Zod schema (`packages/core/src/schemas/<id>.ts`, every field `.describe()`'d + `.default()`) → behavior (shared CSS module **or** GSAP factory) → 3 skins (`packages/{react,vue,svelte}/src/components/<Name>/` + barrel + `index.ts` export + vue/svelte `types.d.ts` shim) → demo page (`apps/site/src/pages/components/<id>.astro`) → registry items in `jsrepo.config.ts` (all 3 frameworks) → unit tests (3 frameworks) → extend the parity harness (`apps/site/src/pages/internal/parity.astro`) + `e2e/parity.spec.ts` (add the id to `PER_CHAR` or `WHOLE_TEXT`) → extend `scripts/cli-smoke.mjs` → **gates: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e`, then PR.**
+
+### Three proven component patterns (pick one per component)
+- **Per-char CSS-only** (Blur In, Wave): split via `splitSegments` (`core/dom/split.ts`); shared `@jolt/core/src/styles/<id>.css` with `@keyframes`; skins render `<span aria-label> + aria-hidden segments` and set `--jolt-*` (+ per-segment `--jolt-i`). DECISIONS **D-013, D-014**.
+- **Whole-text CSS-only** (Gradient, Shiny): no segmentation — `<span class="jolt-…">{text}</span>` directly (natively accessible, no aria-label); `background-clip: text`. DECISIONS **D-016**.
+- **GSAP** (SplitText; use for 2d/2e): framework-agnostic factory in `core/animation/<id>.ts` returning `{ play, revert }`; skins call it on mount and `revert` on unmount; register plugins in `core/motion.ts`. DECISIONS **D-008**.
+
+### Gotchas already solved (don't rediscover — see `DECISIONS.md`)
+- **Parity for looping/infinite animations:** the parity spec freezes all animations to their end-state before screenshotting (**D-015**) — reduced-motion alone won't freeze them on CI. Keep using `/internal/parity` + `e2e/parity.spec.ts`.
+- **Reduced-motion** must set the static final state **and** release `will-change: auto` for a deterministic frame (**D-014**).
+- **Vue skins** declare a local `Props` interface mirroring the schema — the SFC compiler can't resolve the Zod-inferred type in `defineProps` (**D-011**).
+- **Registry** bundles the whole `core` (incl. `styles/*.css`) via a build transform that rewrites `@jolt/core` → `@/jolt-core` (**D-012, D-013**); always validate a registry change with `pnpm test:cli`.
+- **CSS imports** need each package's `src/css.d.ts` (`declare module '*.css'`) for typecheck.
+
+A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one contract once the pattern has repeated enough.
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -39,6 +60,10 @@ Phase 1 is complete. Phase 2 adds ~8–12 Text-Animation components, each follow
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — PR 2b merged + docs continuity pass
+
+Merged PR #9 (Gradient + Shiny) to `main`; synced the vault. Then refreshed the resume docs so a fresh session has full context without re-deriving: rewrote PROGRESS **“Next up”** with the concrete remaining PRs (2c/2d/2e), the three proven component patterns (per-char CSS · whole-text CSS · GSAP), and the gotchas already solved (parity freeze, reduced-motion `will-change`, Vue local `Props`, registry bundling); status-tracked Phase 2 in `ROADMAP.md`; rewrote `COMPONENT_GUIDE.md` to the **actual** proven procedure (shared CSS module in `@jolt/core/src/styles/`, correct paths, the three patterns). 5 of ~9 Phase-2 components shipped; next is **PR 2c (Typewriter + Rotating Words)**.
 
 ### 2026-06-28 — Phase 2 PR 2b: Gradient Text + Shiny Text (whole-text CSS-only)
 
