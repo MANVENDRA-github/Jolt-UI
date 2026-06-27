@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter @jolt/site dev",
-    "build": "pnpm --filter @jolt/site build",
+    "build": "pnpm registry:build && pnpm --filter @jolt/site build",
     "preview": "pnpm --filter @jolt/site preview",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
@@ -22,7 +22,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
-    "verify": "pnpm typecheck && pnpm lint && pnpm test"
+    "registry:build": "jsrepo build",
+    "registry:check": "jsrepo build && node scripts/registry-check.mjs",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm registry:check"
   },
   "devDependencies": {
     "@eslint/js": "^9",
@@ -32,6 +34,7 @@
     "eslint": "^9",
     "globals": "^15",
     "jsdom": "^25",
+    "jsrepo": "^3.8.0",
     "prettier": "^3",
     "prettier-plugin-astro": "^0.14",
     "prettier-plugin-svelte": "^3",
