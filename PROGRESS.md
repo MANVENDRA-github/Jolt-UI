@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 1 COMPLETE** — SplitText + registry + both E2E gates merged (PRs #1/#3/#4/#5/#6); the docs slice (code-tabs + schema-driven props table) is on `feat/phase-1-docs` (PR pending). **Next: Phase 2** — fill the Text-Animations category.
+- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **PR 2a (Blur In + Wave)** built + fully green on `feat/phase-2a-blur-wave` (PR pending); it establishes the CSS-only distribution pattern. Phase 1 complete + merged (PRs #1–#7). **Remaining 2x:** 2b Gradient/Shiny · 2c Typewriter/Rotating · 2d Count Up/Scramble · 2e Scroll-Velocity + category index.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (37 tests + registry:check) · `pnpm test:cli` + `pnpm test:e2e` green · `pnpm build` green (3 pages + registry).
+- **Health:** `pnpm verify` green (**58 tests** + registry:check, astro check 11 pages) · `pnpm test:cli` (adds split-text + blur-in + wave → consumer typechecks) + `pnpm test:e2e` (parity across all 3 components) green.
 
 ## How to resume
 
@@ -39,6 +39,17 @@ Phase 1 is complete. Phase 2 adds ~8–12 Text-Animation components, each follow
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 2 PR 2a: Blur In + Wave (CSS-only distribution proven)
+
+Started Phase 2 by filling the first two Text-Animation slots and — the real point — establishing the **CSS-only component distribution pattern** (the one new mechanic vs the GSAP SplitText). **Blur In** (per-char fade + de-blur) and **Wave** (traveling per-char bob) are both CSS-only, per-character, tri-framework.
+
+- **Shared CSS module** per component in `@jolt/core/src/styles/<id>.css` (single source → no cross-framework drift); skins set `--jolt-*` custom properties from props and import the sheet. Reduced-motion renders the static final state **and releases `will-change`** so parity screenshots rasterize on the deterministic CPU path — a GPU-layer subpixel diff was the lone parity failure (see DECISIONS **D-014**).
+- **Registry bundling** (DECISIONS **D-013**): CSS files are part of the `core` item (`styles/*.css` glob); the skin's CSS import resolves to a registry file and is rewritten on `add`. CLI-smoke now adds split-text + blur-in + wave and asserts both stylesheets land + the consumer type-checks.
+- **Generalized the tooling for the rest of the category:** `splitTextPropsTable()` → reusable `propsTable(schema)`; `registry-check.mjs` loops **every** component item per framework; the parity harness/spec became a combined `/internal/parity` + `e2e/parity.spec.ts` looping over component ids (replaced the SplitText-specific pair).
+- Per component: `.describe()`'d Zod schema + shared CSS + 3 skins + barrels + type shims + demo page (`/components/<id>`) + 3 unit tests (aria-label, per-char segment count, CSS-var mapping) + registry item.
+
+Green: `pnpm verify` (**58 tests** + registry:check, astro check 11 pages) · `pnpm test:cli` (3 components) · `pnpm test:e2e` (parity for all three). On `feat/phase-2a-blur-wave`; PR pending.
 
 ### 2026-06-28 — Phase 1 (final slice): code tabs + schema-driven props table
 

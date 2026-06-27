@@ -42,36 +42,3 @@ export const splitTextMeta = {
   deps: ['gsap'],
   a11y: 'Full text is exposed via aria-label; animated segments are aria-hidden.',
 } as const;
-
-/** A documented prop, derived from the schema for the docs site's props table. */
-export interface PropDoc {
-  name: string;
-  type: string;
-  /** Stringified default, or `null` when the prop is required. */
-  default: string | null;
-  description: string;
-}
-
-function describeType(schema: z.ZodTypeAny): string {
-  if (schema instanceof z.ZodString) return 'string';
-  if (schema instanceof z.ZodNumber) return 'number';
-  if (schema instanceof z.ZodBoolean) return 'boolean';
-  if (schema instanceof z.ZodEnum) return schema.options.map((o: string) => `'${o}'`).join(' | ');
-  return 'unknown';
-}
-
-/** Build the props table from the schema — the single source for the docs site. */
-export function splitTextPropsTable(): PropDoc[] {
-  return Object.entries(splitTextSchema.shape).map(([name, value]) => {
-    const field = value as z.ZodTypeAny;
-    if (field instanceof z.ZodDefault) {
-      return {
-        name,
-        type: describeType(field._def.innerType),
-        default: JSON.stringify(field._def.defaultValue()),
-        description: field.description ?? '',
-      };
-    }
-    return { name, type: describeType(field), default: null, description: field.description ?? '' };
-  });
-}

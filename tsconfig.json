@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/jolt-core": ["./packages/core/src/index.ts"]
+      "@/jolt-core": ["./packages/core/src/index.ts"],
+      "@/jolt-core/*": ["./packages/core/src/*"]
     }
   },
   "include": []

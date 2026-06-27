@@ -1,4 +1,5 @@
-import { splitTextSchema, splitTextPropsTable } from './split-text';
+import { splitTextSchema } from './split-text';
+import { propsTable } from '../props-table';
 
 describe('splitTextSchema', () => {
   it('applies defaults when only text is given', () => {
@@ -29,12 +30,12 @@ describe('splitTextSchema', () => {
 
 describe('splitTextPropsTable', () => {
   it('covers exactly the schema fields (no drift)', () => {
-    const names = splitTextPropsTable().map((p) => p.name);
+    const names = propsTable(splitTextSchema).map((p) => p.name);
     expect(names).toEqual(Object.keys(splitTextSchema.shape));
   });
 
   it('derives type, default, and description from the schema', () => {
-    const table = splitTextPropsTable();
+    const table = propsTable(splitTextSchema);
     const by = table.find((p) => p.name === 'by');
     expect(by).toEqual({
       name: 'by',

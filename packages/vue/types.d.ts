@@ -10,3 +10,19 @@ export declare const SplitText: DefineComponent<{
   delay?: number;
   y?: number;
 }>;
+export declare const BlurIn: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  blur?: number;
+  stagger?: number;
+  duration?: number;
+  delay?: number;
+}>;
+export declare const Wave: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  amplitude?: number;
+  duration?: number;
+  stagger?: number;
+  delay?: number;
+}>;
