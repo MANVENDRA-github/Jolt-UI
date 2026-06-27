@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Jolt UI framework-agnostic core: prop schemas + animation primitives (the anti-drift core).",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./*": "./src/*"
   },
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json"

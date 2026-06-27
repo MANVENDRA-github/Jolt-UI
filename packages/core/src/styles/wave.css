@@ -1,0 +1,35 @@
+/* Wave — CSS-only per-character vertical bob that travels across the text.
+   Self-contained (no token deps); the skin sets --jolt-* custom properties from
+   props, and each segment carries its index in --jolt-i so adjacent characters
+   start a beat apart, producing a traveling wave. */
+@keyframes jolt-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--jolt-amplitude, 10px) * -1));
+  }
+}
+
+.jolt-wave {
+  display: inline-block;
+}
+
+.jolt-wave [data-jolt-segment] {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+  animation: jolt-wave var(--jolt-duration, 1.5s) ease-in-out infinite;
+  animation-delay: calc(var(--jolt-delay, 0s) + var(--jolt-i, 0) * var(--jolt-stagger, 0.08s));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-wave [data-jolt-segment] {
+    animation: none;
+    transform: none;
+    /* Release the GPU layer so the static text rasterizes on the CPU path
+       (deterministic subpixel AA) instead of compositing per glyph. */
+    will-change: auto;
+  }
+}

@@ -12,7 +12,10 @@ import { distributed } from 'jsrepo/outputs';
 const core = {
   name: 'core',
   type: 'lib',
-  files: [{ path: 'packages/core/src/**/!(*.test).ts' }],
+  files: [
+    { path: 'packages/core/src/**/!(*.test).ts' },
+    { path: 'packages/core/src/styles/*.css' },
+  ],
 } as const;
 
 export default defineConfig({
@@ -40,6 +43,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/SplitText/SplitText.tsx' }],
         },
+        {
+          name: 'blur-in',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/BlurIn/BlurIn.tsx' }],
+        },
+        {
+          name: 'wave',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Wave/Wave.tsx' }],
+        },
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
     },
@@ -54,6 +67,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/SplitText/SplitText.vue' }],
         },
+        {
+          name: 'blur-in',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/BlurIn/BlurIn.vue' }],
+        },
+        {
+          name: 'wave',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Wave/Wave.vue' }],
+        },
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
     },
@@ -67,6 +90,16 @@ export default defineConfig({
           name: 'split-text',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/SplitText/SplitText.svelte' }],
+        },
+        {
+          name: 'blur-in',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/BlurIn/BlurIn.svelte' }],
+        },
+        {
+          name: 'wave',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Wave/Wave.svelte' }],
         },
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/svelte', format: true })],

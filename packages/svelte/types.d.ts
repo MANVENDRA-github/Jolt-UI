@@ -14,3 +14,19 @@ export declare const SplitText: (props: {
   delay?: number;
   y?: number;
 }) => unknown;
+export declare const BlurIn: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  blur?: number;
+  stagger?: number;
+  duration?: number;
+  delay?: number;
+}) => unknown;
+export declare const Wave: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  amplitude?: number;
+  duration?: number;
+  stagger?: number;
+  delay?: number;
+}) => unknown;

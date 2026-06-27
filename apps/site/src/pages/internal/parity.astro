@@ -1,0 +1,24 @@
+---
+// Internal E2E harness: every component, same text, three frameworks — the
+// Playwright parity test asserts the frameworks render identically.
+import Base from '../../layouts/Base.astro';
+import { SplitText as RSplit, BlurIn as RBlur, Wave as RWave } from '@jolt/react';
+import { SplitText as VSplit, BlurIn as VBlur, Wave as VWave } from '@jolt/vue';
+import { SplitText as SSplit, BlurIn as SBlur, Wave as SWave } from '@jolt/svelte';
+
+const TEXT = 'Jolt UI';
+---
+
+<Base title="parity harness">
+  <div class="space-y-6 text-3xl font-bold">
+    <div data-testid="split-text-react"><RSplit text={TEXT} client:load /></div>
+    <div data-testid="split-text-vue"><VSplit text={TEXT} client:load /></div>
+    <div data-testid="split-text-svelte"><SSplit text={TEXT} client:load /></div>
+    <div data-testid="blur-in-react"><RBlur text={TEXT} /></div>
+    <div data-testid="blur-in-vue"><VBlur text={TEXT} /></div>
+    <div data-testid="blur-in-svelte"><SBlur text={TEXT} /></div>
+    <div data-testid="wave-react"><RWave text={TEXT} /></div>
+    <div data-testid="wave-vue"><VWave text={TEXT} /></div>
+    <div data-testid="wave-svelte"><SWave text={TEXT} /></div>
+  </div>
+</Base>

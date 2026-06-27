@@ -93,7 +93,7 @@ writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=f
 
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
 lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
-run(`pnpm exec jsrepo add split-text --yes --cwd "${fixture}"`, root);
+run(`pnpm exec jsrepo add split-text blur-in wave --yes --cwd "${fixture}"`, root);
 
 // 3. Assert the install is correct and self-contained.
 const srcDir = join(fixture, 'src');
@@ -118,6 +118,16 @@ const files = walk(srcDir);
 const tests = files.filter((f) => /\.(test|spec)\./.test(f));
 if (tests.length) die(`test files leaked into the install: ${tests.join(', ')}`);
 
+// CSS-only components must ship their shared stylesheet bundled, and the skin's
+// CSS import rewritten to a local path (the @jolt/core scan below catches a miss).
+for (const [skin, sheet] of [
+  ['BlurIn.tsx', 'blur-in.css'],
+  ['Wave.tsx', 'wave.css'],
+]) {
+  if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
+  if (!files.some((f) => f.endsWith(sheet))) die(`${sheet} stylesheet not bundled`);
+}
+
 for (const f of files) {
   const content = readFileSync(f, 'utf8');
   if (content.includes('@jolt/core') || content.includes('@/jolt-core')) {
@@ -125,7 +135,10 @@ for (const f of files) {
   }
 }
 
-// 4. The bundled component must type-check in a real consumer project.
+// 4. The bundled component must type-check in a real consumer project. Consumers
+// resolve `.css` side-effect imports through their bundler; give tsc the ambient
+// module declaration a real project would have.
+writeFileSync(join(srcDir, 'css.d.ts'), "declare module '*.css';\n");
 run('pnpm exec tsc --noEmit -p tsconfig.json', fixture);
 
 cleanup();
