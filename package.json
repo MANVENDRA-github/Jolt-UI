@@ -22,6 +22,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:cov": "vitest run --coverage",
+    "test:cli": "node scripts/cli-smoke.mjs",
     "registry:build": "jsrepo build",
     "registry:check": "jsrepo build && node scripts/registry-check.mjs",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm registry:check"

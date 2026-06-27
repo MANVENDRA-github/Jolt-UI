@@ -5,16 +5,17 @@
 
 ## Snapshot
 
-- **Current phase:** Phase 1 — SplitText (PRs #1 + #3 merged to `main`) and the **jsrepo registry** ✅ (branch `feat/phase-1-registry`, PR pending). **Remaining:** CLI-smoke E2E, Playwright parity E2E, code-tabs + MDX docs.
+- **Current phase:** Phase 1 — SplitText + **jsrepo registry** merged to `main` (PRs #1/#3/#4); **CLI-smoke E2E** ✅ (branch `feat/phase-1-cli-smoke`, PR pending). **Remaining:** Playwright parity E2E, code-tabs + MDX docs.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`.
-- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm build` green (2 pages + registry).
+- **Health:** `pnpm verify` green (35 tests + registry:check) · `pnpm test:cli` green · `pnpm build` green (2 pages + registry).
 
 ## How to resume
 
 ```bash
 cd D:\Jolt-UI
 pnpm install
-pnpm verify        # typecheck + lint + test  (expect green)
+pnpm verify        # typecheck + lint + test + registry:check  (expect green)
+pnpm test:cli      # E2E: jsrepo add into a temp fixture -> bundles core + consumer typechecks
 pnpm dev           # site: '/' hello-islands, '/components/split-text' the SplitText demo (3 frameworks)
 ```
 
@@ -22,11 +23,10 @@ Then open `ROADMAP.md` → Phase 1, and `COMPONENT_GUIDE.md` for the add-a-compo
 
 ## Next up (Phase 1, remaining)
 
-SplitText (merged) + the jsrepo registry (this branch) are done. What's left in Phase 1:
+SplitText + the jsrepo registry + CLI-smoke E2E are done. What's left in Phase 1:
 
-1. **CLI-smoke E2E**: `jsrepo add` against the locally-built registry into a temp fixture project → assert the core is bundled, the `@/jolt-core` import lands, and the fixture typechecks. Never hits the live origin.
-2. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
-3. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
+1. **Parity E2E (Playwright)**: render the 3 demos, force a deterministic frame (reduced-motion end-state), screenshot, assert cross-framework match.
+2. **Code tabs + docs**: add `astro-expressive-code` for tabbed source + copy on the demo page; MDX doc with a schema-generated props table. (Then `registry:check` can also assert code-tab === block.)
 
 ## Open assumptions (change freely; from the approved plan)
 
@@ -41,6 +41,10 @@ SplitText (merged) + the jsrepo registry (this branch) are done. What's left in 
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 1: CLI-smoke E2E
+
+Added `scripts/cli-smoke.mjs` (`pnpm test:cli`, wired into CI after build). It builds the registry, then `jsrepo add`s `split-text` into a throwaway fixture via the local **fs provider** (`fs://…`, no network/live origin), and asserts: the bundled `core` files land (subdirs intact), the `@/jolt-core` import is rewritten to a relative path, no test files leak — and **the consumer project type-checks** (`tsc --noEmit` with react/gsap/zod present; gsap+zod are auto-installed by `jsrepo add`). Fixture dir `.cli-smoke-tmp/` is git-ignored and cleaned up. Kept out of `verify` (it installs + type-checks → runs in CI). Confirms the registry works end-to-end for a real consumer.
 
 ### 2026-06-28 — Phase 1: jsrepo registry (own-the-code bundling)
 
