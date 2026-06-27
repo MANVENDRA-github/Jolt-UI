@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     projects: [
       'packages/tokens',
+      'packages/core',
       'packages/react',
       'packages/vue',
       'packages/svelte',

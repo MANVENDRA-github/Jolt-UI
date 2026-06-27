@@ -33,3 +33,6 @@ Engines target Node ≥ 20.3 (the dev machine runs 20.20.1; satisfies Astro/Tail
 
 ### D-010 — Name "Jolt UI", scope `@jolt/*` (2026-06-27)
 Project named **Jolt UI** (was the placeholder "Triad"). npm/registry scope `@jolt/*`; CSS token prefix `--jolt-*`; CLI intent `npx jolt add` (Phase 1+). Canonical home is the GitHub repo `MANVENDRA-github/Jolt-UI`, cloned at `D:\Jolt-UI`; the throwaway scaffold dir `D:\triad` was migrated here and removed.
+
+### D-011 — Vue skin declares props locally (2026-06-28)
+Vue's `@vue/compiler-sfc` cannot resolve a schema-inferred type (`z.input<typeof splitTextSchema>`) inside `defineProps<T>()` — it throws "Unresolvable type reference". React and Svelte compile the inferred type fine. **Resolution:** the Vue SFC declares a local `Props` interface that mirrors the schema (kept in sync by hand + comment). The Zod schema remains the single source for runtime validation/defaults and for React/Svelte prop types; only Vue duplicates the *shape*. A future guard: a Vue-package test asserting the local interface keys match `splitTextSchema.shape`.

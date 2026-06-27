@@ -6,3 +6,11 @@
  * export is the real Svelte component; this shape only informs type-checking at call sites.
  */
 export declare const Hello: (props: { name?: string }) => unknown;
+export declare const SplitText: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  stagger?: number;
+  duration?: number;
+  delay?: number;
+  y?: number;
+}) => unknown;
