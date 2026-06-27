@@ -1,0 +1,24 @@
+---
+// Internal E2E harness: the same SplitText, same text, three frameworks — used by
+// the Playwright parity test to assert the frameworks render identically.
+import Base from '../../layouts/Base.astro';
+import { SplitText as ReactSplitText } from '@jolt/react';
+import { SplitText as VueSplitText } from '@jolt/vue';
+import { SplitText as SvelteSplitText } from '@jolt/svelte';
+
+const TEXT = 'Jolt UI';
+---
+
+<Base title="SplitText parity harness">
+  <div class="space-y-6">
+    <div data-testid="react" class="text-3xl font-bold">
+      <ReactSplitText text={TEXT} client:load />
+    </div>
+    <div data-testid="vue" class="text-3xl font-bold">
+      <VueSplitText text={TEXT} client:load />
+    </div>
+    <div data-testid="svelte" class="text-3xl font-bold">
+      <SvelteSplitText text={TEXT} client:load />
+    </div>
+  </div>
+</Base>
