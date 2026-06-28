@@ -34,10 +34,7 @@ test('every component renders identically across React, Vue, and Svelte', async 
          across frameworks on headless CI — cf. D-014 (SplitText/per-char segments
          carry will-change: transform). */
       will-change: auto !important;
-    }
-    /* Astro's dev toolbar is fixed-position and bleeds into element screenshots
-       depending on page height / scroll — hide it so cells compare cleanly. */
-    astro-dev-toolbar { display: none !important; }`,
+    }`,
   });
 
   // Wait until the client:load GSAP islands have settled to their final state before

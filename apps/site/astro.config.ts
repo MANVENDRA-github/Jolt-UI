@@ -8,6 +8,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  // The dev toolbar is position:fixed and bleeds into the parity E2E's element
+  // screenshots; disable it when JOLT_E2E=1 (set by Playwright's webServer).
+  // Stays on for a normal `pnpm dev`.
+  devToolbar: { enabled: !process.env.JOLT_E2E },
   // expressive-code must come before mdx.
   integrations: [react(), vue(), svelte(), expressiveCode({ themes: ['github-dark'] }), mdx()],
   vite: {
