@@ -26,3 +26,7 @@ export { createScramble } from './animation/scramble';
 export type { ScrambleController } from './animation/scramble';
 export { scrambleSchema, scrambleMeta } from './schemas/scramble';
 export type { ScrambleProps, ScrambleOptions } from './schemas/scramble';
+export { createScrollVelocity, SCROLL_VELOCITY_TRACK } from './animation/scroll-velocity';
+export type { ScrollVelocityController } from './animation/scroll-velocity';
+export { scrollVelocitySchema, scrollVelocityMeta } from './schemas/scroll-velocity';
+export type { ScrollVelocityProps, ScrollVelocityOptions } from './schemas/scroll-velocity';

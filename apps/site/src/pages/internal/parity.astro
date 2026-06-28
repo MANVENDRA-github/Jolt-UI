@@ -12,6 +12,7 @@ import {
   RotatingWords as RRot,
   CountUp as RCount,
   Scramble as RScramble,
+  ScrollVelocity as RScrollVel,
 } from '@jolt/react';
 import {
   SplitText as VSplit,
@@ -23,6 +24,7 @@ import {
   RotatingWords as VRot,
   CountUp as VCount,
   Scramble as VScramble,
+  ScrollVelocity as VScrollVel,
 } from '@jolt/vue';
 import {
   SplitText as SSplit,
@@ -34,6 +36,7 @@ import {
   RotatingWords as SRot,
   CountUp as SCount,
   Scramble as SScramble,
+  ScrollVelocity as SScrollVel,
 } from '@jolt/svelte';
 
 const TEXT = 'Jolt UI';
@@ -68,5 +71,8 @@ const TEXT = 'Jolt UI';
     <div data-testid="scramble-react"><RScramble text={TEXT} client:load /></div>
     <div data-testid="scramble-vue"><VScramble text={TEXT} client:load /></div>
     <div data-testid="scramble-svelte"><SScramble text={TEXT} client:load /></div>
+    <div data-testid="scroll-velocity-react"><RScrollVel text={TEXT} client:load /></div>
+    <div data-testid="scroll-velocity-vue"><VScrollVel text={TEXT} client:load /></div>
+    <div data-testid="scroll-velocity-svelte"><SScrollVel text={TEXT} client:load /></div>
   </div>
 </Base>
