@@ -6,6 +6,8 @@ export { splitTextSchema, splitTextMeta } from './schemas/split-text';
 export type { SplitTextProps, SplitTextOptions } from './schemas/split-text';
 export { propsTable } from './props-table';
 export type { PropDoc } from './props-table';
+export { installInfo, REGISTRY_BASE } from './registry';
+export type { InstallInfo, InstallTab, Framework } from './registry';
 export { blurInSchema, blurInMeta } from './schemas/blur-in';
 export type { BlurInProps } from './schemas/blur-in';
 export { waveSchema, waveMeta } from './schemas/wave';
