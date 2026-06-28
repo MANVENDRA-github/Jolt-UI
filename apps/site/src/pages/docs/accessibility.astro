@@ -1,0 +1,60 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import * as core from '@jolt/core';
+
+// Every component's a11y note straight from its `meta` — so this table can never
+// drift from the shipped components (mirrors the no-drift guard in registry.test).
+function isMeta(v: unknown): v is { id: string; name: string; a11y: string } {
+  return typeof v === 'object' && v !== null && 'a11y' in v && 'name' in v && 'id' in v;
+}
+const rows = (Object.values(core) as unknown[])
+  .filter(isMeta)
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<DocsLayout
+  title="Accessibility — Jolt UI"
+  description="How Jolt UI keeps animated text accessible: aria-label patterns, reduced-motion support, and a per-component a11y note."
+>
+  <h1>Accessibility</h1>
+  <p>
+    Motion shouldn't cost accessibility. Every Jolt UI component is built so screen-reader users get
+    the <strong>text</strong>, not the animation, and so anyone who asks for less motion gets a
+    static result.
+  </p>
+
+  <h2>Text stays readable</h2>
+  <p>
+    Components that split a string into per-character segments (for staggered effects) carry the
+    full text on an <code>aria-label</code> and mark the animated segments <code>aria-hidden</code> —
+    so assistive tech reads the phrase once, not letter by letter. Whole-text components render the string
+    directly, so it's natively accessible with no extra markup.
+  </p>
+
+  <h2>Reduced motion</h2>
+  <p>
+    Every component honors <code>prefers-reduced-motion: reduce</code>: it renders the static final
+    state with no animation (and releases GPU compositing hints so the text rasterizes cleanly).
+    Nothing moves for users who've asked it not to.
+  </p>
+
+  <h2>Per-component notes</h2>
+  <p>Each component's accessibility contract, straight from its metadata:</p>
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Accessibility</th></tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((r) => (
+          <tr>
+            <td>
+              <strong>{r.name}</strong>
+            </td>
+            <td>{r.a11y}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</DocsLayout>

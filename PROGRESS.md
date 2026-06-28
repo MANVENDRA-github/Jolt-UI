@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PR **4a (SEO foundation)** is **merged to `main`** (PR #18). PR **4b (site Nav + Footer + `DocsLayout` + Getting-Started + Theming docs)** is **complete and green** on `feat/phase-4b-nav-docs` (PR pending). **Next: PR 4c — Accessibility + Contributing docs.** Remaining: 4d (Pagefind search), 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 + 4a merged to `main`.
+- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PRs **4a + 4b** are **merged to `main`** (#18, #19). PR **4c (Accessibility + Contributing docs — the a11y table generated from every component's `meta`)** is **complete and green** on `feat/phase-4c-docs` (PR pending). **Next: PR 4d — Pagefind search.** Remaining: 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 + 4a–4b merged to `main`.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 28 files) · `pnpm build` (15 pages) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (9 specs: parity all 10 + install + SEO + docs) green. (Phases 0–3 + 4a on `main`; PR 4b on `feat/phase-4b-nav-docs`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 30 files) · `pnpm build` (17 pages) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (10 specs: parity all 10 + install + SEO + docs) green. (Phases 0–3 + 4a–4b on `main`; PR 4c on `feat/phase-4c-docs`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,16 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 4 PR 4c: Accessibility + Contributing docs
+
+Completed the docs set (the four pages + sub-nav).
+
+- **`/docs/accessibility`** — how Jolt UI keeps animated text accessible (the per-char `aria-label` + `aria-hidden` pattern, whole-text native rendering, reduced-motion → static), plus a **per-component a11y table generated from every component's `meta.a11y`** (a no-drift loop over the core exports, mirroring `registry.test`).
+- **`/docs/contributing`** — one design language / three thin skins, the `gen-component` scaffolder + the hand-written GSAP path, test-first + the three gates (`verify` / `test:cli` / `test:e2e` parity), and the branch→PR→merge workflow.
+- Added both to the `DocsLayout` sub-nav; extended `e2e/docs.spec.ts` (both pages render; the a11y table lists ≥10 rows).
+
+Green local: `pnpm verify` (**128 vitest + 45 test:gen** + registry:check, astro check 30 files) · `pnpm build` (17 pages) + `pnpm test:dist` · `pnpm test:cli` · `pnpm test:e2e` (10 specs). On `feat/phase-4c-docs`; PR pending. **Next: PR 4d — Pagefind search.**
 
 ### 2026-06-28 — Phase 4 PR 4b: site nav + footer + docs (Getting-Started, Theming)
 
