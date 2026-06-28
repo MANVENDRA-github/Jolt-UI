@@ -51,7 +51,14 @@ writeFileSync(
       private: true,
       type: 'module',
       dependencies: { react: '^19', 'react-dom': '^19' },
-      devDependencies: { '@types/react': '^19', '@types/react-dom': '^19' },
+      // @types/three: three ships no bundled types, so the bundled particles webgl
+      // shell needs them for the consumer typecheck (jsrepo installs three at runtime
+      // but not its types). See D-028.
+      devDependencies: {
+        '@types/react': '^19',
+        '@types/react-dom': '^19',
+        '@types/three': '^0.185.0',
+      },
     },
     null,
     2,
@@ -104,6 +111,7 @@ const COMPONENTS_TO_ADD = [
   'count-up',
   'scramble',
   'scroll-velocity',
+  'particles',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -149,7 +157,7 @@ for (const [skin, sheet] of CSS_SKINS) {
 
 // GSAP components ship no stylesheet — just assert the skin file landed (the
 // consumer typecheck below validates the gsap/ScrambleTextPlugin import resolves).
-for (const skin of ['CountUp.tsx', 'Scramble.tsx', 'ScrollVelocity.tsx']) {
+for (const skin of ['CountUp.tsx', 'Scramble.tsx', 'ScrollVelocity.tsx', 'Particles.tsx']) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
 }
 

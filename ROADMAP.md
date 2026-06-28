@@ -54,14 +54,14 @@ Install tabs (pnpm/npm + jsrepo), dependency/peer badges, `scripts/gen-component
 
 Cloudflare Pages (site + `/r/*` registry from one origin, single `JOLT_ORIGIN`); Getting-Started / Theming / Accessibility / Contributing docs; sitemap + OG + JSON-LD; Pagefind search in prod; `_headers` + `DEPLOY.md`. **v1 complete** (the dashboard connect is the maintainer's one manual step).
 
-## Phase 5 — Backgrounds category (Three.js) — **in progress**
+## ✅ Phase 5 — Backgrounds category (Three.js) — **DONE (2026-06-28)** (PRs pending merge)
 
-The first non-text category, built as two slices:
+The first non-text category, built as two slices (both green on feature branches; 5b stacked on 5a):
 
 - **5a — Category infrastructure** ✅: nested `/components/<category>/<id>` routes, a category sub-nav (`ComponentsLayout`), a grouped index, redirects from the old flat paths, and a `categories` registry. No new component.
-- **5b — Particles (Three.js) vertical slice**: one canvas background end-to-end to front-load the Three.js stack — a `packages/core/src/webgl/` split + a separate `particles-core` jsrepo item so `three` lands only for Particles' consumers, a functional-core/imperative-shell factory with full GPU disposal, and a non-text "background" parity kind.
+- **5b — Particles (Three.js) vertical slice** ✅: one canvas background end-to-end, front-loading the Three.js stack — a `packages/core/src/webgl/` split + a separate `particles-core` jsrepo item so `three` lands only for Particles' consumers (D-028), a functional-core/imperative-shell factory with full GPU disposal (D-030), and a non-text "background" parity kind (D-029).
 
-More backgrounds follow once the pipeline is proven.
+The pipeline is proven — **more backgrounds now drop in** by following the per-component slice + the Three.js factory pattern (DECISIONS D-028–D-030).
 
 ## Later (out of v1 scope)
 

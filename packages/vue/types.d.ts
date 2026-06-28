@@ -67,4 +67,12 @@ export declare const ScrollVelocity: DefineComponent<{
   baseVelocity?: number;
   direction?: 'left' | 'right';
 }>;
+export declare const Particles: DefineComponent<{
+  count?: number;
+  color?: string;
+  size?: number;
+  speed?: number;
+  spread?: number;
+  opacity?: number;
+}>;
 // gen:shims

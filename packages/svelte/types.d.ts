@@ -68,4 +68,12 @@ export declare const ScrollVelocity: (props: {
   baseVelocity?: number;
   direction?: 'left' | 'right';
 }) => unknown;
+export declare const Particles: (props: {
+  count?: number;
+  color?: string;
+  size?: number;
+  speed?: number;
+  spread?: number;
+  opacity?: number;
+}) => unknown;
 // gen:shims

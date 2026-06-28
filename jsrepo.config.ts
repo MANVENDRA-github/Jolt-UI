@@ -12,10 +12,26 @@ import { distributed } from 'jsrepo/outputs';
 const core = {
   name: 'core',
   type: 'lib',
+  // Recursive glob (base stays `src/`, subdirs preserved) but the `!(webgl)` path
+  // segment EXCLUDES `src/webgl/` — its Three.js code lives in the separate
+  // `particles-core` item below so `three` isn't forced on every component's
+  // consumers (D-028). The top-level glob catches `src/*.ts`; both keep the proven
+  // `!(*.test)` extglob (D-012).
   files: [
-    { path: 'packages/core/src/**/!(*.test).ts' },
+    { path: 'packages/core/src/!(*.test).ts' },
+    { path: 'packages/core/src/!(webgl)/**/!(*.test).ts' },
     { path: 'packages/core/src/styles/*.css' },
   ],
+} as const;
+
+// The Three.js layer is isolated into its own item so `three` (no bundled types,
+// ~600KB) is a dependency of ONLY the Particles component — not the monolithic
+// `core` that every component pulls (which would break all 10 text components'
+// `tsc`). See D-028. `registry-check.mjs` asserts this isolation.
+const particlesCore = {
+  name: 'particles-core',
+  type: 'lib',
+  files: [{ path: 'packages/core/src/webgl/!(*.test).ts' }],
 } as const;
 
 export default defineConfig({
@@ -38,6 +54,7 @@ export default defineConfig({
       excludeDeps: ['react', 'react-dom'],
       items: [
         core,
+        particlesCore,
         {
           name: 'split-text',
           type: 'component',
@@ -88,6 +105,11 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/ScrollVelocity/ScrollVelocity.tsx' }],
         },
+        {
+          name: 'particles',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Particles/Particles.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -98,6 +120,7 @@ export default defineConfig({
       excludeDeps: ['vue'],
       items: [
         core,
+        particlesCore,
         {
           name: 'split-text',
           type: 'component',
@@ -148,6 +171,11 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/ScrollVelocity/ScrollVelocity.vue' }],
         },
+        {
+          name: 'particles',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Particles/Particles.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -158,6 +186,7 @@ export default defineConfig({
       excludeDeps: ['svelte'],
       items: [
         core,
+        particlesCore,
         {
           name: 'split-text',
           type: 'component',
@@ -207,6 +236,11 @@ export default defineConfig({
           name: 'scroll-velocity',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/ScrollVelocity/ScrollVelocity.svelte' }],
+        },
+        {
+          name: 'particles',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Particles/Particles.svelte' }],
         },
         // gen:svelte-items
       ],
