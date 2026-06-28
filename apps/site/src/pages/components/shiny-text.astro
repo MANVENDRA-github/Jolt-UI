@@ -1,10 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
 import CodeTabs from '../../components/CodeTabs.astro';
+import InstallBlock from '../../components/InstallBlock.astro';
 import { ShinyText as ReactShinyText } from '@jolt/react';
 import { ShinyText as VueShinyText } from '@jolt/vue';
 import { ShinyText as SvelteShinyText } from '@jolt/svelte';
-import { propsTable, shinyTextSchema } from '@jolt/core';
+import { propsTable, shinyTextSchema, shinyTextMeta } from '@jolt/core';
 import reactSource from '../../../../../packages/react/src/components/ShinyText/ShinyText.tsx?raw';
 import vueSource from '../../../../../packages/vue/src/components/ShinyText/ShinyText.vue?raw';
 import svelteSource from '../../../../../packages/svelte/src/components/ShinyText/ShinyText.svelte?raw';
@@ -14,9 +15,6 @@ const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
   { label: 'Svelte', lang: 'svelte', code: svelteSource },
-];
-const installTabs = [
-  { label: 'jsrepo', lang: 'bash', code: 'npx jsrepo add <registry-url>/r/react/shiny-text' },
 ];
 ---
 
@@ -39,11 +37,7 @@ const installTabs = [
     </div>
   </section>
 
-  <section class="mt-12">
-    <h2 class="text-xl font-semibold">Installation</h2>
-    <p class="mt-2 text-sm opacity-70">Swap <code>react</code> for <code>vue</code> or <code>svelte</code>.</p>
-    <div class="mt-3"><CodeTabs tabs={installTabs} /></div>
-  </section>
+  <InstallBlock meta={shinyTextMeta} />
 
   <section class="mt-12">
     <h2 class="text-xl font-semibold">Source</h2>

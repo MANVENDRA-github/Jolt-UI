@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 COMPLETE — all merged to `main`** (no open PRs, no loose ends). Text-Animations category filled: SplitText (Phase 1) · Blur In + Wave (#8) · Gradient Text + Shiny Text (#9) · Typewriter + Rotating Words (#11) · Count Up + Scramble (#12) · Scroll-Velocity + the `/components` index page (#13) — **10 components across all three patterns, plus a category index.** **Next: Phase 3 (Registry & copy-paste UX + scaffolder)** — see **“Next session — start here”** below. The per-component playbook is in **“Component playbook.”** Phases 0–1 merged (PRs #1–#7).
+- **Current phase:** **Phase 3 IN PROGRESS — Registry & copy-paste UX + scaffolder.** PR **3a (install tabs + dependency/peer badges, single-source via `installInfo` + `InstallBlock.astro`)** is **complete and green** on `feat/phase-3a-install-info` (PR pending). **Next: PR 3b — the `gen-component.mjs` scaffolder** (see **“Next session — start here”** below). Phases 0–2 merged to `main`: 10 Text-Animation components across all three patterns + the `/components` index (PRs #1–#13). The per-component playbook is in **“Component playbook.”**
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**116 tests** + registry:check, astro check 19 files) · `pnpm test:cli` (adds all 10 components → consumer typechecks) · `pnpm test:e2e` (parity across all 10, stable over repeated runs) green. (All on `main`; CI green on every PR.)
+- **Health:** `pnpm verify` green (**123 tests** + registry:check, astro check 20 files) · `pnpm test:cli` (adds all 10 components → consumer typechecks) · `pnpm test:e2e` (parity across all 10 + the install-UX specs) green. (Phases 0–2 on `main`; PR 3a on `feat/phase-3a-install-info`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -22,14 +22,13 @@ pnpm dev           # site: '/components' index + '/components/<id>' demos (…, 
 
 Then open `ROADMAP.md` → Phase 3, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
-## Next session — start here (Phase 3)
+## Next session — start here (Phase 3 — PR 3b: the scaffolder)
 
-Phase 2 is **done and fully merged to `main`** (10 components + the `/components` index). `main` is the single source of truth — there are no open PRs, branches, or loose ends to finish. To resume:
+Phase 3 PR **3a (install UX) is complete and green** on `feat/phase-3a-install-info`: install tabs + dependency/peer badges on every component page, all derived from each component's `meta` via the new `installInfo` core helper + `InstallBlock.astro` (no per-page drift; D-020). **Next is PR 3b — the `gen-component.mjs` scaffolder.** To resume:
 
-1. `git checkout main && git pull`, then run the **How to resume** gates above (expect all green).
-2. Read `ROADMAP.md` → **Phase 3 — Registry & copy-paste UX + scaffolder**, then **plan the first slice with `PLAN_TEMPLATE.md` before coding** (this project is plan-first + test-first).
-3. **Phase 3 deliverables:** install tabs (pnpm/npm + jsrepo) + dependency/peer badges on each component page; a **`scripts/gen-component.ts` scaffolder** that stamps the per-component slice (schema + 3 skins + demo + tests + registry entry) from one contract. _Note: `registry:check` is already wired into `verify`._ **Suggested first slice:** the **gen-component scaffolder** — it encodes the playbook below and makes every later component cheap (e.g. when Backgrounds/Three.js or more categories arrive).
-4. The **per-component slice, the three patterns, and the solved gotchas** in “Component playbook” below stay the canonical reference (the scaffolder should encode them, esp. the parity-harness rules in `DECISIONS.md` D-013–D-019).
+1. Ensure 3a is merged (or continue on its branch); run the **How to resume** gates above (expect all green).
+2. Build **`scripts/gen-component.mjs`** per the approved plan (`C:\Users\mksin\.claude\plans\ok-so-lets-start-lazy-lightning.md`): contract-driven (`scripts/contracts/<id>.mjs`), with a **functional core** (`scripts/gen/{contract,emit,edits}.mjs`, unit-tested via a new `test:gen` wired into `verify`) + a thin shell. It stamps the full per-component slice and applies **idempotent anchor-marker** edits to the ~8 central files (core/index, the 3 package indexes, vue/svelte shims, `jsrepo.config.ts` ×3 registries, `parity.astro`, `e2e/parity.spec.ts`, `cli-smoke.mjs`, `components/index.astro`), with an all-or-nothing collision precheck + a `prettier --write` pass. It emits a **working green** scaffold (a trivial but real animation that passes parity); the dev then customizes the animation test-first. _Language is `.mjs`, not `.ts`, per **D-021** (Node 20 can't run TS; no tsx/ts-node). `registry:check` is already in `verify`._
+3. The **per-component slice, the three patterns, and the solved gotchas** in “Component playbook” below are exactly what the scaffolder must encode (esp. the parity-harness rules in `DECISIONS.md` D-013–D-019).
 
 ## Component playbook (Phase 2 is complete — this is the reference for adding components)
 
@@ -65,6 +64,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 3 PR 3a: install tabs + dependency/peer badges (single source)
+
+Started Phase 3 (Registry & copy-paste UX). Replaced the hardcoded, drifting per-page install block with a single source derived from each component's `meta` — so what a page advertises can't diverge from what `jsrepo add` actually pulls.
+
+- **`installInfo(meta, framework)`** — a pure `@jolt/core` helper (sits beside `propsTable`) returning `{ registryPath, peers, tabs }`: `peers = dedupe([...meta.deps, 'zod'])` (`zod` is a **universal** runtime peer — the bundled monolithic core's schemas import it, D-013; `gsap` iff the meta declares it), `registryPath = ${REGISTRY_BASE}/r/<fw>/<id>`, and one **npm** + one **pnpm** tab (each = the `jsrepo add` line + the peer-deps install). `REGISTRY_BASE` centralizes the registry origin as the placeholder `<registry-url>` (Phase 4 deploy swaps the one value).
+- **`InstallBlock.astro`** renders those tabs (via `CodeTabs`) + the dependency badges from a component's meta; all 10 demo pages collapse to `<InstallBlock meta={<id>Meta} />` (net **−72 lines**). `CodeTabs` now accepts `readonly Tab[]`.
+- **Fix surfaced by the single source:** CSS-only pages previously showed **no** peer-deps tab at all; they now correctly list `zod`.
+- **Test-first:** `registry.test.ts` (RED→GREEN, 7 tests) incl. a **no-drift loop** over every exported `*Meta` (peers always include `zod`; include `gsap` iff `deps` does). `e2e/install.spec.ts` asserts the **live-rendered** badges + `jsrepo add` command for a GSAP page (gsap + zod) vs a CSS-only page (zod only). Decision **D-020**.
+
+Green local: `pnpm verify` (**123 tests** + registry:check, astro check 20 files) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + 2 install specs; one cold-start re-optimization flake on the CountUp settle-wait, green on warm cache — D-018). On `feat/phase-3a-install-info`; PR pending. **Next: PR 3b — the `gen-component.mjs` scaffolder.**
 
 ### 2026-06-28 — Phase 2 PR 2e: Scroll-Velocity + /components index (Phase 2 complete)
 

@@ -1,0 +1,36 @@
+---
+import CodeTabs from './CodeTabs.astro';
+import { installInfo } from '@jolt/core';
+
+// One source for every component's Installation section: the dependency badges and
+// the npm/pnpm install tabs are derived from the component's `meta` (its id + deps),
+// so they can never drift from what `jsrepo add` actually pulls. Pass any component's
+// `<id>Meta`.
+interface Props {
+  meta: { id: string; deps: readonly string[] };
+}
+const { meta } = Astro.props;
+const { tabs, peers } = installInfo(meta, 'react');
+---
+
+<section class="mt-12">
+  <h2 class="text-xl font-semibold">Installation</h2>
+  <p class="mt-2 text-sm opacity-70">
+    Adds the component plus its bundled core. Swap <code>react</code> for <code>vue</code> or
+    <code>svelte</code>.
+  </p>
+  <div class="mt-3 flex flex-wrap items-center gap-2">
+    <span class="text-xs uppercase tracking-widest opacity-50">Dependencies</span>
+    {
+      peers.map((dep) => (
+        <span
+          data-testid="dependency-badge"
+          class="rounded border border-white/20 px-2 py-1 font-mono text-xs opacity-80"
+        >
+          {dep}
+        </span>
+      ))
+    }
+  </div>
+  <div class="mt-3"><CodeTabs tabs={tabs} /></div>
+</section>

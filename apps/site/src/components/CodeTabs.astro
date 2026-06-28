@@ -7,7 +7,7 @@ interface Tab {
   code: string;
 }
 interface Props {
-  tabs: Tab[];
+  tabs: readonly Tab[];
 }
 const { tabs } = Astro.props;
 ---
