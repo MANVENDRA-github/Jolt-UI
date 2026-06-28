@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + Phase 5 + **PR 6a (Waves + Dots, #26) are merged to `main`**. **PR 6b — Globe + Rings** (a rotating point-sphere with a breathing pulse + counter-rotating concentric rings) **plus the per-background parity-harness isolation** (D-032) is **complete and green** on `feat/phase-6b-globe-rings` (PR pending) — **5 backgrounds** now (Particles, Waves, Dots, Globe, Rings); **13 components** total. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + Phase 5 + **PR 6a (Waves + Dots, #26) are merged to `main`**. **PR 6b — Globe + Rings** (a rotating point-sphere with a breathing pulse + counter-rotating concentric rings) **plus the per-background parity-harness isolation** (D-032) is **merged to `main` (#27)** — **5 backgrounds** now (Particles, Waves, Dots, Globe, Rings); **13 components** total. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**193 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 17 items/framework) · `pnpm build` (27 pages, 21 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**15 component items**, incl. the 5 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: text parity + a per-background isolation test over all 5 backgrounds + install + SEO + docs + search + components-nav) green. Both demos live-verified (Globe frame-diff ~6.3k, Rings ~3.4k; reduced-motion static; SSR clean; no console errors). (Phases 0–5 + 6a on `main`; PR 6b pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**193 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 17 items/framework) · `pnpm build` (27 pages, 21 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**15 component items**, incl. the 5 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: text parity + a per-background isolation test over all 5 backgrounds + install + SEO + docs + search + components-nav) green. Both demos live-verified (Globe frame-diff ~6.3k, Rings ~3.4k; reduced-motion static; SSR clean; no console errors). (Phases 0–5 + 6a + 6b on `main`. CI green on every PR.)
 
 ## How to resume
 
@@ -75,7 +75,7 @@ Two more Three.js backgrounds on the proven CPU-vertex pattern, **plus** the def
 - **Live-verified** (real browser, non-reduced-motion): both demos animate (Globe frame-diff ~6.3k, Rings ~3.4k); reduced-motion → one static frame (diff 0); SSR emits the aria-hidden container with no server canvas; no console errors (the lone 404 is the by-design Pagefind dev probe, identical on the existing Dots page).
 - **Cold-start note:** the first `test:e2e` run flaked on the text test's CountUp settle-wait (cold dev server + parallel workers starved the 2s rAF tween); restored the text test's 90s timeout and bumped the CountUp wait 20s → 30s (consistent with D-018). Green on re-run.
 
-Green local: `pnpm verify` (**193 vitest + 45 test:gen** + registry:check, 17 items/fw) · `pnpm build` (27 pages, 21 indexed) + `pnpm test:dist` · `pnpm test:cli` (15 component items) · `pnpm test:e2e` (15 tests). On `feat/phase-6b-globe-rings`; PR pending. Decision **D-032**. (PR 6a merged as #26.)
+Green local: `pnpm verify` (**193 vitest + 45 test:gen** + registry:check, 17 items/fw) · `pnpm build` (27 pages, 21 indexed) + `pnpm test:dist` · `pnpm test:cli` (15 component items) · `pnpm test:e2e` (15 tests). Merged to `main` as **#27** (CI `verify` green). Decision **D-032**. (PR 6a merged as #26.)
 
 ### 2026-06-29 — Phase 6 PR 6a: Waves + Dots (two more Three.js backgrounds)
 
