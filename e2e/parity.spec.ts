@@ -21,7 +21,16 @@ const WHOLE_TEXT = [
   'scroll-velocity',
   // gen:whole-text
 ] as const;
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
+// Backgrounds are WebGL canvases — no text, and non-deterministic per-frame output
+// (GPU/timing dependent), so they can't be text- or pixel-compared. Parity is
+// structural: every framework mounts a <canvas> inside an aria-hidden container. The
+// anti-drift guarantee is that all three skins call the one shared createParticles
+// factory, so the canvas can't diverge (D-029).
+const BACKGROUND: readonly string[] = [
+  'particles',
+  // gen:background
+];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...BACKGROUND];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -66,11 +75,25 @@ test('every component renders identically across React, Vue, and Svelte', async 
   // deterministic whether or not reduced-motion is honored in JS on this runner: if
   // honored the factory jumps to final instantly; if not, the real tween still
   // finishes here. By then SplitText (~0.8s) and Scramble (1.5s) are done too.
+  // Generous timeout: a cold dev server (CI always starts cold) re-optimizes deps on
+  // first load — now including three's ~700KB — which delays first-island hydration
+  // past the old 8s (D-018). A warm cache settles in well under a second.
   await expect(page.locator('[data-testid="count-up-svelte"] span').first()).toHaveText('100', {
-    timeout: 8000,
+    timeout: 20000,
   });
 
   for (const id of COMPONENTS) {
+    if (BACKGROUND.includes(id)) {
+      // Structural parity for a WebGL background: every framework mounts a <canvas>
+      // inside an aria-hidden container. No text or pixel comparison.
+      for (const fw of FRAMEWORKS) {
+        const cell = page.locator(`[data-testid="${id}-${fw}"]`);
+        await expect(cell.locator('[aria-hidden="true"]')).toBeVisible();
+        await expect(cell.locator('canvas')).toBeVisible();
+      }
+      continue;
+    }
+
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
 
     // DOM parity: every framework shows the same accessible text. Per-char

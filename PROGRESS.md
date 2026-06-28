@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 5 — Backgrounds category (Three.js).** v1 (Phases 0–4, incl. 4e = #22) is **complete + merged to `main`**. **PR 5a — category infrastructure** (nested `/components/<category>/<id>` routes + category sub-nav + grouped index + redirects) is **complete and green** on `feat/phase-5a-category-nav` (PR pending). **Next: PR 5b** — the **Particles (Three.js)** WebGL vertical slice (plan: `inherited-dreaming-shore`; will log `DECISIONS.md` D-028/D-029/D-030). *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 5 — Backgrounds category (Three.js).** v1 (Phases 0–4, incl. 4e = #22) is **complete + merged to `main`**. Both Phase-5 slices are **complete and green** (PRs pending): **5a — category infrastructure** on `feat/phase-5a-category-nav` (PR #23), and **5b — the Particles (Three.js) WebGL vertical slice** on `feat/phase-5b-particles` (**stacked on 5a — merge 5a first**). The Backgrounds category is now live with one component; **the next backgrounds drop into the proven pipeline** (registry `three`-isolation + non-text canvas parity + the Three.js factory pattern). *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**133 vitest + 45 `test:gen`** + registry:check) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (**14 specs**: parity all 10 + install + SEO + docs + search + components-nav) green. (Phases 0–4 on `main`; PR 5a on `feat/phase-5a-category-nav`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**148 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant) · `pnpm build` (18 pages, 17 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**11 components**, incl. Particles bundling `particles-core` + `three`) · `pnpm test:e2e` (**14 specs**: parity all 11 incl. the WebGL canvas + install + SEO + docs + search + components-nav) green. (Phases 0–4 on `main`; PRs 5a/5b pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 5 PR 5b: Particles (Three.js) — first Backgrounds component
+
+The WebGL vertical slice that front-loads the whole Three.js stack on one component — **Phase 5 (and the Backgrounds category) is now live**.
+
+- **Particles** (`packages/core/src/webgl/particles.ts`): a drifting point field (`BufferGeometry` + `Points` + a RAF loop). Functional core / imperative shell — the pure field math (`webgl/particles-field.ts`) is jsdom-unit-tested; the WebGL shell **never constructs a renderer under SSR/jsdom** (guards on `window` + a null GL context) and is exercised only by Playwright. `revert()` disposes every GPU resource (RAF, ResizeObserver, geometry/material/renderer, `forceContextLoss`, canvas) — Three leaks otherwise. Reduced-motion → one static frame. The 3 skins mount an `aria-hidden` container and call the shared factory, so they **can't drift** (D-030).
+- **Dependency isolation (the linchpin, D-028):** `three` ships no types + is heavy, so it must not join the monolithic `core`. The webgl code is a **separate `particles-core` jsrepo item** (the core glob `src/!(webgl)/**/!(*.test).ts` excludes it with the base preserved); skins import the factory via the **`@jolt/core/webgl/particles` subpath** (an explicit package export). Proven end-to-end by `cli-smoke`: adding Particles installs `three` (only for it) + type-checks with `@types/three`; the 10 text components stay `three`-free. `registry-check` asserts `three ∉ core ∧ three ∈ particles-core`.
+- **Parity:** a new non-text `BACKGROUND` kind asserts a `<canvas>` in an aria-hidden container across all three frameworks (no text/pixel diff — D-029).
+- **Live-verified** (real browser, non-reduced-motion): SSR emits the aria-hidden container with no server canvas; the canvas animates (frame pixel-diff > 0); reduced-motion is static; no console errors.
+
+Green local: `pnpm verify` (**148 vitest + 45 test:gen** + registry:check) · `pnpm build` (18 pages) + `pnpm test:dist` · `pnpm test:cli` (11 components) · `pnpm test:e2e` (14 specs). On `feat/phase-5b-particles` (stacked on 5a); PR pending. Decisions **D-028, D-029, D-030**.
 
 ### 2026-06-28 — Phase 5 PR 5a: category infrastructure (nested routes + sub-nav)
 

@@ -33,4 +33,6 @@ export { createScrollVelocity, SCROLL_VELOCITY_TRACK } from './animation/scroll-
 export type { ScrollVelocityController } from './animation/scroll-velocity';
 export { scrollVelocitySchema, scrollVelocityMeta } from './schemas/scroll-velocity';
 export type { ScrollVelocityProps, ScrollVelocityOptions } from './schemas/scroll-velocity';
+export { particlesSchema, particlesMeta } from './schemas/particles';
+export type { ParticlesProps, ParticlesOptions } from './schemas/particles';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

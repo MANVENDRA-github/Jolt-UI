@@ -22,6 +22,7 @@ GSAP components are **not** scaffolded yet (the generator rejects `pattern: 'gsa
 | **Per-char CSS-only** | each character animates | `core/src/styles/<id>.css` | `splitSegments` → `aria-label` + aria-hidden segments; set `--jolt-*` (+ per-segment `--jolt-i`) | aria-label carries full text | Blur In, Wave |
 | **Whole-text CSS-only** | the whole string animates | `core/src/styles/<id>.css` | render `<span class="jolt-…">{text}</span>`; set `--jolt-*` | native (real text) | Gradient Text, Shiny Text |
 | **GSAP** | needs JS (measure, scroll, scramble, count) | `core/src/animation/<id>.ts` factory | call factory on mount, `revert` on unmount | per case | Split Text |
+| **Background (Three.js)** | a full-bleed animated canvas | `core/src/webgl/<id>.ts` shell + pure `webgl/<id>-field.ts` | mount an `aria-hidden` container, call factory, `revert` on unmount | decorative → `aria-hidden` | Particles |
 
 ## Steps
 
@@ -30,19 +31,21 @@ GSAP components are **not** scaffolded yet (the generator rejects `pattern: 'gsa
 2. **Behavior (core) — per the chosen pattern.**
    - **CSS-only:** add a self-contained `packages/core/src/styles/<id>.css` — `@keyframes` + a `.jolt-<id>` (whole-text) or `.jolt-<id> [data-jolt-segment]` (per-char) rule reading tunables from `--jolt-*` custom properties (per-char also reads per-segment `--jolt-i`). Add a `@media (prefers-reduced-motion: reduce)` block that renders the **static final state and sets `will-change: auto`** (D-014).
    - **GSAP:** add `packages/core/src/animation/<id>.ts` exporting a framework-agnostic factory `(el, opts) => { play, revert }`; register any plugin in `core/motion.ts`; guard `window`. Use `prefersReducedMotion()` to jump to the final state. Unit-test the pure logic.
+   - **Background (Three.js):** split into a pure `packages/core/src/webgl/<id>-field.ts` (no three/DOM → jsdom-unit-tested) and an imperative `webgl/<id>.ts` shell. The shell **must guard SSR/jsdom** (bail to a no-op before `new WebGLRenderer()` if `window` is undefined or `getContext('webgl2'|'webgl')` is null); reduced-motion → one static frame; `revert()` disposes **every** GPU resource (cancel RAF, disconnect the ResizeObserver, dispose geometry/material/renderer + `forceContextLoss()`, remove the canvas). Do **not** export the factory from `core/index.ts` (keeps `three` out of the universal barrel). D-030.
 
 3. **Three skins.** `packages/{react,vue,svelte}/src/components/<Name>/<Name>.{tsx,vue,svelte}` + a barrel `index.ts`; re-export from each package `src/index.ts`; add a shim to the vue/svelte `types.d.ts`.
    - **CSS-only skins:** `import '@jolt/core/styles/<id>.css'`; render the markup and set `--jolt-*` from props (per-char: map `splitSegments(text, by)` to segment spans with `--jolt-i`). No lifecycle.
    - **GSAP skins:** call the core factory on mount and `revert` on unmount — React `useEffect`, Vue `onMounted`/`onUnmounted`, Svelte `onMount` returning the cleanup.
+   - **Background skins:** same lifecycle, but render an empty `aria-hidden` container (no text) and import the factory from the **subpath** `@jolt/core/webgl/<id>` (the type from `@jolt/core`). Unit tests `vi.mock` that subpath so `three` never loads in jsdom.
    - **Vue** declares a **local `Props` interface** mirroring the schema (the SFC compiler can't resolve the Zod-inferred type — D-011).
 
 4. **Unit tests (per framework, test-first).** Across all three frameworks assert identical DOM for identical props. Per-char: `aria-label` = text, one aria-hidden segment per character, `--jolt-*` mapping. Whole-text: text content, `--jolt-*` mapping. GSAP: also `revert`-on-unmount (no leaked tweens) and reduced-motion final state.
 
-5. **Demo page (site).** `apps/site/src/pages/components/<id>.astro`: three live previews (CSS-only need **no** `client:` directive; GSAP uses `client:visible`), an install tab + tabbed source via `CodeTabs` + `?raw` imports, and a props table from `propsTable(<id>Schema)`.
+5. **Demo page (site).** `apps/site/src/pages/components/<category>/<id>.astro` (under `ComponentsLayout` — `text/` for text, `backgrounds/` for backgrounds; D-027): three live previews (CSS-only need **no** `client:` directive; GSAP/WebGL use `client:visible` — a WebGL canvas needs a fixed-size box), an install tab + tabbed source via `CodeTabs` + `?raw` imports, and a props table from `propsTable(<id>Schema)`. Add a card to the right category `<section>` in `components/index.astro`.
 
-6. **Registry.** Add `react|vue|svelte/<id>` component items to the root `jsrepo.config.ts`. The `build.transforms` rewrite bundles the whole `core` (incl. `styles/*.css`) — you don't list the CSS separately (D-012, D-013). Run `pnpm registry:check`.
+6. **Registry.** Add `react|vue|svelte/<id>` component items to the root `jsrepo.config.ts`. The `build.transforms` rewrite bundles the whole `core` (incl. `styles/*.css`) — you don't list the CSS separately (D-012, D-013). **A heavy or untyped dep (e.g. `three`) goes in its own `*-core` lib item** (the core glob excludes it) so it reaches only that component, not all of core (D-028). Run `pnpm registry:check`.
 
-7. **Parity + CLI E2E.** Add cells for the component (all three frameworks) to `apps/site/src/pages/internal/parity.astro`, and add the id to `e2e/parity.spec.ts` (`PER_CHAR` or `WHOLE_TEXT`). The spec freezes animations to a deterministic frame (D-015). Add the id to `scripts/cli-smoke.mjs` (the `jsrepo add` list + the file/stylesheet assertions).
+7. **Parity + CLI E2E.** Add cells for the component (all three frameworks) to `apps/site/src/pages/internal/parity.astro`, and add the id to `e2e/parity.spec.ts` — `PER_CHAR`, `WHOLE_TEXT`, or `BACKGROUND` (a canvas asserts structure + `aria-hidden`, not pixels — D-029). The spec freezes animations to a deterministic frame (D-015). Add the id to `scripts/cli-smoke.mjs` (the `jsrepo add` list + the file/stylesheet assertions).
 
 8. **Gate.** `pnpm verify` **and** `pnpm test:cli` **and** `pnpm test:e2e` green — capture output in the PR. Update `PROGRESS.md`. Branch → PR → merge (never push `main`).
 
