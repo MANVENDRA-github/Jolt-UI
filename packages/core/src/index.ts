@@ -32,3 +32,4 @@ export { createScrollVelocity, SCROLL_VELOCITY_TRACK } from './animation/scroll-
 export type { ScrollVelocityController } from './animation/scroll-velocity';
 export { scrollVelocitySchema, scrollVelocityMeta } from './schemas/scroll-velocity';
 export type { ScrollVelocityProps, ScrollVelocityOptions } from './schemas/scroll-velocity';
+// gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

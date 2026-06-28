@@ -9,3 +9,4 @@ export { RotatingWords } from './components/RotatingWords';
 export { CountUp } from './components/CountUp';
 export { Scramble } from './components/Scramble';
 export { ScrollVelocity } from './components/ScrollVelocity';
+// gen:exports

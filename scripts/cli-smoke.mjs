@@ -93,10 +93,20 @@ writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=f
 
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
 lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
-run(
-  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text typewriter rotating-words count-up scramble scroll-velocity --yes --cwd "${fixture}"`,
-  root,
-);
+const COMPONENTS_TO_ADD = [
+  'split-text',
+  'blur-in',
+  'wave',
+  'gradient-text',
+  'shiny-text',
+  'typewriter',
+  'rotating-words',
+  'count-up',
+  'scramble',
+  'scroll-velocity',
+  // gen:add
+];
+run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
 
 // 3. Assert the install is correct and self-contained.
 const srcDir = join(fixture, 'src');
@@ -123,14 +133,16 @@ if (tests.length) die(`test files leaked into the install: ${tests.join(', ')}`)
 
 // CSS-only components must ship their shared stylesheet bundled, and the skin's
 // CSS import rewritten to a local path (the @jolt/core scan below catches a miss).
-for (const [skin, sheet] of [
+const CSS_SKINS = [
   ['BlurIn.tsx', 'blur-in.css'],
   ['Wave.tsx', 'wave.css'],
   ['GradientText.tsx', 'gradient-text.css'],
   ['ShinyText.tsx', 'shiny-text.css'],
   ['Typewriter.tsx', 'typewriter.css'],
   ['RotatingWords.tsx', 'rotating-words.css'],
-]) {
+  // gen:css
+];
+for (const [skin, sheet] of CSS_SKINS) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
   if (!files.some((f) => f.endsWith(sheet))) die(`${sheet} stylesheet not bundled`);
 }

@@ -88,6 +88,7 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/ScrollVelocity/ScrollVelocity.tsx' }],
         },
+        // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
     },
@@ -147,6 +148,7 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/ScrollVelocity/ScrollVelocity.vue' }],
         },
+        // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
     },
@@ -206,6 +208,7 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/ScrollVelocity/ScrollVelocity.svelte' }],
         },
+        // gen:svelte-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/svelte', format: true })],
     },
