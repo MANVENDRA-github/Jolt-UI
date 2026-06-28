@@ -6,7 +6,7 @@ import { PNG } from 'pngjs';
 // carried on an aria-label); whole-text components render the text directly, so
 // it's natively accessible — no segments, no aria-label.
 const PER_CHAR = ['split-text', 'blur-in', 'wave', 'rotating-words'] as const;
-const WHOLE_TEXT = ['gradient-text', 'shiny-text', 'typewriter'] as const;
+const WHOLE_TEXT = ['gradient-text', 'shiny-text', 'typewriter', 'count-up', 'scramble'] as const;
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
@@ -30,7 +30,20 @@ test('every component renders identically across React, Vue, and Svelte', async 
       animation-fill-mode: forwards !important;
       transition-duration: 0s !important;
       transition-delay: 0s !important;
+      /* CPU-rasterize (drop GPU layer hints) so per-glyph antialiasing is identical
+         across frameworks on headless CI — cf. D-014 (SplitText/per-char segments
+         carry will-change: transform). */
+      will-change: auto !important;
     }`,
+  });
+
+  // Wait until the client:load GSAP islands have settled to their final state before
+  // comparing. Waiting on the longest animation (CountUp, 2s) to reach its target is
+  // deterministic whether or not reduced-motion is honored in JS on this runner: if
+  // honored the factory jumps to final instantly; if not, the real tween still
+  // finishes here. By then SplitText (~0.8s) and Scramble (1.5s) are done too.
+  await expect(page.locator('[data-testid="count-up-svelte"] span').first()).toHaveText('100', {
+    timeout: 8000,
   });
 
   for (const id of COMPONENTS) {

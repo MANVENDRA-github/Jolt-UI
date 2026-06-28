@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (PR #8) · Gradient Text + Shiny Text (PR #9). **Built · PR open:** Typewriter + Rotating Words (PR 2c) — **7 of ~9 components.** **Next: PR 2d (Count Up + Scramble).** The full remaining plan, the three proven component patterns, and the baked-in gotchas are in **“Next up — Phase 2”** below. Phase 0–1 merged (PRs #1–#7).
+- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (PR #8) · Gradient Text + Shiny Text (PR #9) · Typewriter + Rotating Words (PR #11). **Built · PR open:** Count Up + Scramble (PR 2d) — **9 components across all three patterns.** **Next: PR 2e (Scroll-Velocity + category index page) — the last Phase-2 slice.** The full remaining plan, the three proven component patterns, and the baked-in gotchas are in **“Next up — Phase 2”** below. Phase 0–1 merged (PRs #1–#7).
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**89 tests** + registry:check, astro check 15 files) · `pnpm test:cli` (adds all 7 components → consumer typechecks) · `pnpm test:e2e` (parity across all 7) green. (On `feat/phase-2c-typewriter-rotating-words`; lands on `main` when PR 2c merges.)
+- **Health:** `pnpm verify` green (**108 tests** + registry:check, astro check 17 files) · `pnpm test:cli` (adds all 9 components → consumer typechecks) · `pnpm test:e2e` (parity across all 9) green. (On `feat/phase-2d-count-up-scramble`; lands on `main` when PR 2d merges.)
 
 ## How to resume
 
@@ -17,16 +17,15 @@ pnpm install
 pnpm verify        # typecheck + lint + test + registry:check  (expect green)
 pnpm test:cli      # E2E: jsrepo add into a temp fixture -> bundles core + consumer typechecks
 pnpm test:e2e      # E2E: Playwright cross-framework parity for every component (real browser)
-pnpm dev           # site: '/components/<id>' demos (split-text, blur-in, wave, gradient-text, shiny-text, typewriter, rotating-words)
+pnpm dev           # site: '/components/<id>' demos (split-text, blur-in, wave, gradient-text, shiny-text, typewriter, rotating-words, count-up, scramble)
 ```
 
 Then open `ROADMAP.md` → Phase 2, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
 ## Next up — Phase 2 (fill the Text-Animations category)
 
-Phase 2 fills the Text-Animations category, ~2 components per PR, each its own small PR the maintainer merges. **Shipped:** SplitText (GSAP), Blur In + Wave (per-char CSS), Gradient Text + Shiny Text (whole-text CSS), Typewriter + Rotating Words (structural CSS — PR 2c, open). **Remaining PRs (approved batching):**
+Phase 2 fills the Text-Animations category, ~2 components per PR, each its own small PR the maintainer merges. **Shipped:** SplitText (GSAP), Blur In + Wave (per-char CSS), Gradient Text + Shiny Text (whole-text CSS), Typewriter + Rotating Words (structural CSS — PR #11), Count Up + Scramble (GSAP — PR 2d, open). **Remaining PRs (approved batching):**
 
-- **PR 2d — Count Up + Scramble** (GSAP). Count Up: animate a number to a target. Scramble: ScrambleText-style decode. Use the GSAP pattern below (core `animation/<id>.ts` factory; register `ScrambleTextPlugin` in `core/motion.ts`); reduced-motion → final value/text.
 - **PR 2e — Scroll-Velocity + category index page** (GSAP ScrollTrigger). A marquee whose speed reacts to scroll velocity; then build `/components` (or `/components/index.astro`) listing every component with a live mini-preview. Register `ScrollTrigger` in `core/motion.ts`; guard `window`.
 
 ### The per-component slice (repeat this — see `COMPONENT_GUIDE.md` for the full checklist)
@@ -59,6 +58,18 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 2 PR 2d: Count Up + Scramble (GSAP)
+
+Added the two GSAP Text-Animation components (the second GSAP slice since SplitText), on the proven `createSplitText` factory pattern: a `core/animation/<id>.ts` factory returning `{ play, revert }`, skins that create on mount + `revert` on unmount, and a `prefersReducedMotion()` jump-to-final.
+
+- **Count Up** tweens a plain `{ value }` object with `gsap.to`, writing `formatNumber(value, { decimals, separator })` on each update; a pure `formatNumber` core export is reused by the skins for their SSR initial value (no per-skin formatting drift). Reduced-motion / revert → the formatted target. Props: `to` (required), `from`, `duration`, `delay`, `decimals`, `separator`.
+- **Scramble** decodes via GSAP **ScrambleTextPlugin** (registered at module load in `animation/scramble.ts`, isolated from SplitText's path for SSR-safety). `aria-label={text}` keeps the real text accessible while the visual churns. Props: `text` (required), `duration`, `delay`, `chars`, `revealDelay`, `speed`.
+- Both are **whole-text** parity components rendered `client:load` (the first GSAP whole-text). A GSAP component is parity-deterministic without the D-015 CSS freeze — it reads `prefersReducedMotion()`, which Playwright honors in JS → final state. CountUp's harness cell passes `to={100}` (no `text` prop); Scramble uses the shared `text={TEXT}`.
+- **Parity-harness robustness** (the components render identically; test-only — headless CI Linux was the failing env, local Windows passed): the spec now (1) **waits for the longest GSAP island (CountUp) to reach its target** before comparing (deterministic whether or not reduced-motion is honored in JS), (2) adds **`will-change: auto`** to the freeze so per-char segments CPU-rasterize identically (D-014), and (3) **disables Astro's fixed-position dev toolbar** during E2E (config-gated on a `JOLT_E2E` env), which had bled into element screenshots as the page grew taller. See **D-018**.
+- Verified live (real browser, no reduced-motion): Count Up climbs `7,104 → 12,500`; Scramble churns random chars → `Decoded by Jolt`; no console errors; SSR clean.
+
+Green local: `pnpm verify` (**108 tests** + registry:check, astro check 17 files) · `pnpm test:cli` (9 components, incl. the `gsap/ScrambleTextPlugin` subpath resolving in a real consumer) · `pnpm test:e2e` (parity all 9). On `feat/phase-2d-count-up-scramble`; PR pending. Decision **D-018**. (Also finalized PR 2c → merged as **#11**.)
 
 ### 2026-06-28 — Phase 2 PR 2c: Typewriter + Rotating Words (CSS-only, structural)
 

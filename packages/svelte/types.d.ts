@@ -47,3 +47,19 @@ export declare const RotatingWords: (props: {
   interval?: number;
   delay?: number;
 }) => unknown;
+export declare const CountUp: (props: {
+  to: number;
+  from?: number;
+  duration?: number;
+  delay?: number;
+  decimals?: number;
+  separator?: string;
+}) => unknown;
+export declare const Scramble: (props: {
+  text: string;
+  duration?: number;
+  delay?: number;
+  chars?: string;
+  revealDelay?: number;
+  speed?: number;
+}) => unknown;

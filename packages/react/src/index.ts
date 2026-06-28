@@ -7,3 +7,5 @@ export { GradientText } from './components/GradientText';
 export { ShinyText } from './components/ShinyText';
 export { Typewriter } from './components/Typewriter';
 export { RotatingWords } from './components/RotatingWords';
+export { CountUp } from './components/CountUp';
+export { Scramble } from './components/Scramble';

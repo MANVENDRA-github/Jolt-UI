@@ -94,7 +94,7 @@ writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=f
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
 lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
 run(
-  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text typewriter rotating-words --yes --cwd "${fixture}"`,
+  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text typewriter rotating-words count-up scramble --yes --cwd "${fixture}"`,
   root,
 );
 
@@ -133,6 +133,12 @@ for (const [skin, sheet] of [
 ]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
   if (!files.some((f) => f.endsWith(sheet))) die(`${sheet} stylesheet not bundled`);
+}
+
+// GSAP components ship no stylesheet — just assert the skin file landed (the
+// consumer typecheck below validates the gsap/ScrambleTextPlugin import resolves).
+for (const skin of ['CountUp.tsx', 'Scramble.tsx']) {
+  if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
 }
 
 for (const f of files) {
