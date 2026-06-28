@@ -39,4 +39,8 @@ export { wavesSchema, wavesMeta } from './schemas/waves';
 export type { WavesProps, WavesOptions } from './schemas/waves';
 export { dotsSchema, dotsMeta } from './schemas/dots';
 export type { DotsProps, DotsOptions } from './schemas/dots';
+export { globeSchema, globeMeta } from './schemas/globe';
+export type { GlobeProps, GlobeOptions } from './schemas/globe';
+export { ringsSchema, ringsMeta } from './schemas/rings';
+export type { RingsProps, RingsOptions } from './schemas/rings';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line
