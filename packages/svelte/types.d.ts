@@ -36,3 +36,14 @@ export declare const GradientText: (props: {
   duration?: number;
 }) => unknown;
 export declare const ShinyText: (props: { text: string; duration?: number }) => unknown;
+export declare const Typewriter: (props: {
+  text: string;
+  duration?: number;
+  delay?: number;
+  caret?: boolean;
+}) => unknown;
+export declare const RotatingWords: (props: {
+  words?: string[];
+  interval?: number;
+  delay?: number;
+}) => unknown;

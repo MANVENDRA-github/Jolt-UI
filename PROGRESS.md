@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (PR #8) · Gradient Text + Shiny Text (PR #9) — **5 of ~9 components.** **Next: PR 2c (Typewriter + Rotating Words).** The full remaining plan, the three proven component patterns, and the baked-in gotchas are in **“Next up — Phase 2”** below. Phase 0–1 merged (PRs #1–#7).
+- **Current phase:** **Phase 2 IN PROGRESS** — filling the Text-Animations category. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (PR #8) · Gradient Text + Shiny Text (PR #9). **Built · PR open:** Typewriter + Rotating Words (PR 2c) — **7 of ~9 components.** **Next: PR 2d (Count Up + Scramble).** The full remaining plan, the three proven component patterns, and the baked-in gotchas are in **“Next up — Phase 2”** below. Phase 0–1 merged (PRs #1–#7).
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health (on `main`):** `pnpm verify` green (**71 tests** + registry:check, astro check 13 pages) · `pnpm test:cli` (adds all 5 components → consumer typechecks) · `pnpm test:e2e` (parity across all 5) green.
+- **Health:** `pnpm verify` green (**89 tests** + registry:check, astro check 15 files) · `pnpm test:cli` (adds all 7 components → consumer typechecks) · `pnpm test:e2e` (parity across all 7) green. (On `feat/phase-2c-typewriter-rotating-words`; lands on `main` when PR 2c merges.)
 
 ## How to resume
 
@@ -17,16 +17,15 @@ pnpm install
 pnpm verify        # typecheck + lint + test + registry:check  (expect green)
 pnpm test:cli      # E2E: jsrepo add into a temp fixture -> bundles core + consumer typechecks
 pnpm test:e2e      # E2E: Playwright cross-framework parity for every component (real browser)
-pnpm dev           # site: '/components/<id>' demos (split-text, blur-in, wave, gradient-text, shiny-text)
+pnpm dev           # site: '/components/<id>' demos (split-text, blur-in, wave, gradient-text, shiny-text, typewriter, rotating-words)
 ```
 
 Then open `ROADMAP.md` → Phase 2, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
 ## Next up — Phase 2 (fill the Text-Animations category)
 
-Phase 2 fills the Text-Animations category, ~2 components per PR, each its own small PR the maintainer merges. **Shipped:** SplitText (GSAP), Blur In + Wave (per-char CSS), Gradient Text + Shiny Text (whole-text CSS). **Remaining PRs (approved batching):**
+Phase 2 fills the Text-Animations category, ~2 components per PR, each its own small PR the maintainer merges. **Shipped:** SplitText (GSAP), Blur In + Wave (per-char CSS), Gradient Text + Shiny Text (whole-text CSS), Typewriter + Rotating Words (structural CSS — PR 2c, open). **Remaining PRs (approved batching):**
 
-- **PR 2c — Typewriter + Rotating Words** (CSS-only, structural). Typewriter: `steps()` width/character reveal + a blinking caret. Rotating Words: cycle a list of words (vertical slide/fade); takes a `words: string[]` prop (the `propsTable` array support landed in 2b). Reduced-motion → show the full/first word statically.
 - **PR 2d — Count Up + Scramble** (GSAP). Count Up: animate a number to a target. Scramble: ScrambleText-style decode. Use the GSAP pattern below (core `animation/<id>.ts` factory; register `ScrambleTextPlugin` in `core/motion.ts`); reduced-motion → final value/text.
 - **PR 2e — Scroll-Velocity + category index page** (GSAP ScrollTrigger). A marquee whose speed reacts to scroll velocity; then build `/components` (or `/components/index.astro`) listing every component with a live mini-preview. Register `ScrollTrigger` in `core/motion.ts`; guard `window`.
 
@@ -60,6 +59,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 2 PR 2c: Typewriter + Rotating Words (CSS-only, structural)
+
+Added the next two Text-Animation components and the **structural** CSS-only sub-pattern — the effect comes from DOM structure + an `overflow` clip, not per-glyph keyframes (per-char Blur In/Wave) or whole-text `background-clip` (Gradient/Shiny).
+
+- **Typewriter** (whole-text parity kind): the text sits in an `overflow:hidden; white-space:nowrap` box whose `width` animates `0 → calc(var(--jolt-steps) * 1ch)` in `steps(var(--jolt-steps))`, so each character pops in; a `border-right` caret blinks via a separate `step-end` animation. A **monospace** font makes `1ch` == one character (steps land on character boundaries) and `box-sizing: content-box` keeps the caret border from eating the last char under a global `border-box` reset. Skin sets `--jolt-steps` (= `text.length`), `--jolt-duration`, `--jolt-delay`, `--jolt-caret-width`. Reduced-motion → full text, no caret.
+- **Rotating Words** (per-char parity kind; **discrete flip** chosen over a continuous slide for readability): a vertical column of word spans in a one-line clip; the list steps up one line per interval (`steps(var(--jolt-count))`), holding each word fully readable. A **trailing duplicate of the first word** makes the loop seamless and gives a clean frozen parity frame (cf. Gradient's repeated stop, D-016). Takes `words: string[]`; `aria-label` is the **space-joined** words so the parity per-char locator `[aria-label="Jolt UI"]` matches when the harness passes `words={['Jolt','UI']}` (no spec-logic change — just added `rotating-words` to `PER_CHAR`). The list is `aria-hidden`; each real word is a `data-jolt-segment` (the duplicate isn't, so segment count == `words.length`). Reduced-motion → first word static.
+- **`steps(var(--…))` validated live in Chromium** (resolved to `steps(3)` / `steps(21)`); it only governs the live look (the parity harness freezes animations to their end-state, D-015), so the inline-`animation-timing-function` fallback was unnecessary.
+- Per component: `.describe()`'d Zod schema + shared `styles/<id>.css` + 3 skins + barrels + vue/svelte type shims + demo page (`/components/<id>`) + 3 unit tests + registry item (×3 frameworks); parity classified typewriter→`WHOLE_TEXT`, rotating-words→`PER_CHAR`; cli-smoke adds both + asserts their stylesheets bundle.
+
+Green local: `pnpm verify` (**89 tests** + registry:check, astro check 15 files) · `pnpm test:cli` (7 components) · `pnpm test:e2e` (parity all 7). On `feat/phase-2c-typewriter-rotating-words`; PR pending. Decision **D-017** (structural CSS-only sub-pattern).
 
 ### 2026-06-28 — PR 2b merged + docs continuity pass
 

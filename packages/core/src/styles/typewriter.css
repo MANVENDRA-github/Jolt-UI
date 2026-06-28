@@ -1,0 +1,46 @@
+/* Typewriter — CSS-only structural reveal. The text sits in an overflow-clipped
+   inline box whose width animates from 0 to its full extent in steps(), so each
+   character pops in. A monospace font makes 1ch == one character, so the steps
+   land on character boundaries. The skin sets --jolt-steps (character count),
+   --jolt-duration, --jolt-delay, and --jolt-caret-width. */
+@keyframes jolt-typewriter-typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: calc(var(--jolt-steps, 0) * 1ch);
+  }
+}
+
+@keyframes jolt-typewriter-caret {
+  0% {
+    border-right-color: currentColor;
+  }
+  50%,
+  100% {
+    border-right-color: transparent;
+  }
+}
+
+.jolt-typewriter {
+  display: inline-block;
+  box-sizing: content-box;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: calc(var(--jolt-steps, 0) * 1ch);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  border-right: var(--jolt-caret-width, 0.08em) solid currentColor;
+  animation:
+    jolt-typewriter-typing var(--jolt-duration, 2.5s) steps(var(--jolt-steps, 1))
+      var(--jolt-delay, 0s) both,
+    jolt-typewriter-caret 0.8s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-typewriter {
+    animation: none;
+    width: auto;
+    border-right-color: transparent;
+  }
+}

@@ -14,3 +14,7 @@ export { gradientTextSchema, gradientTextMeta } from './schemas/gradient-text';
 export type { GradientTextProps } from './schemas/gradient-text';
 export { shinyTextSchema, shinyTextMeta } from './schemas/shiny-text';
 export type { ShinyTextProps } from './schemas/shiny-text';
+export { typewriterSchema, typewriterMeta } from './schemas/typewriter';
+export type { TypewriterProps } from './schemas/typewriter';
+export { rotatingWordsSchema, rotatingWordsMeta } from './schemas/rotating-words';
+export type { RotatingWordsProps } from './schemas/rotating-words';
