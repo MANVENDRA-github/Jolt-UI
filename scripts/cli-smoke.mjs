@@ -116,6 +116,7 @@ const COMPONENTS_TO_ADD = [
   'dots',
   'globe',
   'rings',
+  'aurora',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -170,6 +171,7 @@ for (const skin of [
   'Dots.tsx',
   'Globe.tsx',
   'Rings.tsx',
+  'Aurora.tsx',
 ]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
 }

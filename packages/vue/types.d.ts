@@ -113,4 +113,11 @@ export declare const Rings: DefineComponent<{
   frequency?: number;
   opacity?: number;
 }>;
+export declare const Aurora: DefineComponent<{
+  colors?: string[];
+  speed?: number;
+  intensity?: number;
+  scale?: number;
+  opacity?: number;
+}>;
 // gen:shims

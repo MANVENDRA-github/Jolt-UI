@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + Phase 5 + **PR 6a (Waves + Dots, #26) are merged to `main`**. **PR 6b — Globe + Rings** (a rotating point-sphere with a breathing pulse + counter-rotating concentric rings) **plus the per-background parity-harness isolation** (D-032) is **merged to `main` (#27)** — **5 backgrounds** now (Particles, Waves, Dots, Globe, Rings); **13 components** total. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + Phase 5 + **PR 6a (Waves + Dots, #26) + PR 6b (Globe + Rings + per-background parity-harness isolation, #27) are merged to `main`**. **PR 6c — Aurora** — the **first shader background** (a custom-GLSL `ShaderMaterial`, D-033) — is **complete and green** on `feat/phase-6c-aurora` (PR pending): **6 backgrounds** now (Particles, Waves, Dots, Globe, Rings, Aurora); **14 components** total. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**193 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 17 items/framework) · `pnpm build` (27 pages, 21 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**15 component items**, incl. the 5 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: text parity + a per-background isolation test over all 5 backgrounds + install + SEO + docs + search + components-nav) green. Both demos live-verified (Globe frame-diff ~6.3k, Rings ~3.4k; reduced-motion static; SSR clean; no console errors). (Phases 0–5 + 6a + 6b on `main`. CI green on every PR.)
+- **Health:** `pnpm verify` green (**212 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 18 items/framework) · `pnpm build` (29 pages, 21 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**16 component items**, incl. the 6 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: text parity + a per-background isolation test over all 6 backgrounds + install + SEO + docs + search + components-nav) green. Aurora live-verified in a real browser (frame-diff ~38k; reduced-motion static; SSR clean; **zero console errors** — the shader compiles). (Phases 0–5 + 6a + 6b on `main`; PR 6c pending. CI green on every PR.)
 
 ## How to resume
 
@@ -65,6 +65,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - **Parity-harness WebGL contexts — RESOLVED in PR 6b (D-032):** backgrounds no longer share `/internal/parity`; each renders on its own `apps/site/src/pages/internal/parity-bg/<id>.astro` page, and the background test visits them one at a time (`context.newPage()` → assert → `page.close()`), so **only ~3 GL contexts are live at once regardless of how many backgrounds exist** — closing the page frees them deterministically (a plain shared-page `goto` loop can leave contexts in Chromium's bfcache). The old ~16-context cap is no longer a constraint.
 
 ## Session log
+
+### 2026-06-29 — Phase 6 PR 6c: Aurora (first shader background)
+
+The first background driven by a **custom GLSL fragment shader** (Three.js `ShaderMaterial`) instead of CPU vertex math — front-loads the shader pattern on one vertical slice. One branch `feat/phase-6c-aurora`; PR pending.
+
+- **Aurora** (`webgl/aurora.ts`): a fullscreen quad (OrthographicCamera + `PlaneGeometry(2,2)`) with a `ShaderMaterial` whose fragment shader renders flowing aurora curtains (layered value-noise/fbm swept by a `uTime` uniform, vertical glow falloff, colour ramp across 3 stops). Per frame only advances `uTime`; reduced-motion renders one `uTime=0` frame; disposal unchanged.
+- **Functional-core split for a shader (D-033):** the pure jsdom-tested core is **prop→uniform resolution**, not vertex math — `webgl/aurora-field.ts` (`hexToRgb` + `packColorStops`, Three-free) packs the `colors` stops into the shader's `uColors[3]`; the shell builds `THREE.Vector3`s. Colors are **hex-only** (the shader needs numeric RGB). Added BOTH `aurora-field.test.ts` and `schemas/aurora.test.ts` (the schema-test convention, cf. `particles.test.ts`), test-first red→green.
+- **The GLSL is integration-tested, not unit-tested:** a shader can't run in jsdom, and the `BACKGROUND` parity kind only asserts a `<canvas>` is *visible* — which a **blank** canvas from a failed compile would still pass. So the real gate is **live verification**: first pass animated only ~409 px-diff (too faint) with no console error → reworked the fragment for stronger flow + contrast → **frame-diff ~38k**, reduced-motion static (diff 0), SSR clean, **zero console errors** (shader compiles). Used `ShaderMaterial` (not Raw) so three injects precision + built-in attributes; we declare only our `varying`+uniforms.
+- No registry/export change — Aurora is just another file in `webgl/`, isolated by `webgl-core` (D-031). 6 backgrounds now; the parity bg test visits 6 isolated pages.
+
+Green local: `pnpm verify` (**212 vitest + 45 test:gen** + registry:check, 18 items/fw) · `pnpm build` (29 pages) + `pnpm test:dist` · `pnpm test:cli` (16 component items) · `pnpm test:e2e` (15 tests). On `feat/phase-6c-aurora`; PR pending. Decision **D-033**. (PR 6b merged as #27.)
 
 ### 2026-06-29 — Phase 6 PR 6b: Globe + Rings + per-background parity-harness isolation
 

@@ -114,4 +114,11 @@ export declare const Rings: (props: {
   frequency?: number;
   opacity?: number;
 }) => unknown;
+export declare const Aurora: (props: {
+  colors?: string[];
+  speed?: number;
+  intensity?: number;
+  scale?: number;
+  opacity?: number;
+}) => unknown;
 // gen:shims
