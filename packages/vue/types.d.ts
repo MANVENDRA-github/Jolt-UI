@@ -67,3 +67,4 @@ export declare const ScrollVelocity: DefineComponent<{
   baseVelocity?: number;
   direction?: 'left' | 'right';
 }>;
+// gen:shims

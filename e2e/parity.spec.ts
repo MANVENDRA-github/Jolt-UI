@@ -5,7 +5,13 @@ import { PNG } from 'pngjs';
 // Per-char components split the text into aria-hidden segments (the full text is
 // carried on an aria-label); whole-text components render the text directly, so
 // it's natively accessible — no segments, no aria-label.
-const PER_CHAR = ['split-text', 'blur-in', 'wave', 'rotating-words'] as const;
+const PER_CHAR = [
+  'split-text',
+  'blur-in',
+  'wave',
+  'rotating-words',
+  // gen:per-char
+] as const;
 const WHOLE_TEXT = [
   'gradient-text',
   'shiny-text',
@@ -13,6 +19,7 @@ const WHOLE_TEXT = [
   'count-up',
   'scramble',
   'scroll-velocity',
+  // gen:whole-text
 ] as const;
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
@@ -23,7 +30,10 @@ const TEXT = 'Jolt UI';
 // up the pixel diff (measured: a 1px shift ≈ 2.4%, 8px ≈ 24%), so it can't be pixel-compared
 // reliably across OSes. Its anti-drift is covered by the DOM/text-parity check below + the
 // per-framework unit tests (identical markup); only the screenshot diff is skipped.
-const NO_PIXEL_PARITY: readonly string[] = ['scroll-velocity'];
+const NO_PIXEL_PARITY: readonly string[] = [
+  'scroll-velocity',
+  // gen:no-pixel
+];
 
 test('every component renders identically across React, Vue, and Svelte', async ({ page }) => {
   await page.goto('/internal/parity');

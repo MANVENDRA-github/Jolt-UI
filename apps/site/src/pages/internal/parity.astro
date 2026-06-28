@@ -13,6 +13,7 @@ import {
   CountUp as RCount,
   Scramble as RScramble,
   ScrollVelocity as RScrollVel,
+  // gen:react
 } from '@jolt/react';
 import {
   SplitText as VSplit,
@@ -25,6 +26,7 @@ import {
   CountUp as VCount,
   Scramble as VScramble,
   ScrollVelocity as VScrollVel,
+  // gen:vue
 } from '@jolt/vue';
 import {
   SplitText as SSplit,
@@ -37,6 +39,7 @@ import {
   CountUp as SCount,
   Scramble as SScramble,
   ScrollVelocity as SScrollVel,
+  // gen:svelte
 } from '@jolt/svelte';
 
 const TEXT = 'Jolt UI';
@@ -74,5 +77,6 @@ const TEXT = 'Jolt UI';
     <div data-testid="scroll-velocity-react"><RScrollVel text={TEXT} client:load /></div>
     <div data-testid="scroll-velocity-vue"><VScrollVel text={TEXT} client:load /></div>
     <div data-testid="scroll-velocity-svelte"><SScrollVel text={TEXT} client:load /></div>
+    {/* gen:cells */}
   </div>
 </Base>
