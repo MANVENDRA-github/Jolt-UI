@@ -1,0 +1,71 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+
+const repo = 'https://github.com/MANVENDRA-github/Jolt-UI';
+
+const scaffoldTabs = [
+  {
+    label: 'bash',
+    lang: 'bash',
+    code: `# 1. describe the component once in scripts/contracts/<id>.mjs
+# 2. stamp the whole slice (schema + 3 skins + demo + tests + registry + parity):
+node scripts/gen-component.mjs <id>
+# 3. customize the animation test-first, then run the gates:
+pnpm verify && pnpm test:cli && pnpm test:e2e`,
+  },
+];
+---
+
+<DocsLayout
+  title="Contributing — Jolt UI"
+  description="How Jolt UI is built: one design language across three frameworks, the gen-component scaffolder, test-first, and the parity gate."
+>
+  <h1>Contributing</h1>
+  <p>
+    Jolt UI is one design language shipped as three framework skins. Contributions keep that
+    promise: a component must look, move, and behave identically across React, Vue, and Svelte,
+    proven by an automated parity gate.
+  </p>
+
+  <h2>One design language, three skins</h2>
+  <p>
+    The look lives in <code>@jolt/tokens</code> and the behavior + API (Zod prop schemas, animation logic)
+    in <code>@jolt/core</code>; each framework package is a thin skin over that core. A skin may
+    only differ in idiomatic lifecycle glue — never in look, motion, or props. If you find yourself
+    reimplementing animation logic per framework, lift it into the core instead.
+  </p>
+
+  <h2>Add a component</h2>
+  <p>
+    CSS components are generated from a single declarative <strong>contract</strong> by the
+    <code>gen-component</code> scaffolder — it stamps the schema, all three skins, the demo page, the
+    unit tests, the registry entries, and the parity cells, emitting a working component you then customize.
+    GSAP components are hand-written following the same slice.
+  </p>
+  <CodeTabs tabs={scaffoldTabs} />
+
+  <h2>Test-first, and the gates</h2>
+  <p>
+    Every change is test-first: write a failing test that captures the behavior, then make it pass.
+    Three gates must stay green:
+  </p>
+  <ul>
+    <li><code>pnpm verify</code> — typecheck, lint, unit tests, and the registry-sync check.</li>
+    <li>
+      <code>pnpm test:cli</code> — installs the component into a throwaway project and type-checks it.
+    </li>
+    <li>
+      <code>pnpm test:e2e</code> — the <strong>parity gate</strong>: renders every component in all
+      three frameworks and asserts they're identical.
+    </li>
+  </ul>
+
+  <h2>Pull requests</h2>
+  <p>
+    One focused, reviewable PR per change, with a conventional-commit title. Always branch → PR →
+    merge (never push to <code>main</code>), and a component must exist in all three frameworks and
+    pass parity before it ships. The full checklist lives in
+    <a href={`${repo}/blob/main/COMPONENT_GUIDE.md`}>COMPONENT_GUIDE.md</a> in the repo.
+  </p>
+</DocsLayout>

@@ -7,10 +7,11 @@ interface Props {
 }
 const { title, description } = Astro.props;
 
-// PR 4c appends Accessibility + Contributing here (and creates those pages).
 const docs = [
   { href: '/docs/getting-started', label: 'Getting Started' },
   { href: '/docs/theming', label: 'Theming' },
+  { href: '/docs/accessibility', label: 'Accessibility' },
+  { href: '/docs/contributing', label: 'Contributing' },
 ];
 const path = Astro.url.pathname;
 ---
