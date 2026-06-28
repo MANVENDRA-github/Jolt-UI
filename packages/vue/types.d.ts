@@ -46,3 +46,19 @@ export declare const RotatingWords: DefineComponent<{
   interval?: number;
   delay?: number;
 }>;
+export declare const CountUp: DefineComponent<{
+  to: number;
+  from?: number;
+  duration?: number;
+  delay?: number;
+  decimals?: number;
+  separator?: string;
+}>;
+export declare const Scramble: DefineComponent<{
+  text: string;
+  duration?: number;
+  delay?: number;
+  chars?: string;
+  revealDelay?: number;
+  speed?: number;
+}>;

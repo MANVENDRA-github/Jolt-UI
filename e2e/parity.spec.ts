@@ -6,7 +6,7 @@ import { PNG } from 'pngjs';
 // carried on an aria-label); whole-text components render the text directly, so
 // it's natively accessible — no segments, no aria-label.
 const PER_CHAR = ['split-text', 'blur-in', 'wave', 'rotating-words'] as const;
-const WHOLE_TEXT = ['gradient-text', 'shiny-text', 'typewriter'] as const;
+const WHOLE_TEXT = ['gradient-text', 'shiny-text', 'typewriter', 'count-up', 'scramble'] as const;
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
@@ -30,8 +30,17 @@ test('every component renders identically across React, Vue, and Svelte', async 
       animation-fill-mode: forwards !important;
       transition-duration: 0s !important;
       transition-delay: 0s !important;
-    }`,
+    }
+    /* Astro's dev toolbar is fixed-position and bleeds into element screenshots
+       depending on page height / scroll — hide it so cells compare cleanly. */
+    astro-dev-toolbar { display: none !important; }`,
   });
+
+  // Let every client:load GSAP island finish hydrating and settle to its
+  // reduced-motion final state before comparing. Phase 1 had a single GSAP island
+  // (SplitText) that settled before the first screenshot; with several (SplitText,
+  // CountUp, Scramble) the earliest-captured cell could otherwise be caught mid-hydration.
+  await page.waitForTimeout(800);
 
   for (const id of COMPONENTS) {
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);

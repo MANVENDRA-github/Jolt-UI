@@ -10,6 +10,8 @@ import {
   ShinyText as RShiny,
   Typewriter as RType,
   RotatingWords as RRot,
+  CountUp as RCount,
+  Scramble as RScramble,
 } from '@jolt/react';
 import {
   SplitText as VSplit,
@@ -19,6 +21,8 @@ import {
   ShinyText as VShiny,
   Typewriter as VType,
   RotatingWords as VRot,
+  CountUp as VCount,
+  Scramble as VScramble,
 } from '@jolt/vue';
 import {
   SplitText as SSplit,
@@ -28,6 +32,8 @@ import {
   ShinyText as SShiny,
   Typewriter as SType,
   RotatingWords as SRot,
+  CountUp as SCount,
+  Scramble as SScramble,
 } from '@jolt/svelte';
 
 const TEXT = 'Jolt UI';
@@ -56,5 +62,11 @@ const TEXT = 'Jolt UI';
     <div data-testid="rotating-words-react"><RRot words={['Jolt', 'UI']} /></div>
     <div data-testid="rotating-words-vue"><VRot words={['Jolt', 'UI']} /></div>
     <div data-testid="rotating-words-svelte"><SRot words={['Jolt', 'UI']} /></div>
+    <div data-testid="count-up-react"><RCount to={100} client:load /></div>
+    <div data-testid="count-up-vue"><VCount to={100} client:load /></div>
+    <div data-testid="count-up-svelte"><SCount to={100} client:load /></div>
+    <div data-testid="scramble-react"><RScramble text={TEXT} client:load /></div>
+    <div data-testid="scramble-vue"><VScramble text={TEXT} client:load /></div>
+    <div data-testid="scramble-svelte"><SScramble text={TEXT} client:load /></div>
   </div>
 </Base>
