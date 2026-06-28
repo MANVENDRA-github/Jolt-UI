@@ -3,12 +3,10 @@
  * docs site's install tabs + dependency badges, so they can't drift from the
  * component's real dependencies. Joins `propsTable` as a core docs helper.
  */
+import { JOLT_ORIGIN } from './origin';
 
-/**
- * Origin of the published jsrepo registry. A placeholder until the Phase 4 deploy
- * wires a real domain — at which point only this one value changes.
- */
-export const REGISTRY_BASE = '<registry-url>';
+/** Origin of the published jsrepo registry + site — the single `JOLT_ORIGIN` source. */
+export const REGISTRY_BASE = JOLT_ORIGIN;
 
 export type Framework = 'react' | 'vue' | 'svelte';
 
@@ -20,7 +18,7 @@ export interface InstallTab {
 }
 
 export interface InstallInfo {
-  /** The path passed to `jsrepo add`, e.g. `<registry-url>/r/react/blur-in`. */
+  /** The path passed to `jsrepo add`, e.g. `https://jolt-ui.pages.dev/r/react/blur-in`. */
   registryPath: string;
   /**
    * Peer dependencies the consumer must install. `zod` is universal — the bundled

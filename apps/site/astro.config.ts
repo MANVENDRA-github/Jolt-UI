@@ -3,17 +3,29 @@ import react from '@astrojs/react';
 import vue from '@astrojs/vue';
 import svelte from '@astrojs/svelte';
 import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 import expressiveCode from 'astro-expressive-code';
 import tailwindcss from '@tailwindcss/vite';
+import { JOLT_ORIGIN } from '../../packages/core/src/origin';
 
 // https://astro.build/config
 export default defineConfig({
+  // Production origin (canonical/OG/sitemap) — shares one source with the registry base.
+  site: JOLT_ORIGIN,
   // The dev toolbar is position:fixed and bleeds into the parity E2E's element
   // screenshots; disable it when JOLT_E2E=1 (set by Playwright's webServer).
   // Stays on for a normal `pnpm dev`.
   devToolbar: { enabled: !process.env.JOLT_E2E },
   // expressive-code must come before mdx.
-  integrations: [react(), vue(), svelte(), expressiveCode({ themes: ['github-dark'] }), mdx()],
+  integrations: [
+    react(),
+    vue(),
+    svelte(),
+    expressiveCode({ themes: ['github-dark'] }),
+    mdx(),
+    // Exclude the internal parity harness from the sitemap (it's noindex too).
+    sitemap({ filter: (page) => !page.includes('/internal/') }),
+  ],
   vite: {
     plugins: [tailwindcss()],
     ssr: {

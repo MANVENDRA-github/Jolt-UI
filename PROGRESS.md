@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 3 COMPLETE (pending merges) — Registry & copy-paste UX + scaffolder.** Both slices are done + green on feature branches (PRs pending): **3a** — install tabs + dependency/peer badges, single-source via `installInfo` + `InstallBlock.astro` (`feat/phase-3a-install-info`, PR #15); **3b** — the `gen-component.mjs` scaffolder (`feat/phase-3b-scaffolder`, **stacked on 3a**). **Next: Phase 4 (Deploy + docs + SEO)**; a GSAP-scaffolding follow-up is noted in “Next session.” Phases 0–2 merged to `main` (PRs #1–#13).
+- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** Phase 3 is **merged to `main`** (PR #15 install-UX + #17 scaffolder). PR **4a (SEO foundation — `Base.astro` head + `@astrojs/sitemap` + JSON-LD + favicon/OG + a single `JOLT_ORIGIN` origin)** is **complete and green** on `feat/phase-4a-seo-foundation` (PR pending). **Next: PR 4b — Nav + Footer + docs (Getting-Started, Theming).** Remaining: 4c (Accessibility + Contributing docs), 4d (Pagefind search), 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 merged to `main`.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**123 vitest + 45 `test:gen`** + registry:check, astro check 20 files) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install-UX specs) green. (Phases 0–2 on `main`; 3a on `feat/phase-3a-install-info` (PR #15), 3b on `feat/phase-3b-scaffolder` stacked on 3a — both PRs pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 23 files) · `pnpm build` + `pnpm test:dist` (NEW: dist invariants) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install + SEO specs) green. (Phases 0–3 on `main`; PR 4a on `feat/phase-4a-seo-foundation`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,16 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 4 PR 4a: SEO foundation + single-origin + sitemap
+
+Started Phase 4 (Deploy + docs + SEO). Made the static site discoverable and wired the deployed origin as one source.
+
+- **`JOLT_ORIGIN`** (`packages/core/src/origin.ts`) is the single source for both the jsrepo registry base (`REGISTRY_BASE = JOLT_ORIGIN`) and astro's `site:` (canonical/OG/sitemap) — provisional `https://jolt-ui.pages.dev`, a **one-line swap** at deploy (D-022). `astro.config` imports it by a **relative** path (the `@jolt/core/origin` subpath export doesn't resolve in the config's TS context).
+- **`Base.astro` head** now emits description / canonical / Open Graph / Twitter / favicon / JSON-LD (`Props { title, description, ogImage, noindex, jsonLd }`); the URL + JSON-LD logic is a pure, unit-tested `apps/site/src/lib/seo.ts` (new `apps/site` Vitest project, node env). `@astrojs/sitemap` → `sitemap-index.xml` excluding `/internal/` (also `noindex`). Added `og.svg` + `favicon.svg` + `robots.txt`; each of the 11 indexed pages got a unique `description`. (D-023.)
+- **`scripts/dist-check.mjs`** (`pnpm test:dist`, wired into CI after `pnpm build`) asserts build-only invariants: sitemap (no `/internal/`), favicon/og, the `dist/r/*` registry (the one-origin proof), and canonical/JSON-LD/OG in the homepage HTML. `e2e/seo.spec.ts` asserts the head tags + path-specific canonical + the parity-harness `noindex` against the dev server. (D-026.)
+
+Green local: `pnpm verify` (**128 vitest + 45 test:gen** + registry:check, astro check 23 files) · `pnpm build` + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install + 3 SEO specs). On `feat/phase-4a-seo-foundation`; PR pending. **Next: PR 4b — Nav + Footer + docs (Getting-Started, Theming).**
 
 ### 2026-06-28 — Phase 3 PR 3b: gen-component scaffolder (CSS patterns)
 
