@@ -6,7 +6,7 @@
   "description": "Jolt UI framework-agnostic core: prop schemas + animation primitives (the anti-drift core).",
   "exports": {
     ".": "./src/index.ts",
-    "./webgl/particles": "./src/webgl/particles.ts",
+    "./webgl/*": "./src/webgl/*.ts",
     "./*": "./src/*"
   },
   "scripts": {

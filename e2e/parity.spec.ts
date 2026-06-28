@@ -24,10 +24,12 @@ const WHOLE_TEXT = [
 // Backgrounds are WebGL canvases — no text, and non-deterministic per-frame output
 // (GPU/timing dependent), so they can't be text- or pixel-compared. Parity is
 // structural: every framework mounts a <canvas> inside an aria-hidden container. The
-// anti-drift guarantee is that all three skins call the one shared createParticles
-// factory, so the canvas can't diverge (D-029).
+// anti-drift guarantee is that all three skins call the one shared core factory, so
+// the canvas can't diverge (D-029).
 const BACKGROUND: readonly string[] = [
   'particles',
+  'waves',
+  'dots',
   // gen:background
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...BACKGROUND];
@@ -45,6 +47,10 @@ const NO_PIXEL_PARITY: readonly string[] = [
 ];
 
 test('every component renders identically across React, Vue, and Svelte', async ({ page }) => {
+  // The harness mounts several WebGL canvases (3 per background); each renderer's init
+  // (GL context + shader compile) adds up, so give this heavy cross-framework test
+  // generous headroom over Playwright's 30s default.
+  test.setTimeout(90_000);
   await page.goto('/internal/parity');
 
   // Freeze every animation at a deterministic end-state before comparing. The

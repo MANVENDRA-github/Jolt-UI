@@ -112,6 +112,8 @@ const COMPONENTS_TO_ADD = [
   'scramble',
   'scroll-velocity',
   'particles',
+  'waves',
+  'dots',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -157,7 +159,14 @@ for (const [skin, sheet] of CSS_SKINS) {
 
 // GSAP components ship no stylesheet — just assert the skin file landed (the
 // consumer typecheck below validates the gsap/ScrambleTextPlugin import resolves).
-for (const skin of ['CountUp.tsx', 'Scramble.tsx', 'ScrollVelocity.tsx', 'Particles.tsx']) {
+for (const skin of [
+  'CountUp.tsx',
+  'Scramble.tsx',
+  'ScrollVelocity.tsx',
+  'Particles.tsx',
+  'Waves.tsx',
+  'Dots.tsx',
+]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
 }
 

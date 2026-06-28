@@ -35,4 +35,8 @@ export { scrollVelocitySchema, scrollVelocityMeta } from './schemas/scroll-veloc
 export type { ScrollVelocityProps, ScrollVelocityOptions } from './schemas/scroll-velocity';
 export { particlesSchema, particlesMeta } from './schemas/particles';
 export type { ParticlesProps, ParticlesOptions } from './schemas/particles';
+export { wavesSchema, wavesMeta } from './schemas/waves';
+export type { WavesProps, WavesOptions } from './schemas/waves';
+export { dotsSchema, dotsMeta } from './schemas/dots';
+export type { DotsProps, DotsOptions } from './schemas/dots';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line
