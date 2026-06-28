@@ -40,6 +40,13 @@ for (const needle of ['rel="canonical"', 'application/ld+json', 'og:image', 'nam
   if (!home.includes(needle)) die(`homepage HTML missing ${needle}`);
 }
 
+// 5. Pagefind indexed the build: the search API + UI exist, and content pages carry
+//    data-pagefind-body (the indexable region; the noindex parity harness does not).
+for (const f of ['pagefind/pagefind.js', 'pagefind/pagefind-ui.js']) {
+  if (!existsSync(join(dist, f))) die(`Pagefind index missing dist/${f}`);
+}
+if (!home.includes('data-pagefind-body')) die('homepage HTML missing data-pagefind-body');
+
 console.log(
-  '\n✓ dist-check OK — sitemap (no /internal/) + favicon/og + dist/r/* registry + canonical/JSON-LD/OG on the homepage.',
+  '\n✓ dist-check OK — sitemap (no /internal/) + favicon/og + dist/r/* registry + canonical/JSON-LD/OG + Pagefind index.',
 );

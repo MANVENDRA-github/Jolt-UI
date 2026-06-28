@@ -66,7 +66,10 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
   </head>
   <body class="flex min-h-screen flex-col">
     <Nav />
-    <main class="mx-auto w-full max-w-2xl flex-1 p-8">
+    <main
+      class="mx-auto w-full max-w-2xl flex-1 p-8"
+      data-pagefind-body={noindex ? undefined : true}
+    >
       <slot />
     </main>
     <Footer />

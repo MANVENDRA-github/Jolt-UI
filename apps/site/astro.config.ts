@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 import expressiveCode from 'astro-expressive-code';
 import tailwindcss from '@tailwindcss/vite';
 import { JOLT_ORIGIN } from '../../packages/core/src/origin';
+import pagefind from './src/integrations/pagefind';
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,6 +28,8 @@ export default defineConfig({
     mdx(),
     // Exclude the internal parity harness from the sitemap (it's noindex too).
     sitemap({ filter: (page) => !page.includes('/internal/') }),
+    // Index the production build for search (Pagefind; no-op during `astro dev`).
+    pagefind(),
   ],
   vite: {
     plugins: [tailwindcss()],

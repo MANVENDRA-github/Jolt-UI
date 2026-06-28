@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import Search from './Search.astro';
 
 const links = [
   { href: '/components', label: 'Components', match: '/components' },
@@ -32,7 +33,7 @@ const path = Astro.url.pathname;
       }
     </ul>
     <div class="ml-auto flex items-center gap-3">
-      <slot name="search" />
+      <Search />
       <ThemeToggle />
     </div>
   </nav>
