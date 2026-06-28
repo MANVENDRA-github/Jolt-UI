@@ -107,7 +107,7 @@ test('applyComponentsIndex inserts the import + the card', () => {
   ].join('\n');
   const out = applyComponentsIndex(src, sample);
   assert.match(out, /^ {2}FadeUp,$/m);
-  assert.match(out, /href="\/components\/fade-up"/);
+  assert.match(out, /href="\/components\/text\/fade-up"/);
 });
 
 test('containsComponent detects an already-applied component (idempotency guard)', () => {

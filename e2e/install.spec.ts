@@ -10,7 +10,7 @@ const installSection = (page: import('@playwright/test').Page) =>
   page.locator('section', { has: page.getByRole('heading', { name: 'Installation' }) });
 
 test('a GSAP component surfaces gsap + zod badges and its jsrepo add command', async ({ page }) => {
-  await page.goto('/components/count-up');
+  await page.goto('/components/text/count-up');
   const install = installSection(page);
 
   await expect(install.locator('[data-testid="dependency-badge"]')).toHaveText(['gsap', 'zod']);
@@ -21,7 +21,7 @@ test('a GSAP component surfaces gsap + zod badges and its jsrepo add command', a
 });
 
 test('a CSS-only component surfaces only zod (no gsap)', async ({ page }) => {
-  await page.goto('/components/blur-in');
+  await page.goto('/components/text/blur-in');
   const install = installSection(page);
 
   await expect(install.locator('[data-testid="dependency-badge"]')).toHaveText(['zod']);

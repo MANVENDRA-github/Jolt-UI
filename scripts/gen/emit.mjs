@@ -446,16 +446,16 @@ export function emitDemoPage(c) {
   const { Name, camel } = names(c);
   const demo = attrs(c.demoProps);
   return `---
-import Base from '../../layouts/Base.astro';
-import CodeTabs from '../../components/CodeTabs.astro';
-import InstallBlock from '../../components/InstallBlock.astro';
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
 import { ${Name} as React${Name} } from '@jolt/react';
 import { ${Name} as Vue${Name} } from '@jolt/vue';
 import { ${Name} as Svelte${Name} } from '@jolt/svelte';
 import { propsTable, ${camel}Schema, ${camel}Meta } from '@jolt/core';
-import reactSource from '../../../../../packages/react/src/components/${Name}/${Name}.tsx?raw';
-import vueSource from '../../../../../packages/vue/src/components/${Name}/${Name}.vue?raw';
-import svelteSource from '../../../../../packages/svelte/src/components/${Name}/${Name}.svelte?raw';
+import reactSource from '../../../../../../packages/react/src/components/${Name}/${Name}.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/${Name}/${Name}.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/${Name}/${Name}.svelte?raw';
 
 const props = propsTable(${camel}Schema);
 const sourceTabs = [
@@ -465,7 +465,7 @@ const sourceTabs = [
 ];
 ---
 
-<Base title="${Name} — Jolt UI">
+<ComponentsLayout title="${Name} — Jolt UI">
   <h1 class="text-3xl font-bold">${Name}</h1>
   <p class="mt-2 opacity-80">${c.blurb}</p>
 
@@ -517,7 +517,7 @@ const sourceTabs = [
       </tbody>
     </table>
   </section>
-</Base>
+</ComponentsLayout>
 `;
 }
 
@@ -579,7 +579,7 @@ export function emitParityCells(c) {
 /** The /components index card. */
 export function emitCard(c) {
   const { id, Name } = names(c);
-  return `    <a href="/components/${id}" class={card}>
+  return `    <a href="/components/text/${id}" class={card}>
       <div class={preview}><${Name} text="${c.cardText}" /></div>
       <div class={name}>${c.cardText}</div>
       <div class={blurb}>${c.blurb}</div>

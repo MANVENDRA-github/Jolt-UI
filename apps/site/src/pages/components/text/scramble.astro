@@ -1,16 +1,16 @@
 ---
-import Base from '../../layouts/Base.astro';
-import CodeTabs from '../../components/CodeTabs.astro';
-import InstallBlock from '../../components/InstallBlock.astro';
-import { SplitText as ReactSplitText } from '@jolt/react';
-import { SplitText as VueSplitText } from '@jolt/vue';
-import { SplitText as SvelteSplitText } from '@jolt/svelte';
-import { propsTable, splitTextSchema, splitTextMeta } from '@jolt/core';
-import reactSource from '../../../../../packages/react/src/components/SplitText/SplitText.tsx?raw';
-import vueSource from '../../../../../packages/vue/src/components/SplitText/SplitText.vue?raw';
-import svelteSource from '../../../../../packages/svelte/src/components/SplitText/SplitText.svelte?raw';
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import { Scramble as ReactScramble } from '@jolt/react';
+import { Scramble as VueScramble } from '@jolt/vue';
+import { Scramble as SvelteScramble } from '@jolt/svelte';
+import { propsTable, scrambleSchema, scrambleMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/Scramble/Scramble.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/Scramble/Scramble.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/Scramble/Scramble.svelte?raw';
 
-const props = propsTable(splitTextSchema);
+const props = propsTable(scrambleSchema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
@@ -18,35 +18,37 @@ const sourceTabs = [
 ];
 ---
 
-<Base
-  title="SplitText — Jolt UI"
-  description="A staggered character/word reveal with GSAP — for React, Vue, and Svelte."
+<ComponentsLayout
+  title="Scramble — Jolt UI"
+  description="Text that decodes from a churn of characters with GSAP — for React, Vue, and Svelte."
 >
-  <h1 class="text-3xl font-bold">SplitText</h1>
-  <p class="mt-2 opacity-80">A staggered character/word reveal — one design language, three frameworks.</p>
+  <h1 class="text-3xl font-bold">Scramble</h1>
+  <p class="mt-2 opacity-80">
+    Text that decodes into place from a churn of characters — GSAP, three frameworks.
+  </p>
 
   <section class="mt-10 space-y-8">
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
       <div class="mt-1 text-3xl font-semibold">
-        <ReactSplitText text="Animated with React" client:visible />
+        <ReactScramble text="Decoded by Jolt" client:visible />
       </div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
       <div class="mt-1 text-3xl font-semibold">
-        <VueSplitText text="Animated with Vue" client:visible />
+        <VueScramble text="Decoded by Jolt" client:visible />
       </div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
       <div class="mt-1 text-3xl font-semibold">
-        <SvelteSplitText text="Animated with Svelte" client:visible />
+        <SvelteScramble text="Decoded by Jolt" client:visible />
       </div>
     </div>
   </section>
 
-  <InstallBlock meta={splitTextMeta} />
+  <InstallBlock meta={scrambleMeta} />
 
   <section class="mt-12">
     <h2 class="text-xl font-semibold">Source</h2>
@@ -79,4 +81,4 @@ const sourceTabs = [
       </tbody>
     </table>
   </section>
-</Base>
+</ComponentsLayout>

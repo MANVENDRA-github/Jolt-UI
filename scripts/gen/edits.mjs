@@ -88,7 +88,7 @@ export function containsComponent(content, c) {
   return (
     content.includes(`'${c.id}'`) || // jsrepo item / parity-spec / cli-smoke add
     content.includes(`"${c.id}-react"`) || // parity harness cell
-    content.includes(`/components/${c.id}`) || // components index card
+    content.includes(`/components/text/${c.id}`) || // components index card
     content.includes(`./schemas/${c.id}`) || // core barrel export
     content.includes(`./components/${c.name}`) || // package barrel export
     content.includes(`${c.name}:`) // vue/svelte shim declaration

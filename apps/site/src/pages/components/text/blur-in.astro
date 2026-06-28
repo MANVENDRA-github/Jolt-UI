@@ -1,16 +1,16 @@
 ---
-import Base from '../../layouts/Base.astro';
-import CodeTabs from '../../components/CodeTabs.astro';
-import InstallBlock from '../../components/InstallBlock.astro';
-import { Wave as ReactWave } from '@jolt/react';
-import { Wave as VueWave } from '@jolt/vue';
-import { Wave as SvelteWave } from '@jolt/svelte';
-import { propsTable, waveSchema, waveMeta } from '@jolt/core';
-import reactSource from '../../../../../packages/react/src/components/Wave/Wave.tsx?raw';
-import vueSource from '../../../../../packages/vue/src/components/Wave/Wave.vue?raw';
-import svelteSource from '../../../../../packages/svelte/src/components/Wave/Wave.svelte?raw';
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import { BlurIn as ReactBlurIn } from '@jolt/react';
+import { BlurIn as VueBlurIn } from '@jolt/vue';
+import { BlurIn as SvelteBlurIn } from '@jolt/svelte';
+import { propsTable, blurInSchema, blurInMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/BlurIn/BlurIn.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/BlurIn/BlurIn.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/BlurIn/BlurIn.svelte?raw';
 
-const props = propsTable(waveSchema);
+const props = propsTable(blurInSchema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
@@ -18,33 +18,35 @@ const sourceTabs = [
 ];
 ---
 
-<Base
-  title="Wave — Jolt UI"
-  description="A traveling per-character bob — CSS-only, for React, Vue, and Svelte."
+<ComponentsLayout
+  title="BlurIn — Jolt UI"
+  description="A per-character fade + de-blur reveal — CSS-only, for React, Vue, and Svelte."
 >
-  <h1 class="text-3xl font-bold">Wave</h1>
-  <p class="mt-2 opacity-80">A traveling per-character bob — CSS-only, three frameworks.</p>
+  <h1 class="text-3xl font-bold">BlurIn</h1>
+  <p class="mt-2 opacity-80">A per-character fade + de-blur reveal — CSS-only, three frameworks.</p>
 
   <section class="mt-10 space-y-8">
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
-      <div class="mt-1 text-3xl font-semibold"><ReactWave text="Riding the wave" /></div>
+      <div class="mt-1 text-3xl font-semibold"><ReactBlurIn text="Blur into focus" /></div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
-      <div class="mt-1 text-3xl font-semibold"><VueWave text="Riding the wave" /></div>
+      <div class="mt-1 text-3xl font-semibold"><VueBlurIn text="Blur into focus" /></div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
-      <div class="mt-1 text-3xl font-semibold"><SvelteWave text="Riding the wave" /></div>
+      <div class="mt-1 text-3xl font-semibold"><SvelteBlurIn text="Blur into focus" /></div>
     </div>
   </section>
 
-  <InstallBlock meta={waveMeta} />
+  <InstallBlock meta={blurInMeta} />
 
   <section class="mt-12">
     <h2 class="text-xl font-semibold">Source</h2>
-    <p class="mt-2 text-sm opacity-70">Pure CSS animation; the skin only renders the split segments.</p>
+    <p class="mt-2 text-sm opacity-70">
+      Pure CSS animation; the skin only renders the split segments.
+    </p>
     <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
   </section>
 
@@ -73,4 +75,4 @@ const sourceTabs = [
       </tbody>
     </table>
   </section>
-</Base>
+</ComponentsLayout>
