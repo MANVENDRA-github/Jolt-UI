@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 7 — Loaders (the gallery's 3rd category).** v1 (Phases 0–4) + Phase 5 + **Phase 6 (a/b/c — 6 Three.js backgrounds incl. the Aurora shader) are merged to `main`**. **PR 7a — the Loaders category bootstrap + Spinner / Dot-Bounce / Bars** (a new `GRAPHIC` parity kind + a `role="status"` a11y pattern, D-034) is **complete and green** on `feat/phase-7a-loaders` (PR pending) — **3 categories, 17 components**. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 7 — Loaders (the gallery's 3rd category).** v1 (Phases 0–4) + Phase 5 + **Phase 6 (a/b/c — 6 Three.js backgrounds incl. the Aurora shader) are merged to `main`**. **PR 7a — the Loaders category bootstrap + Spinner / Dot-Bounce / Bars** (a new `GRAPHIC` parity kind + a `role="status"` a11y pattern, D-034) is **merged to `main` (#31)** — **3 categories, 17 components**. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**230 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 21 items/framework) · `pnpm build` (32 pages, Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**19 component items**, incl. the 6 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: on-page parity — text + the 3 loaders pixel-compared via the new `GRAPHIC` kind — + a per-background isolation test over 6 backgrounds + install + SEO + docs + search + components-nav) green. The 3 loaders live-verified in a real browser (animate; reduced-motion static; `role="status"`; Loaders nav + index render; no console errors). (Phases 0–6 on `main`; PR 7a pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**230 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 21 items/framework) · `pnpm build` (32 pages, Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**19 component items**, incl. the 6 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: on-page parity — text + the 3 loaders pixel-compared via the new `GRAPHIC` kind — + a per-background isolation test over 6 backgrounds + install + SEO + docs + search + components-nav) green. The 3 loaders live-verified in a real browser (animate; reduced-motion static; `role="status"`; Loaders nav + index render; no console errors). (Phases 0–6 + 7a on `main`. CI green on every PR.)
 
 ## How to resume
 
@@ -75,7 +75,7 @@ The gallery's **third category**, bootstrapped with its first three loaders. A l
 - **a11y:** `role="status"` + a configurable `label` (default "Loading…") — a third a11y shape beside text and backgrounds. The a11y-docs table auto-lists them.
 - **Live-verified** (real browser): each loader animates (frame-diff > 0), reduced-motion is static (diff 0), `role="status"` present, the Components sub-nav + index show **Loaders**, no console errors.
 
-Green local: `pnpm verify` (**230 vitest + 45 test:gen** + registry:check, 21 items/fw) · `pnpm build` (32 pages) + `pnpm test:dist` · `pnpm test:cli` (19 component items) · `pnpm test:e2e` (15 tests — the loaders pixel-compared via `GRAPHIC`). On `feat/phase-7a-loaders`; PR pending. Decision **D-034**. (PR 6c merged as #29.)
+Green local: `pnpm verify` (**230 vitest + 45 test:gen** + registry:check, 21 items/fw) · `pnpm build` (32 pages) + `pnpm test:dist` · `pnpm test:cli` (19 component items) · `pnpm test:e2e` (15 tests — the loaders pixel-compared via `GRAPHIC`). Merged to `main` as **#31** (CI `verify` green). Decision **D-034**. (PR 6c merged as #29.)
 
 ### 2026-06-29 — Phase 6 PR 6c: Aurora (first shader background)
 
