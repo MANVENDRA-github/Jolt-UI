@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import { SITE_NAME, SITE_DESCRIPTION, absoluteUrl, buildWebsiteJsonLd } from '../lib/seo';
 
 interface Props {
@@ -63,12 +64,11 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
       if (stored) document.documentElement.dataset.theme = stored;
     </script>
   </head>
-  <body class="min-h-screen">
-    <header class="flex justify-end p-4">
-      <ThemeToggle />
-    </header>
-    <main class="mx-auto max-w-2xl p-8">
+  <body class="flex min-h-screen flex-col">
+    <Nav />
+    <main class="mx-auto w-full max-w-2xl flex-1 p-8">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

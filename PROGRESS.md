@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** Phase 3 is **merged to `main`** (PR #15 install-UX + #17 scaffolder). PR **4a (SEO foundation — `Base.astro` head + `@astrojs/sitemap` + JSON-LD + favicon/OG + a single `JOLT_ORIGIN` origin)** is **complete and green** on `feat/phase-4a-seo-foundation` (PR pending). **Next: PR 4b — Nav + Footer + docs (Getting-Started, Theming).** Remaining: 4c (Accessibility + Contributing docs), 4d (Pagefind search), 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 merged to `main`.
+- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PR **4a (SEO foundation)** is **merged to `main`** (PR #18). PR **4b (site Nav + Footer + `DocsLayout` + Getting-Started + Theming docs)** is **complete and green** on `feat/phase-4b-nav-docs` (PR pending). **Next: PR 4c — Accessibility + Contributing docs.** Remaining: 4d (Pagefind search), 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 + 4a merged to `main`.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 23 files) · `pnpm build` + `pnpm test:dist` (NEW: dist invariants) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install + SEO specs) green. (Phases 0–3 on `main`; PR 4a on `feat/phase-4a-seo-foundation`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 28 files) · `pnpm build` (15 pages) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (9 specs: parity all 10 + install + SEO + docs) green. (Phases 0–3 + 4a on `main`; PR 4b on `feat/phase-4b-nav-docs`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 4 PR 4b: site nav + footer + docs (Getting-Started, Theming)
+
+Gave the gallery real chrome + the first docs.
+
+- **`Nav.astro`** (sticky header: brand → Home + Components + Docs links with active state, the relocated `ThemeToggle`, a reserved `search` slot for PR 4d, `data-pagefind-ignore`) + **`Footer.astro`** now render in `Base.astro` (the inline ThemeToggle header is retired; the body is a flex column).
+- **`DocsLayout.astro`** wraps `Base`, adds a docs sub-nav, and styles slotted prose via a scoped `.prose-jolt` block with `:global()` child selectors — **no `@tailwindcss/typography` dep** (inline `<code>` is reset inside expressive-code blocks).
+- **Docs pages:** `/docs/getting-started` (the jsrepo install flow via real `installInfo` tabs + per-framework usage snippets + copy-paste) and `/docs/theming` (the `@jolt/tokens` table + the `[data-theme]` / `ThemeToggle` / `localStorage` mechanism + customizing). Bare `/docs` redirects to Getting-Started (astro `redirects`). (D-024.)
+- `e2e/docs.spec.ts`: both pages render, the docs sub-nav + the site nav links resolve, `/docs` redirects.
+
+Green local: `pnpm verify` (**128 vitest + 45 test:gen** + registry:check, astro check 28 files) · `pnpm build` (15 pages) + `pnpm test:dist` · `pnpm test:cli` · `pnpm test:e2e` (9 specs: parity 10 + install + SEO + docs). On `feat/phase-4b-nav-docs`; PR pending. **Next: PR 4c — Accessibility + Contributing docs.**
 
 ### 2026-06-28 — Phase 4 PR 4a: SEO foundation + single-origin + sitemap
 

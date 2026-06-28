@@ -1,0 +1,83 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+import { installInfo, blurInMeta } from '@jolt/core';
+
+const install = installInfo(blurInMeta, 'react');
+
+const usageTabs = [
+  {
+    label: 'React',
+    lang: 'tsx',
+    code: `import { BlurIn } from './components/BlurIn';
+
+export default function Hero() {
+  return <BlurIn text="Blur into focus" />;
+}`,
+  },
+  {
+    label: 'Vue',
+    lang: 'vue',
+    code: `<script setup lang="ts">
+import BlurIn from './components/BlurIn/BlurIn.vue';
+</script>
+
+<template>
+  <BlurIn text="Blur into focus" />
+</template>`,
+  },
+  {
+    label: 'Svelte',
+    lang: 'svelte',
+    code: `<script lang="ts">
+  import BlurIn from './components/BlurIn/BlurIn.svelte';
+</script>
+
+<BlurIn text="Blur into focus" />`,
+  },
+];
+---
+
+<DocsLayout
+  title="Getting Started — Jolt UI"
+  description="Install Jolt UI's animated components into your React, Vue, or Svelte project — copy-paste or the jsrepo CLI."
+>
+  <h1>Getting Started</h1>
+  <p>
+    Jolt UI is a gallery of animated text components for <strong>React</strong>, <strong>Vue</strong
+    >, and <strong>Svelte</strong> — every component ships for all three frameworks from one design language,
+    kept identical by a shared core and an automated parity gate. You consume them by
+    <strong>owning the code</strong>: copy-paste, or install with the <code>jsrepo</code> CLI.
+  </p>
+
+  <h2>Install a component</h2>
+  <p>
+    Browse the <a href="/components">component gallery</a>, then add one to your project. The CLI
+    bundles the component <strong>and</strong> its shared core into your repo (no runtime dependency on
+    a Jolt package). Swap <code>react</code> for <code>vue</code> or <code>svelte</code>, and the
+    component id for any other.
+  </p>
+  <CodeTabs tabs={install.tabs} />
+  <p>
+    The peer dependencies (<code>zod</code> always; <code>gsap</code> for the GSAP-powered components)
+    are installed for you by <code>jsrepo add</code>.
+  </p>
+
+  <h2>Use it</h2>
+  <p>After installing, the component lives in your project — import and render it:</p>
+  <CodeTabs tabs={usageTabs} />
+
+  <h2>Prefer copy-paste?</h2>
+  <p>
+    Every <a href="/components">component page</a> has a <strong>Source</strong> tab with the full React,
+    Vue, and Svelte implementation — copy it straight into your project. The CLI install and the copy-paste
+    source are the same code.
+  </p>
+
+  <h2>Frameworks</h2>
+  <p>
+    Components target <strong>React 19</strong>, <strong>Vue 3.5</strong>, and
+    <strong>Svelte 5</strong> (TypeScript + Tailwind). The props and the motion are identical across all
+    three — see <a href="/docs/theming">Theming</a> to customize the look.
+  </p>
+</DocsLayout>
