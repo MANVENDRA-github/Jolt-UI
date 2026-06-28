@@ -117,7 +117,7 @@ export const ${camel}Meta = {
 // -------------------------------------------------------------- core: stylesheet
 
 export function emitCss(c) {
-  const { id, Name, cls } = names(c);
+  const { Name, cls } = names(c);
   if (isPerChar(c)) {
     return `/* ${Name} — CSS-only per-character reveal. Generated scaffold: a simple opacity
    fade — customize the @keyframes for the real motion. The skin sets --jolt-*
@@ -243,7 +243,7 @@ ${styleConst}
 }
 
 export function emitVueSkin(c) {
-  const { id, Name, camel, cls } = names(c);
+  const { id, camel, cls } = names(c);
   const style = styleObjectEntries(c, '  ');
   const hasStyle = cssVarProps(c).length > 0;
   const styleConst = hasStyle ? `const rootStyle = computed(() => ({\n${style}\n}));\n` : '';
@@ -445,7 +445,7 @@ export const emitSvelteTest = (c) => frameworkTestBody(c, 'svelte');
 // ------------------------------------------------------------------ demo page
 
 export function emitDemoPage(c) {
-  const { id, Name, camel } = names(c);
+  const { Name, camel } = names(c);
   const demo = attrs(c.demoProps);
   return `---
 import Base from '../../layouts/Base.astro';
