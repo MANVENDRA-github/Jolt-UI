@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 2 COMPLETE** — the Text-Animations category is filled. **Merged to `main`:** SplitText (Phase 1) · Blur In + Wave (#8) · Gradient Text + Shiny Text (#9) · Typewriter + Rotating Words (#11) · Count Up + Scramble (#12). **Built · PR open:** Scroll-Velocity + the `/components` index page (PR 2e) — **10 components across all three patterns, plus a category index.** **Next: Phase 3 (Registry & copy-paste UX + scaffolder).** The per-component playbook (slice, patterns, solved gotchas) is in **“Component playbook”** below. Phase 0–1 merged (PRs #1–#7).
+- **Current phase:** **Phase 2 COMPLETE — all merged to `main`** (no open PRs, no loose ends). Text-Animations category filled: SplitText (Phase 1) · Blur In + Wave (#8) · Gradient Text + Shiny Text (#9) · Typewriter + Rotating Words (#11) · Count Up + Scramble (#12) · Scroll-Velocity + the `/components` index page (#13) — **10 components across all three patterns, plus a category index.** **Next: Phase 3 (Registry & copy-paste UX + scaffolder)** — see **“Next session — start here”** below. The per-component playbook is in **“Component playbook.”** Phases 0–1 merged (PRs #1–#7).
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**116 tests** + registry:check, astro check 19 files) · `pnpm test:cli` (adds all 10 components → consumer typechecks) · `pnpm test:e2e` (parity across all 10, stable over repeated runs) green. (On `feat/phase-2e-scroll-velocity-index`; lands on `main` when PR 2e merges.)
+- **Health:** `pnpm verify` green (**116 tests** + registry:check, astro check 19 files) · `pnpm test:cli` (adds all 10 components → consumer typechecks) · `pnpm test:e2e` (parity across all 10, stable over repeated runs) green. (All on `main`; CI green on every PR.)
 
 ## How to resume
 
@@ -22,6 +22,15 @@ pnpm dev           # site: '/components' index + '/components/<id>' demos (…, 
 
 Then open `ROADMAP.md` → Phase 3, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
+## Next session — start here (Phase 3)
+
+Phase 2 is **done and fully merged to `main`** (10 components + the `/components` index). `main` is the single source of truth — there are no open PRs, branches, or loose ends to finish. To resume:
+
+1. `git checkout main && git pull`, then run the **How to resume** gates above (expect all green).
+2. Read `ROADMAP.md` → **Phase 3 — Registry & copy-paste UX + scaffolder**, then **plan the first slice with `PLAN_TEMPLATE.md` before coding** (this project is plan-first + test-first).
+3. **Phase 3 deliverables:** install tabs (pnpm/npm + jsrepo) + dependency/peer badges on each component page; a **`scripts/gen-component.ts` scaffolder** that stamps the per-component slice (schema + 3 skins + demo + tests + registry entry) from one contract. _Note: `registry:check` is already wired into `verify`._ **Suggested first slice:** the **gen-component scaffolder** — it encodes the playbook below and makes every later component cheap (e.g. when Backgrounds/Three.js or more categories arrive).
+4. The **per-component slice, the three patterns, and the solved gotchas** in “Component playbook” below stay the canonical reference (the scaffolder should encode them, esp. the parity-harness rules in `DECISIONS.md` D-013–D-019).
+
 ## Component playbook (Phase 2 is complete — this is the reference for adding components)
 
 Phase 2 **filled the Text-Animations category**: 10 components across all three patterns (per-char CSS · whole-text CSS · structural CSS · GSAP), plus a `/components` index page. **Next is Phase 3** — Registry & copy-paste UX + a `gen-component` scaffolder (install tabs, dep/peer badges; see `ROADMAP.md`). The per-component slice, the three patterns, and the solved gotchas below remain the reference for adding any future component.
@@ -32,7 +41,7 @@ Zod schema (`packages/core/src/schemas/<id>.ts`, every field `.describe()`'d + `
 ### Three proven component patterns (pick one per component)
 - **Per-char CSS-only** (Blur In, Wave): split via `splitSegments` (`core/dom/split.ts`); shared `@jolt/core/src/styles/<id>.css` with `@keyframes`; skins render `<span aria-label> + aria-hidden segments` and set `--jolt-*` (+ per-segment `--jolt-i`). DECISIONS **D-013, D-014**.
 - **Whole-text CSS-only** (Gradient, Shiny): no segmentation — `<span class="jolt-…">{text}</span>` directly (natively accessible, no aria-label); `background-clip: text`. DECISIONS **D-016**.
-- **GSAP** (SplitText; use for 2d/2e): framework-agnostic factory in `core/animation/<id>.ts` returning `{ play, revert }`; skins call it on mount and `revert` on unmount; register plugins in `core/motion.ts`. DECISIONS **D-008**.
+- **GSAP** (SplitText, Count Up, Scramble, Scroll-Velocity): framework-agnostic factory in `core/animation/<id>.ts` returning `{ play, revert }`; skins call it on mount and `revert` on unmount. **Register a GSAP plugin _inside its factory module_ (client-side), not at module load** — ScrambleText/ScrollTrigger touch `window`/`matchMedia` and break jsdom/SSR if registered eagerly (**D-018, D-019**). DECISIONS **D-008**.
 
 ### Gotchas already solved (don't rediscover — see `DECISIONS.md`)
 - **Parity for looping/infinite animations:** the parity spec freezes all animations to their end-state before screenshotting (**D-015**) — reduced-motion alone won't freeze them on CI. Keep using `/internal/parity` + `e2e/parity.spec.ts`.
