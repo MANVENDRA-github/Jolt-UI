@@ -25,6 +25,7 @@
     "test:cli": "node scripts/cli-smoke.mjs",
     "test:e2e": "playwright test",
     "test:gen": "node --test scripts/gen/contract.test.mjs scripts/gen/emit.test.mjs scripts/gen/edits.test.mjs",
+    "test:dist": "node scripts/dist-check.mjs",
     "registry:build": "jsrepo build",
     "registry:check": "jsrepo build && node scripts/registry-check.mjs",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm test:gen && pnpm registry:check"

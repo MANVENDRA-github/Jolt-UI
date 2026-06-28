@@ -8,6 +8,7 @@ export { propsTable } from './props-table';
 export type { PropDoc } from './props-table';
 export { installInfo, REGISTRY_BASE } from './registry';
 export type { InstallInfo, InstallTab, Framework } from './registry';
+export { JOLT_ORIGIN } from './origin';
 export { blurInSchema, blurInMeta } from './schemas/blur-in';
 export type { BlurInProps } from './schemas/blur-in';
 export { waveSchema, waveMeta } from './schemas/wave';

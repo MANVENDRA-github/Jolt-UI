@@ -14,7 +14,7 @@ describe('installInfo', () => {
   it('derives a zod-only peer set for a CSS-only component', () => {
     const info = installInfo(blurInMeta, 'react');
     expect(info.peers).toEqual(['zod']);
-    expect(info.registryPath).toBe('<registry-url>/r/react/blur-in');
+    expect(info.registryPath).toBe('https://jolt-ui.pages.dev/r/react/blur-in');
   });
 
   it('includes gsap (before zod) for a GSAP component', () => {
@@ -27,12 +27,12 @@ describe('installInfo', () => {
 
     const npm = tabs.find((t) => t.label === 'npm');
     expect(npm?.lang).toBe('bash');
-    expect(npm?.code).toContain('npx jsrepo add <registry-url>/r/react/blur-in');
+    expect(npm?.code).toContain('npx jsrepo add https://jolt-ui.pages.dev/r/react/blur-in');
     expect(npm?.code).toContain('npm i zod');
     expect(npm?.code).not.toContain('gsap');
 
     const pnpm = tabs.find((t) => t.label === 'pnpm');
-    expect(pnpm?.code).toContain('pnpm dlx jsrepo add <registry-url>/r/react/blur-in');
+    expect(pnpm?.code).toContain('pnpm dlx jsrepo add https://jolt-ui.pages.dev/r/react/blur-in');
     expect(pnpm?.code).toContain('pnpm add zod');
   });
 
@@ -42,8 +42,8 @@ describe('installInfo', () => {
   });
 
   it('switches the framework segment of the registry path', () => {
-    expect(installInfo(blurInMeta, 'vue').registryPath).toBe('<registry-url>/r/vue/blur-in');
-    expect(installInfo(blurInMeta, 'svelte').registryPath).toBe('<registry-url>/r/svelte/blur-in');
+    expect(installInfo(blurInMeta, 'vue').registryPath).toBe('https://jolt-ui.pages.dev/r/vue/blur-in');
+    expect(installInfo(blurInMeta, 'svelte').registryPath).toBe('https://jolt-ui.pages.dev/r/svelte/blur-in');
   });
 
   it('roots every registry path at REGISTRY_BASE', () => {
