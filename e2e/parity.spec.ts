@@ -34,6 +34,7 @@ const BACKGROUND: readonly string[] = [
   'dots',
   'globe',
   'rings',
+  'aurora',
   // gen:background
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];

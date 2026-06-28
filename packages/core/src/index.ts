@@ -43,4 +43,6 @@ export { globeSchema, globeMeta } from './schemas/globe';
 export type { GlobeProps, GlobeOptions } from './schemas/globe';
 export { ringsSchema, ringsMeta } from './schemas/rings';
 export type { RingsProps, RingsOptions } from './schemas/rings';
+export { auroraSchema, auroraMeta } from './schemas/aurora';
+export type { AuroraProps, AuroraOptions } from './schemas/aurora';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

@@ -130,6 +130,11 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Rings/Rings.tsx' }],
         },
+        {
+          name: 'aurora',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Aurora/Aurora.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -216,6 +221,11 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Rings/Rings.vue' }],
         },
+        {
+          name: 'aurora',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Aurora/Aurora.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -301,6 +311,11 @@ export default defineConfig({
           name: 'rings',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Rings/Rings.svelte' }],
+        },
+        {
+          name: 'aurora',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Aurora/Aurora.svelte' }],
         },
         // gen:svelte-items
       ],

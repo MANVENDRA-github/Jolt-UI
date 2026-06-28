@@ -63,11 +63,12 @@ The first non-text category, built as two slices:
 
 ## Phase 6 — Fill the Backgrounds category — **in progress**
 
-More Three.js backgrounds, ~2 per PR on the proven Particles pattern (per-component slice + the factory pattern, DECISIONS D-028–D-032).
+More Three.js backgrounds on the proven Particles pattern (per-component slice + the factory pattern, DECISIONS D-028–D-033).
 
 - **6a — Waves + Dots** ✅: an undulating wireframe plane + a rippling point grid. Generalized `particles-core` → a shared **`webgl-core`** item (D-031), so adding a background is now just a new file in `webgl/`.
 - **6b — Globe + Rings** ✅: a rotating point-sphere (with a breathing pulse) + counter-rotating concentric rings. Also resolved the parity-harness WebGL-context limit — backgrounds now render on per-background isolated pages so only ~3 GL contexts are live at once, scaling to any number (D-032).
-- Next: more backgrounds (Aurora/shader, …). The harness now scales past the context cap, so it's no longer a blocker.
+- **6c — Aurora** ✅: the first **shader** background — a flowing aurora light-curtain in a custom-GLSL `ShaderMaterial` (the functional core becomes prop→uniform resolution; the GLSL is live-verified, D-033). Establishes the shader pattern.
+- Next: more backgrounds (more shaders now unlocked, or more CPU-vertex), then eventually new categories.
 
 ## Later (out of v1 scope)
 

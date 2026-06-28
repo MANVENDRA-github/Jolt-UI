@@ -15,4 +15,5 @@ export { Waves } from './components/Waves';
 export { Dots } from './components/Dots';
 export { Globe } from './components/Globe';
 export { Rings } from './components/Rings';
+export { Aurora } from './components/Aurora';
 // gen:exports
