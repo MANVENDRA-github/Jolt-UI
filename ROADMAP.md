@@ -68,7 +68,14 @@ More Three.js backgrounds on the proven Particles pattern (per-component slice +
 - **6a — Waves + Dots** ✅: an undulating wireframe plane + a rippling point grid. Generalized `particles-core` → a shared **`webgl-core`** item (D-031), so adding a background is now just a new file in `webgl/`.
 - **6b — Globe + Rings** ✅: a rotating point-sphere (with a breathing pulse) + counter-rotating concentric rings. Also resolved the parity-harness WebGL-context limit — backgrounds now render on per-background isolated pages so only ~3 GL contexts are live at once, scaling to any number (D-032).
 - **6c — Aurora** ✅: the first **shader** background — a flowing aurora light-curtain in a custom-GLSL `ShaderMaterial` (the functional core becomes prop→uniform resolution; the GLSL is live-verified, D-033). Establishes the shader pattern.
-- Next: more backgrounds (more shaders now unlocked, or more CPU-vertex), then eventually new categories.
+- Backgrounds is a solid 6-component category; more (shaders / CPU-vertex) can come later.
+
+## Phase 7 — Loaders (the 3rd category) — **in progress**
+
+CSS-only animated loaders across all three frameworks, on the proven shared-CSS distribution.
+
+- **7a — Spinner + Dot-Bounce + Bars** ✅: bootstrapped the `loader` category + a new **`GRAPHIC`** parity kind (non-text, non-canvas, pixel-compared CSS on the shared harness) + a `role="status"` a11y pattern (D-034). Loaders are hand-written (the scaffolder stays text-only).
+- Next: more loaders, or extend the `gen-component` scaffolder to non-text components / categories.
 
 ## Later (out of v1 scope)
 

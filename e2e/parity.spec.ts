@@ -37,7 +37,17 @@ const BACKGROUND: readonly string[] = [
   'aurora',
   // gen:background
 ];
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
+// Loaders (+ future non-text graphics) are self-animating CSS — no text, not a canvas — so
+// they're pixel-compared across frameworks like whole-text components but skip the text/segment
+// assertions. They live on this shared harness page (DOM, no WebGL-context limit). The freeze
+// below collapses their infinite keyframes to a deterministic, cross-framework-identical frame.
+const GRAPHIC: readonly string[] = [
+  'spinner',
+  'dot-bounce',
+  'bars',
+  // gen:graphic
+];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -51,7 +61,7 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // gen:no-pixel
 ];
 
-test('every text component renders identically across React, Vue, and Svelte', async ({ page }) => {
+test('every on-page component renders identically across React, Vue, and Svelte', async ({ page }) => {
   // The whole E2E run shares one cold Astro dev server across parallel workers; the first
   // loads trigger a Vite dep-optimization + hydration storm that can delay these GSAP
   // islands settling, so keep generous headroom over Playwright's 30s default (D-018).
@@ -97,33 +107,44 @@ test('every text component renders identically across React, Vue, and Svelte', a
 
   for (const id of COMPONENTS) {
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
+    const isGraphic = (GRAPHIC as readonly string[]).includes(id);
 
-    // DOM parity: every framework shows the same accessible text. Per-char
-    // components additionally expose it via aria-label + aria-hidden segments.
-    const texts: (string | null)[] = [];
-    for (const fw of FRAMEWORKS) {
-      const cell = page.locator(`[data-testid="${id}-${fw}"]`);
-      await expect(cell).toBeVisible();
-      // Read text from the element that carries it — the aria-label span for
-      // per-char components, the component's own span for whole-text — so a
-      // client:load island's inline hydration script never leaks into textContent.
-      const textEl = isPerChar
-        ? cell.locator(`[aria-label="${TEXT}"]`)
-        : cell.locator('span').first();
-      if (isPerChar) {
-        await expect(textEl).toBeVisible();
-        await expect(cell.locator('[data-jolt-segment]').first()).toBeVisible();
-      }
-      texts.push((await textEl.textContent())?.trim() ?? null);
-    }
-    expect(new Set(texts).size, `${id}: text differs: ${texts.join(' | ')}`).toBe(1);
-
-    if (isPerChar) {
-      const counts: number[] = [];
+    if (isGraphic) {
+      // Graphic (loader): no text — just assert every framework cell is visible; the
+      // pixel comparison below is the real cross-framework parity check.
       for (const fw of FRAMEWORKS) {
-        counts.push(await page.locator(`[data-testid="${id}-${fw}"] [data-jolt-segment]`).count());
+        await expect(page.locator(`[data-testid="${id}-${fw}"]`)).toBeVisible();
       }
-      expect(new Set(counts).size, `${id}: segment counts differ: ${counts.join(', ')}`).toBe(1);
+    } else {
+      // DOM parity: every framework shows the same accessible text. Per-char
+      // components additionally expose it via aria-label + aria-hidden segments.
+      const texts: (string | null)[] = [];
+      for (const fw of FRAMEWORKS) {
+        const cell = page.locator(`[data-testid="${id}-${fw}"]`);
+        await expect(cell).toBeVisible();
+        // Read text from the element that carries it — the aria-label span for
+        // per-char components, the component's own span for whole-text — so a
+        // client:load island's inline hydration script never leaks into textContent.
+        const textEl = isPerChar
+          ? cell.locator(`[aria-label="${TEXT}"]`)
+          : cell.locator('span').first();
+        if (isPerChar) {
+          await expect(textEl).toBeVisible();
+          await expect(cell.locator('[data-jolt-segment]').first()).toBeVisible();
+        }
+        texts.push((await textEl.textContent())?.trim() ?? null);
+      }
+      expect(new Set(texts).size, `${id}: text differs: ${texts.join(' | ')}`).toBe(1);
+
+      if (isPerChar) {
+        const counts: number[] = [];
+        for (const fw of FRAMEWORKS) {
+          counts.push(
+            await page.locator(`[data-testid="${id}-${fw}"] [data-jolt-segment]`).count(),
+          );
+        }
+        expect(new Set(counts).size, `${id}: segment counts differ: ${counts.join(', ')}`).toBe(1);
+      }
     }
 
     // Visual parity: each framework's cell matches React's within a small tolerance

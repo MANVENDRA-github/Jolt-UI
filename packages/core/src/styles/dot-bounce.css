@@ -1,0 +1,43 @@
+/* DotBounce — three CSS-only dots bouncing in sequence. The skin sets --jolt-color,
+   --jolt-size, --jolt-speed; the three dots are staggered via :nth-child delays. */
+@keyframes jolt-dot-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(calc(var(--jolt-size, 12px) * -1));
+    opacity: 1;
+  }
+}
+
+.jolt-dot-bounce {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--jolt-size, 12px) * 0.6);
+}
+
+.jolt-dot-bounce span {
+  display: block;
+  width: var(--jolt-size, 12px);
+  height: var(--jolt-size, 12px);
+  border-radius: 50%;
+  background: var(--jolt-color, #6d5efc);
+  animation: jolt-dot-bounce var(--jolt-speed, 1.2s) ease-in-out infinite;
+}
+.jolt-dot-bounce span:nth-child(2) {
+  animation-delay: calc(var(--jolt-speed, 1.2s) * 0.16);
+}
+.jolt-dot-bounce span:nth-child(3) {
+  animation-delay: calc(var(--jolt-speed, 1.2s) * 0.32);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-dot-bounce span {
+    animation: none;
+    opacity: 0.7;
+    transform: none;
+  }
+}

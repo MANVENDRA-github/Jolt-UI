@@ -1,0 +1,27 @@
+/* Spinner — a CSS-only rotating ring loader. Self-contained; the skin sets --jolt-color,
+   --jolt-size, --jolt-thickness, --jolt-speed. Only the top border is colored, so it reads
+   as a spinning arc. */
+@keyframes jolt-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.jolt-spinner {
+  display: inline-block;
+  box-sizing: border-box;
+  width: var(--jolt-size, 40px);
+  height: var(--jolt-size, 40px);
+  border: var(--jolt-thickness, 4px) solid transparent;
+  border-top-color: var(--jolt-color, #6d5efc);
+  border-radius: 50%;
+  animation: jolt-spinner var(--jolt-speed, 0.8s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-spinner {
+    animation: none;
+    border-color: var(--jolt-color, #6d5efc);
+    opacity: 0.5;
+  }
+}

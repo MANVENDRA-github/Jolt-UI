@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + Phase 5 + **PR 6a (Waves + Dots, #26) + PR 6b (Globe + Rings + per-background parity-harness isolation, #27) are merged to `main`**. **PR 6c — Aurora** — the **first shader background** (a custom-GLSL `ShaderMaterial`, D-033) — is **merged to `main` (#29)**: **6 backgrounds** now (Particles, Waves, Dots, Globe, Rings, Aurora); **14 components** total. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 7 — Loaders (the gallery's 3rd category).** v1 (Phases 0–4) + Phase 5 + **Phase 6 (a/b/c — 6 Three.js backgrounds incl. the Aurora shader) are merged to `main`**. **PR 7a — the Loaders category bootstrap + Spinner / Dot-Bounce / Bars** (a new `GRAPHIC` parity kind + a `role="status"` a11y pattern, D-034) is **complete and green** on `feat/phase-7a-loaders` (PR pending) — **3 categories, 17 components**. *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**212 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 18 items/framework) · `pnpm build` (29 pages, 21 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**16 component items**, incl. the 6 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: text parity + a per-background isolation test over all 6 backgrounds + install + SEO + docs + search + components-nav) green. Aurora live-verified in a real browser (frame-diff ~38k; reduced-motion static; SSR clean; **zero console errors** — the shader compiles). (Phases 0–5 + 6a–6c on `main`. CI green on every PR.)
+- **Health:** `pnpm verify` green (**230 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant, 21 items/framework) · `pnpm build` (32 pages, Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**19 component items**, incl. the 6 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**15 tests**: on-page parity — text + the 3 loaders pixel-compared via the new `GRAPHIC` kind — + a per-background isolation test over 6 backgrounds + install + SEO + docs + search + components-nav) green. The 3 loaders live-verified in a real browser (animate; reduced-motion static; `role="status"`; Loaders nav + index render; no console errors). (Phases 0–6 on `main`; PR 7a pending. CI green on every PR.)
 
 ## How to resume
 
@@ -65,6 +65,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - **Parity-harness WebGL contexts — RESOLVED in PR 6b (D-032):** backgrounds no longer share `/internal/parity`; each renders on its own `apps/site/src/pages/internal/parity-bg/<id>.astro` page, and the background test visits them one at a time (`context.newPage()` → assert → `page.close()`), so **only ~3 GL contexts are live at once regardless of how many backgrounds exist** — closing the page frees them deterministically (a plain shared-page `goto` loop can leave contexts in Chromium's bfcache). The old ~16-context cap is no longer a constraint.
 
 ## Session log
+
+### 2026-06-29 — Phase 7 PR 7a: Loaders (the 3rd category) — Spinner + Dot-Bounce + Bars
+
+The gallery's **third category**, bootstrapped with its first three loaders. A loader is a new component kind — self-animating CSS, **no text**, **not a canvas**. One branch `feat/phase-7a-loaders`; PR pending.
+
+- **Bootstrap (D-034):** added a `'loader'` entry to `categories.ts` (the sub-nav + a11y-docs table auto-derive from metas), and a new **`GRAPHIC`** parity kind in `e2e/parity.spec.ts` — pixel-compared across frameworks like a whole-text component but skipping the text/segment asserts, on the **shared** `/internal/parity` page (DOM, no WebGL-context limit). The existing animation freeze already collapses the loaders' infinite keyframes to a deterministic, cross-framework-identical frame (D-015). The `/components` index is hand-written per category, so its Loaders `<section>` was added manually.
+- **Three loaders** (hand-written from the ShinyText CSS slice — the scaffolder stays text-only): **Spinner** (rotating ring), **Dot-Bounce** (three bouncing dots), **Bars** (five equalizer bars). Each: a `.describe()`'d schema (`color`/`size`/`speed`/`label`, +`thickness` for spinner) + shared `styles/<id>.css` (keyframes + reduced-motion static) + 3 skins rendering `<div role="status" aria-label={label}>` with `--jolt-*` (no `client:` directive — pure CSS) + 3 skin tests (role=status + aria-label + var mapping, test-first red→green). Ids avoid the `dots` background collision.
+- **a11y:** `role="status"` + a configurable `label` (default "Loading…") — a third a11y shape beside text and backgrounds. The a11y-docs table auto-lists them.
+- **Live-verified** (real browser): each loader animates (frame-diff > 0), reduced-motion is static (diff 0), `role="status"` present, the Components sub-nav + index show **Loaders**, no console errors.
+
+Green local: `pnpm verify` (**230 vitest + 45 test:gen** + registry:check, 21 items/fw) · `pnpm build` (32 pages) + `pnpm test:dist` · `pnpm test:cli` (19 component items) · `pnpm test:e2e` (15 tests — the loaders pixel-compared via `GRAPHIC`). On `feat/phase-7a-loaders`; PR pending. Decision **D-034**. (PR 6c merged as #29.)
 
 ### 2026-06-29 — Phase 6 PR 6c: Aurora (first shader background)
 
