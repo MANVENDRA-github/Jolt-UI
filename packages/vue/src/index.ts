@@ -12,4 +12,6 @@ export { ScrollVelocity } from './components/ScrollVelocity';
 export { Particles } from './components/Particles';
 export { Waves } from './components/Waves';
 export { Dots } from './components/Dots';
+export { Globe } from './components/Globe';
+export { Rings } from './components/Rings';
 // gen:exports

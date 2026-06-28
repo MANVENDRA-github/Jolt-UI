@@ -120,6 +120,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Dots/Dots.tsx' }],
         },
+        {
+          name: 'globe',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Globe/Globe.tsx' }],
+        },
+        {
+          name: 'rings',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Rings/Rings.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -196,6 +206,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Dots/Dots.vue' }],
         },
+        {
+          name: 'globe',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Globe/Globe.vue' }],
+        },
+        {
+          name: 'rings',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Rings/Rings.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -271,6 +291,16 @@ export default defineConfig({
           name: 'dots',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Dots/Dots.svelte' }],
+        },
+        {
+          name: 'globe',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Globe/Globe.svelte' }],
+        },
+        {
+          name: 'rings',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Rings/Rings.svelte' }],
         },
         // gen:svelte-items
       ],

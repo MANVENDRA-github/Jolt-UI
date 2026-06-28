@@ -92,4 +92,25 @@ export declare const Dots: DefineComponent<{
   speed?: number;
   opacity?: number;
 }>;
+export declare const Globe: DefineComponent<{
+  color?: string;
+  count?: number;
+  size?: number;
+  radius?: number;
+  speed?: number;
+  amplitude?: number;
+  frequency?: number;
+  opacity?: number;
+}>;
+export declare const Rings: DefineComponent<{
+  color?: string;
+  ringCount?: number;
+  pointsPerRing?: number;
+  spacing?: number;
+  size?: number;
+  speed?: number;
+  amplitude?: number;
+  frequency?: number;
+  opacity?: number;
+}>;
 // gen:shims

@@ -25,14 +25,18 @@ const WHOLE_TEXT = [
 // (GPU/timing dependent), so they can't be text- or pixel-compared. Parity is
 // structural: every framework mounts a <canvas> inside an aria-hidden container. The
 // anti-drift guarantee is that all three skins call the one shared core factory, so
-// the canvas can't diverge (D-029).
+// the canvas can't diverge (D-029). Each background gets its OWN harness page so only
+// 3 live WebGL contexts exist at once — the second test below visits them one at a time
+// and closes each page, staying under Chromium's ~16-context cap (D-032).
 const BACKGROUND: readonly string[] = [
   'particles',
   'waves',
   'dots',
+  'globe',
+  'rings',
   // gen:background
 ];
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...BACKGROUND];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -46,10 +50,11 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // gen:no-pixel
 ];
 
-test('every component renders identically across React, Vue, and Svelte', async ({ page }) => {
-  // The harness mounts several WebGL canvases (3 per background); each renderer's init
-  // (GL context + shader compile) adds up, so give this heavy cross-framework test
-  // generous headroom over Playwright's 30s default.
+test('every text component renders identically across React, Vue, and Svelte', async ({ page }) => {
+  // The whole E2E run shares one cold Astro dev server across parallel workers; the first
+  // loads trigger a Vite dep-optimization + hydration storm that can delay these GSAP
+  // islands settling, so keep generous headroom over Playwright's 30s default (D-018).
+  // (WebGL backgrounds moved to their own isolated pages — see the next test, D-032.)
   test.setTimeout(90_000);
   await page.goto('/internal/parity');
 
@@ -82,24 +87,14 @@ test('every component renders identically across React, Vue, and Svelte', async 
   // honored the factory jumps to final instantly; if not, the real tween still
   // finishes here. By then SplitText (~0.8s) and Scramble (1.5s) are done too.
   // Generous timeout: a cold dev server (CI always starts cold) re-optimizes deps on
-  // first load — now including three's ~700KB — which delays first-island hydration
-  // past the old 8s (D-018). A warm cache settles in well under a second.
+  // first load and several spec files hydrate in parallel against it, which can starve
+  // this 2s tween's rAF and delay first-island hydration well past the old 8s (D-018).
+  // A warm cache settles in well under a second.
   await expect(page.locator('[data-testid="count-up-svelte"] span').first()).toHaveText('100', {
-    timeout: 20000,
+    timeout: 30000,
   });
 
   for (const id of COMPONENTS) {
-    if (BACKGROUND.includes(id)) {
-      // Structural parity for a WebGL background: every framework mounts a <canvas>
-      // inside an aria-hidden container. No text or pixel comparison.
-      for (const fw of FRAMEWORKS) {
-        const cell = page.locator(`[data-testid="${id}-${fw}"]`);
-        await expect(cell.locator('[aria-hidden="true"]')).toBeVisible();
-        await expect(cell.locator('canvas')).toBeVisible();
-      }
-      continue;
-    }
-
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
 
     // DOM parity: every framework shows the same accessible text. Per-char
@@ -152,6 +147,29 @@ test('every component renders identically across React, Vue, and Svelte', async 
         });
         expect(mismatched / (base.width * base.height), `${id}: react vs ${fw}`).toBeLessThan(0.03);
       }
+    }
+  }
+});
+
+test('every background mounts a canvas across React, Vue, and Svelte', async ({ context }) => {
+  // Each background has its own harness page (3 cells = 3 WebGL contexts). Visiting them
+  // with a fresh page we then close() keeps ≤3 contexts live at any moment — deterministic
+  // and bfcache-proof — so the harness scales past Chromium's ~16-context cap (D-032). The
+  // first page pays three's (~700KB) cold Vite dep-optimization, hence the headroom.
+  test.setTimeout(60_000);
+  for (const id of BACKGROUND) {
+    const page = await context.newPage();
+    try {
+      await page.goto(`/internal/parity-bg/${id}`);
+      // Structural parity: every framework mounts a <canvas> inside an aria-hidden
+      // container. No text or pixel comparison (D-029).
+      for (const fw of FRAMEWORKS) {
+        const cell = page.locator(`[data-testid="${id}-${fw}"]`);
+        await expect(cell.locator('[aria-hidden="true"]')).toBeVisible({ timeout: 20000 });
+        await expect(cell.locator('canvas')).toBeVisible({ timeout: 20000 });
+      }
+    } finally {
+      await page.close();
     }
   }
 });

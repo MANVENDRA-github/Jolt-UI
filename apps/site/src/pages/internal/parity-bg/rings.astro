@@ -1,0 +1,17 @@
+---
+// Internal E2E harness — one WebGL background, three frameworks, on its OWN page so
+// only 3 live WebGL contexts exist per page load. The parity spec visits one of these
+// per background (newPage/close) to stay under Chromium's context cap (D-032).
+import Base from '../../../layouts/Base.astro';
+import { Rings as RRings } from '@jolt/react';
+import { Rings as VRings } from '@jolt/vue';
+import { Rings as SRings } from '@jolt/svelte';
+---
+
+<Base title="parity harness — rings" noindex>
+  <div class="space-y-6">
+    <div data-testid="rings-react" class="relative h-40 w-64"><RRings client:load /></div>
+    <div data-testid="rings-vue" class="relative h-40 w-64"><VRings client:load /></div>
+    <div data-testid="rings-svelte" class="relative h-40 w-64"><SRings client:load /></div>
+  </div>
+</Base>

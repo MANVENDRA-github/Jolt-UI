@@ -93,4 +93,25 @@ export declare const Dots: (props: {
   speed?: number;
   opacity?: number;
 }) => unknown;
+export declare const Globe: (props: {
+  color?: string;
+  count?: number;
+  size?: number;
+  radius?: number;
+  speed?: number;
+  amplitude?: number;
+  frequency?: number;
+  opacity?: number;
+}) => unknown;
+export declare const Rings: (props: {
+  color?: string;
+  ringCount?: number;
+  pointsPerRing?: number;
+  spacing?: number;
+  size?: number;
+  speed?: number;
+  amplitude?: number;
+  frequency?: number;
+  opacity?: number;
+}) => unknown;
 // gen:shims
