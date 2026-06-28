@@ -1,0 +1,75 @@
+---
+// Pagefind's index + UI live only in the production build (dist/pagefind/, generated
+// by the build integration). In dev there's no index, so the loader feature-detects
+// and bails, leaving an empty, inert container — search is a production feature.
+---
+
+<div id="jolt-search" class="jolt-search"></div>
+
+<script>
+  type PagefindUICtor = new (opts: {
+    element: string;
+    showSubResults?: boolean;
+    showImages?: boolean;
+  }) => void;
+
+  async function initSearch() {
+    const el = document.getElementById('jolt-search');
+    if (!el || el.dataset.ready) return;
+    try {
+      const probe = await fetch('/pagefind/pagefind-ui.js', { method: 'HEAD' });
+      if (!probe.ok) return; // not built (dev) — degrade silently
+    } catch {
+      return;
+    }
+    el.dataset.ready = '1';
+
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = '/pagefind/pagefind-ui.css';
+    document.head.appendChild(css);
+
+    await new Promise<void>((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = '/pagefind/pagefind-ui.js';
+      s.addEventListener('load', () => resolve());
+      s.addEventListener('error', () => reject(new Error('pagefind-ui failed to load')));
+      document.body.appendChild(s);
+    });
+
+    const PagefindUI = (window as unknown as { PagefindUI?: PagefindUICtor }).PagefindUI;
+    if (PagefindUI) {
+      new PagefindUI({ element: '#jolt-search', showSubResults: true, showImages: false });
+    }
+  }
+  initSearch();
+</script>
+
+<style>
+  .jolt-search {
+    position: relative;
+    width: 13rem;
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-background: var(--jolt-surface);
+    --pagefind-ui-text: var(--jolt-text);
+    --pagefind-ui-primary: var(--color-jolt-accent, #6d5efc);
+    --pagefind-ui-border: rgba(255, 255, 255, 0.15);
+    --pagefind-ui-tag: rgba(255, 255, 255, 0.08);
+  }
+  /* Float the results over the page instead of pushing the sticky nav down. */
+  .jolt-search :global(.pagefind-ui__drawer) {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    width: 24rem;
+    max-width: 80vw;
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0.5rem;
+    background: var(--jolt-surface);
+    padding: 0.5rem 0.75rem;
+    z-index: 30;
+  }
+</style>

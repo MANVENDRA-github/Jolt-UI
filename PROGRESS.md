@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PRs **4a + 4b** are **merged to `main`** (#18, #19). PR **4c (Accessibility + Contributing docs — the a11y table generated from every component's `meta`)** is **complete and green** on `feat/phase-4c-docs` (PR pending). **Next: PR 4d — Pagefind search.** Remaining: 4e (deploy — CF Pages + `_headers` + finalize the origin; needs the user's CF project). Phases 0–3 + 4a–4b merged to `main`.
+- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PRs **4a–4c** are **merged to `main`** (#18, #19, #20). PR **4d (Pagefind search — build-time index, prod-only)** is **complete and green** on `feat/phase-4d-search` (PR pending). **Next: PR 4e — deploy (CF Pages + `_headers` + finalize the origin; needs the user's CF project) — the last Phase-4 slice.** Phases 0–3 + 4a–4c merged to `main`.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 30 files) · `pnpm build` (17 pages) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (10 specs: parity all 10 + install + SEO + docs) green. (Phases 0–3 + 4a–4b on `main`; PR 4c on `feat/phase-4c-docs`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 32 files) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` (incl. the Pagefind index) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (11 specs: parity all 10 + install + SEO + docs + search) green. (Phases 0–3 + 4a–4c on `main`; PR 4d on `feat/phase-4d-search`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,17 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 4 PR 4d: Pagefind search (prod-only)
+
+Added site search.
+
+- **Pagefind** indexes the production build: an Astro integration (`apps/site/src/integrations/pagefind.ts`) runs the Pagefind CLI at `astro:build:done` over `dist/` (16 pages indexed; the `noindex` parity harness excluded). The CLI also emits the default UI, so no extra UI dep.
+- **`Search.astro`** (rendered in the Nav) feature-detects `/pagefind/pagefind-ui.js` (a HEAD probe) and loads the UI + inits `PagefindUI` only when present — so `astro dev` (no index) degrades to an inert empty container; **search is a production feature**. Themed via Pagefind's CSS vars; results float over the page.
+- **Indexing scope:** `Base.astro`'s `<main>` carries `data-pagefind-body` for non-`noindex` pages; Nav/Footer are `data-pagefind-ignore`; removed `DocsLayout`'s now-redundant inner marker.
+- `scripts/dist-check.mjs` asserts the built index + `data-pagefind-body`; `e2e/search.spec.ts` asserts the container is wired into the nav. (D-025.)
+
+Green local: `pnpm verify` (**128 vitest + 45 test:gen** + registry:check, astro check 32 files) · `pnpm build` (17 pages, 16 indexed) + `pnpm test:dist` · `pnpm test:cli` · `pnpm test:e2e` (11 specs). On `feat/phase-4d-search`; PR pending. **Next: PR 4e — deploy (needs the CF Pages project).**
 
 ### 2026-06-28 — Phase 4 PR 4c: Accessibility + Contributing docs
 

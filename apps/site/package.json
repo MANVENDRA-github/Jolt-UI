@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/react": "^19",
-    "@types/react-dom": "^19"
+    "@types/react-dom": "^19",
+    "pagefind": "^1.5.2"
   }
 }
