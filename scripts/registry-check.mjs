@@ -37,16 +37,16 @@ for (const fw of FRAMEWORKS) {
   const coreTests = hasTests(core.files);
   if (coreTests.length) fail(`${fw}: test files in core: ${coreTests.join(', ')}`);
 
-  // Three.js isolation (D-028): `three` ships no types and is heavy, so it must be a
-  // dependency of ONLY the `particles-core` item — never the monolithic `core` that
-  // every component pulls (that would break all CSS/GSAP consumers' typecheck).
+  // Three.js isolation (D-028 + D-031): `three` ships no types and is heavy, so it must
+  // be a dependency of ONLY the shared `webgl-core` item — never the monolithic `core`
+  // that every component pulls (that would break all CSS/GSAP consumers' typecheck).
   const dependsOnThree = (block) => (block?.dependencies ?? []).some((d) => d.name === 'three');
   if (dependsOnThree(core)) {
     fail(`${fw}: core must not depend on three (it would reach every component)`);
   }
-  const particlesCore = read('particles-core.json');
-  if (particlesCore && !dependsOnThree(particlesCore)) {
-    fail(`${fw}: particles-core must declare the three dependency`);
+  const webglCore = read('webgl-core.json');
+  if (webglCore && !dependsOnThree(webglCore)) {
+    fail(`${fw}: webgl-core must declare the three dependency`);
   }
 
   const components = (manifest.items ?? []).filter((i) => i.type === 'component');

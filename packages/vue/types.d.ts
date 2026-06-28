@@ -75,4 +75,21 @@ export declare const Particles: DefineComponent<{
   spread?: number;
   opacity?: number;
 }>;
+export declare const Waves: DefineComponent<{
+  color?: string;
+  amplitude?: number;
+  frequency?: number;
+  speed?: number;
+  density?: number;
+  opacity?: number;
+}>;
+export declare const Dots: DefineComponent<{
+  color?: string;
+  count?: number;
+  size?: number;
+  amplitude?: number;
+  frequency?: number;
+  speed?: number;
+  opacity?: number;
+}>;
 // gen:shims

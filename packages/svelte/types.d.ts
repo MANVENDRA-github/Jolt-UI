@@ -76,4 +76,21 @@ export declare const Particles: (props: {
   spread?: number;
   opacity?: number;
 }) => unknown;
+export declare const Waves: (props: {
+  color?: string;
+  amplitude?: number;
+  frequency?: number;
+  speed?: number;
+  density?: number;
+  opacity?: number;
+}) => unknown;
+export declare const Dots: (props: {
+  color?: string;
+  count?: number;
+  size?: number;
+  amplitude?: number;
+  frequency?: number;
+  speed?: number;
+  opacity?: number;
+}) => unknown;
 // gen:shims

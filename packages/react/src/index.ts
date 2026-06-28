@@ -11,4 +11,6 @@ export { CountUp } from './components/CountUp';
 export { Scramble } from './components/Scramble';
 export { ScrollVelocity } from './components/ScrollVelocity';
 export { Particles } from './components/Particles';
+export { Waves } from './components/Waves';
+export { Dots } from './components/Dots';
 // gen:exports

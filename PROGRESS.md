@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 5 — Backgrounds category (Three.js).** v1 (Phases 0–4, incl. 4e = #22) is **complete + merged to `main`**. Both Phase-5 slices are **complete and green** (PRs pending): **5a — category infrastructure** on `feat/phase-5a-category-nav` (PR #23), and **5b — the Particles (Three.js) WebGL vertical slice** on `feat/phase-5b-particles` (**stacked on 5a — merge 5a first**). The Backgrounds category is now live with one component; **the next backgrounds drop into the proven pipeline** (registry `three`-isolation + non-text canvas parity + the Three.js factory pattern). *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
+- **Current phase:** **Phase 6 — filling the Backgrounds category (Three.js).** v1 (Phases 0–4) + **Phase 5 (Backgrounds: PRs #23 + #25) are merged to `main`** — 11 components, Particles the first WebGL background. **PR 6a — Waves + Dots** (two more Three.js backgrounds + the shared `webgl-core` generalization, D-031) is **complete and green** on `feat/phase-6a-waves-dots` (PR pending). *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**148 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant) · `pnpm build` (18 pages, 17 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**11 components**, incl. Particles bundling `particles-core` + `three`) · `pnpm test:e2e` (**14 specs**: parity all 11 incl. the WebGL canvas + install + SEO + docs + search + components-nav) green. (Phases 0–4 on `main`; PRs 5a/5b pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**169 vitest + 45 `test:gen`** + registry:check incl. the `three`-isolation invariant) · `pnpm build` (20 pages, 19 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (**13 components**, incl. the 3 backgrounds bundling `webgl-core` + `three`) · `pnpm test:e2e` (**14 specs**: parity all 13 incl. 9 WebGL canvases + install + SEO + docs + search + components-nav) green. (Phases 0–5 on `main`; PR 6a pending. CI green on every PR.)
 
 ## How to resume
 
@@ -62,8 +62,20 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - **Dual Vite:** the site + all type-checks resolve **Vite 6** (single, correct). vitest's internal `@vitest/mocker` still pulls **Vite 7** (auto-installed peer that pnpm `overrides` doesn't constrain). Harmless — isolated to the test runner; build + `astro check` + tests are green. Revisit when Astro/vitest align on one Vite major, or pin via a different mechanism. See `DECISIONS.md` D-007.
 - **Hand-written type shims:** `packages/vue/types.d.ts` and `packages/svelte/types.d.ts` declare the public component types by hand so `astro check` can type cross-package `.vue`/`.svelte` imports. Replace with generated types when a build step is added. See `DECISIONS.md` D-006.
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
+- **Parity-harness WebGL contexts:** each background mounts 3 `<canvas>` cells in `/internal/parity` (9 today; reduced-motion → one static frame each). Chromium caps live WebGL contexts (~16), so **beyond ~4–5 backgrounds** the shared harness needs per-background isolation (a separate page or teardown). The parity test timeout is 90s for the init cost. See `DECISIONS.md` D-031.
 
 ## Session log
+
+### 2026-06-29 — Phase 6 PR 6a: Waves + Dots (two more Three.js backgrounds)
+
+Started Phase 6 — filling the Backgrounds category. Two new backgrounds on the proven Particles pattern, plus the one-time registry generalization the 2nd+ background needed.
+
+- **Waves** (`webgl/waves.ts`): an undulating wireframe plane (`PlaneGeometry` vertices displaced by a traveling sine each frame). **Dots** (`webgl/dots.ts`): a grid of points rippling radially from the center. Both use the functional-core / imperative-shell split (jsdom-tested field math in `webgl/<id>-field.ts`; the WebGL shell guards SSR/jsdom, disposes all GPU resources, reduced-motion → static), with 3 aria-hidden skins importing the factory via the `@jolt/core/webgl/<id>` subpath.
+- **`particles-core` → shared `webgl-core`** (D-031): all background factories live in one registry item (glob `webgl/!(*.test).ts`); one wildcard export `"./webgl/*"` resolves every subpath. `three` still reaches only backgrounds, and adding one is just a new file in `webgl/` — no new registry item. `registry-check` asserts `three ∉ core ∧ three ∈ webgl-core`; `cli-smoke` proves Waves/Dots bundle `webgl-core` + `three` and type-check.
+- Parity gained a canvas check per background (9 WebGL canvases now — test timeout bumped to 90s for the init cost; a scaling note for >4 backgrounds is in the watch-list).
+- **Live-verified** (real browser): both demos animate (Waves frame-diff ~28.8k, Dots ~12.9k); SSR emits the aria-hidden container with no server canvas; no console errors.
+
+Green local: `pnpm verify` (**169 vitest + 45 test:gen** + registry:check) · `pnpm build` (20 pages) + `pnpm test:dist` · `pnpm test:cli` (13 components) · `pnpm test:e2e` (14 specs). On `feat/phase-6a-waves-dots`; PR pending. Decision **D-031**. (Phase 5 PRs #23 + #25 merged to `main`.)
 
 ### 2026-06-28 — Phase 5 PR 5b: Particles (Three.js) — first Backgrounds component
 

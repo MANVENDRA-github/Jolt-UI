@@ -14,6 +14,8 @@ import {
   Scramble as RScramble,
   ScrollVelocity as RScrollVel,
   Particles as RParticles,
+  Waves as RWaves,
+  Dots as RDots,
   // gen:react
 } from '@jolt/react';
 import {
@@ -28,6 +30,8 @@ import {
   Scramble as VScramble,
   ScrollVelocity as VScrollVel,
   Particles as VParticles,
+  Waves as VWaves,
+  Dots as VDots,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -42,6 +46,8 @@ import {
   Scramble as SScramble,
   ScrollVelocity as SScrollVel,
   Particles as SParticles,
+  Waves as SWaves,
+  Dots as SDots,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -83,6 +89,12 @@ const TEXT = 'Jolt UI';
     <div data-testid="particles-react" class="relative h-40 w-64"><RParticles client:load /></div>
     <div data-testid="particles-vue" class="relative h-40 w-64"><VParticles client:load /></div>
     <div data-testid="particles-svelte" class="relative h-40 w-64"><SParticles client:load /></div>
+    <div data-testid="waves-react" class="relative h-40 w-64"><RWaves client:load /></div>
+    <div data-testid="waves-vue" class="relative h-40 w-64"><VWaves client:load /></div>
+    <div data-testid="waves-svelte" class="relative h-40 w-64"><SWaves client:load /></div>
+    <div data-testid="dots-react" class="relative h-40 w-64"><RDots client:load /></div>
+    <div data-testid="dots-vue" class="relative h-40 w-64"><VDots client:load /></div>
+    <div data-testid="dots-svelte" class="relative h-40 w-64"><SDots client:load /></div>
     {/* gen:cells */}
   </div>
 </Base>

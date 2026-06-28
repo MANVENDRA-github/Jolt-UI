@@ -12,6 +12,8 @@ import {
   Scramble,
   ScrollVelocity,
   Particles,
+  Waves,
+  Dots,
   // gen:card-import
 } from '@jolt/react';
 
@@ -100,6 +102,20 @@ const blurb = 'text-xs opacity-60';
         </div>
         <div class={name}>Particles</div>
         <div class={blurb}>Drifting WebGL point field (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/waves" class={card}>
+        <div class="relative h-20 overflow-hidden rounded-md border border-white/10 bg-black/20">
+          <Waves client:visible />
+        </div>
+        <div class={name}>Waves</div>
+        <div class={blurb}>Undulating wireframe plane (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/dots" class={card}>
+        <div class="relative h-20 overflow-hidden rounded-md border border-white/10 bg-black/20">
+          <Dots client:visible />
+        </div>
+        <div class={name}>Dots</div>
+        <div class={blurb}>Rippling grid of points (Three.js)</div>
       </a>
     </div>
   </section>
