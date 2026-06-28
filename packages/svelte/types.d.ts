@@ -121,4 +121,23 @@ export declare const Aurora: (props: {
   scale?: number;
   opacity?: number;
 }) => unknown;
+export declare const Spinner: (props: {
+  color?: string;
+  size?: number;
+  thickness?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
+export declare const DotBounce: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
+export declare const Bars: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
 // gen:shims

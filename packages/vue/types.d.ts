@@ -120,4 +120,23 @@ export declare const Aurora: DefineComponent<{
   scale?: number;
   opacity?: number;
 }>;
+export declare const Spinner: DefineComponent<{
+  color?: string;
+  size?: number;
+  thickness?: number;
+  speed?: number;
+  label?: string;
+}>;
+export declare const DotBounce: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}>;
+export declare const Bars: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}>;
 // gen:shims

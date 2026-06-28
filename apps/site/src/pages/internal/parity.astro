@@ -13,6 +13,9 @@ import {
   CountUp as RCount,
   Scramble as RScramble,
   ScrollVelocity as RScrollVel,
+  Spinner as RSpinner,
+  DotBounce as RDotBounce,
+  Bars as RBars,
   // gen:react
 } from '@jolt/react';
 import {
@@ -26,6 +29,9 @@ import {
   CountUp as VCount,
   Scramble as VScramble,
   ScrollVelocity as VScrollVel,
+  Spinner as VSpinner,
+  DotBounce as VDotBounce,
+  Bars as VBars,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -39,6 +45,9 @@ import {
   CountUp as SCount,
   Scramble as SScramble,
   ScrollVelocity as SScrollVel,
+  Spinner as SSpinner,
+  DotBounce as SDotBounce,
+  Bars as SBars,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -77,6 +86,15 @@ const TEXT = 'Jolt UI';
     <div data-testid="scroll-velocity-react"><RScrollVel text={TEXT} client:load /></div>
     <div data-testid="scroll-velocity-vue"><VScrollVel text={TEXT} client:load /></div>
     <div data-testid="scroll-velocity-svelte"><SScrollVel text={TEXT} client:load /></div>
+    <div data-testid="spinner-react"><RSpinner /></div>
+    <div data-testid="spinner-vue"><VSpinner /></div>
+    <div data-testid="spinner-svelte"><SSpinner /></div>
+    <div data-testid="dot-bounce-react"><RDotBounce /></div>
+    <div data-testid="dot-bounce-vue"><VDotBounce /></div>
+    <div data-testid="dot-bounce-svelte"><SDotBounce /></div>
+    <div data-testid="bars-react"><RBars /></div>
+    <div data-testid="bars-vue"><VBars /></div>
+    <div data-testid="bars-svelte"><SBars /></div>
     {/* gen:cells */}
   </div>
 </Base>

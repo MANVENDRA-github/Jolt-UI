@@ -117,6 +117,9 @@ const COMPONENTS_TO_ADD = [
   'globe',
   'rings',
   'aurora',
+  'spinner',
+  'dot-bounce',
+  'bars',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -153,6 +156,9 @@ const CSS_SKINS = [
   ['ShinyText.tsx', 'shiny-text.css'],
   ['Typewriter.tsx', 'typewriter.css'],
   ['RotatingWords.tsx', 'rotating-words.css'],
+  ['Spinner.tsx', 'spinner.css'],
+  ['DotBounce.tsx', 'dot-bounce.css'],
+  ['Bars.tsx', 'bars.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

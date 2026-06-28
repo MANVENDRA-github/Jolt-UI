@@ -16,4 +16,7 @@ export { Dots } from './components/Dots';
 export { Globe } from './components/Globe';
 export { Rings } from './components/Rings';
 export { Aurora } from './components/Aurora';
+export { Spinner } from './components/Spinner';
+export { DotBounce } from './components/DotBounce';
+export { Bars } from './components/Bars';
 // gen:exports

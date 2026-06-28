@@ -135,6 +135,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Aurora/Aurora.tsx' }],
         },
+        {
+          name: 'spinner',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Spinner/Spinner.tsx' }],
+        },
+        {
+          name: 'dot-bounce',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/DotBounce/DotBounce.tsx' }],
+        },
+        {
+          name: 'bars',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Bars/Bars.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -226,6 +241,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Aurora/Aurora.vue' }],
         },
+        {
+          name: 'spinner',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Spinner/Spinner.vue' }],
+        },
+        {
+          name: 'dot-bounce',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/DotBounce/DotBounce.vue' }],
+        },
+        {
+          name: 'bars',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Bars/Bars.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -316,6 +346,21 @@ export default defineConfig({
           name: 'aurora',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Aurora/Aurora.svelte' }],
+        },
+        {
+          name: 'spinner',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Spinner/Spinner.svelte' }],
+        },
+        {
+          name: 'dot-bounce',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/DotBounce/DotBounce.svelte' }],
+        },
+        {
+          name: 'bars',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Bars/Bars.svelte' }],
         },
         // gen:svelte-items
       ],

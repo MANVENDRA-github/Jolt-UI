@@ -45,4 +45,10 @@ export { ringsSchema, ringsMeta } from './schemas/rings';
 export type { RingsProps, RingsOptions } from './schemas/rings';
 export { auroraSchema, auroraMeta } from './schemas/aurora';
 export type { AuroraProps, AuroraOptions } from './schemas/aurora';
+export { spinnerSchema, spinnerMeta } from './schemas/spinner';
+export type { SpinnerProps } from './schemas/spinner';
+export { dotBounceSchema, dotBounceMeta } from './schemas/dot-bounce';
+export type { DotBounceProps } from './schemas/dot-bounce';
+export { barsSchema, barsMeta } from './schemas/bars';
+export type { BarsProps } from './schemas/bars';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line
