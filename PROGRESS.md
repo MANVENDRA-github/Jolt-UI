@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 3 IN PROGRESS — Registry & copy-paste UX + scaffolder.** PR **3a (install tabs + dependency/peer badges, single-source via `installInfo` + `InstallBlock.astro`)** is **complete and green** on `feat/phase-3a-install-info` (PR pending). **Next: PR 3b — the `gen-component.mjs` scaffolder** (see **“Next session — start here”** below). Phases 0–2 merged to `main`: 10 Text-Animation components across all three patterns + the `/components` index (PRs #1–#13). The per-component playbook is in **“Component playbook.”**
+- **Current phase:** **Phase 3 COMPLETE (pending merges) — Registry & copy-paste UX + scaffolder.** Both slices are done + green on feature branches (PRs pending): **3a** — install tabs + dependency/peer badges, single-source via `installInfo` + `InstallBlock.astro` (`feat/phase-3a-install-info`, PR #15); **3b** — the `gen-component.mjs` scaffolder (`feat/phase-3b-scaffolder`, **stacked on 3a**). **Next: Phase 4 (Deploy + docs + SEO)**; a GSAP-scaffolding follow-up is noted in “Next session.” Phases 0–2 merged to `main` (PRs #1–#13).
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**123 tests** + registry:check, astro check 20 files) · `pnpm test:cli` (adds all 10 components → consumer typechecks) · `pnpm test:e2e` (parity across all 10 + the install-UX specs) green. (Phases 0–2 on `main`; PR 3a on `feat/phase-3a-install-info`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**123 vitest + 45 `test:gen`** + registry:check, astro check 20 files) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install-UX specs) green. (Phases 0–2 on `main`; 3a on `feat/phase-3a-install-info` (PR #15), 3b on `feat/phase-3b-scaffolder` stacked on 3a — both PRs pending. CI green on every PR.)
 
 ## How to resume
 
@@ -22,13 +22,13 @@ pnpm dev           # site: '/components' index + '/components/<id>' demos (…, 
 
 Then open `ROADMAP.md` → Phase 3, and `COMPONENT_GUIDE.md` for the add-a-component steps.
 
-## Next session — start here (Phase 3 — PR 3b: the scaffolder)
+## Next session — start here (Phase 4, after the Phase-3 PRs merge)
 
-Phase 3 PR **3a (install UX) is complete and green** on `feat/phase-3a-install-info`: install tabs + dependency/peer badges on every component page, all derived from each component's `meta` via the new `installInfo` core helper + `InstallBlock.astro` (no per-page drift; D-020). **Next is PR 3b — the `gen-component.mjs` scaffolder.** To resume:
+Phase 3 is **done** — both slices green on feature branches (PRs pending merge): **3a** install UX (`feat/phase-3a-install-info`, PR #15) and **3b** the `gen-component.mjs` scaffolder (`feat/phase-3b-scaffolder`, **stacked on 3a**). To resume:
 
-1. Ensure 3a is merged (or continue on its branch); run the **How to resume** gates above (expect all green).
-2. Build **`scripts/gen-component.mjs`** per the approved plan (`C:\Users\mksin\.claude\plans\ok-so-lets-start-lazy-lightning.md`): contract-driven (`scripts/contracts/<id>.mjs`), with a **functional core** (`scripts/gen/{contract,emit,edits}.mjs`, unit-tested via a new `test:gen` wired into `verify`) + a thin shell. It stamps the full per-component slice and applies **idempotent anchor-marker** edits to the ~8 central files (core/index, the 3 package indexes, vue/svelte shims, `jsrepo.config.ts` ×3 registries, `parity.astro`, `e2e/parity.spec.ts`, `cli-smoke.mjs`, `components/index.astro`), with an all-or-nothing collision precheck + a `prettier --write` pass. It emits a **working green** scaffold (a trivial but real animation that passes parity); the dev then customizes the animation test-first. _Language is `.mjs`, not `.ts`, per **D-021** (Node 20 can't run TS; no tsx/ts-node). `registry:check` is already in `verify`._
-3. The **per-component slice, the three patterns, and the solved gotchas** in “Component playbook” below are exactly what the scaffolder must encode (esp. the parity-harness rules in `DECISIONS.md` D-013–D-019).
+1. Merge **3a then 3b** (3b is stacked on 3a — rebase onto `main` after 3a merges). Then `git checkout main && git pull` and run the **How to resume** gates above (expect green).
+2. Start **Phase 4 — Deploy + docs + SEO** (`ROADMAP.md`): Cloudflare Pages/Workers serving the site + `/r/*` registry from one origin (then swap `REGISTRY_BASE` in `packages/core/src/registry.ts` from the `<registry-url>` placeholder to the real origin), Getting-Started / Theming / Accessibility / Contributing docs, sitemap + per-component OG images + JSON-LD, Pagefind search.
+3. **Carry-over follow-up:** the scaffolder covers **CSS** components only (`pattern: 'gsap'` is rejected). Extend `scripts/gen/*` to emit the **GSAP** factory + lifecycle skins when the next GSAP component is needed. The scaffolder workflow + the manual per-component slice are in `COMPONENT_GUIDE.md` (“Generate with the scaffolder” + the steps below); solved parity gotchas in `DECISIONS.md` D-013–D-021.
 
 ## Component playbook (Phase 2 is complete — this is the reference for adding components)
 
@@ -64,6 +64,18 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 3 PR 3b: gen-component scaffolder (CSS patterns)
+
+Built `scripts/gen-component.mjs` — stamps a full component slice (12 files) + splices it into the 8 central registration files from one declarative contract. Functional core / imperative shell, test-first. **Phase 3 complete.**
+
+- **`scripts/gen/{contract,emit,edits}.mjs`** (pure; **45 `node --test` unit tests** wired into `verify` as `test:gen`): `assertContract` validates a `ComponentContract` (kebab/Pascal, pattern/parity enums, per-prop rules, deps↔pattern coherence, a required `text` prop, per-char `by`, cssVar coverage); `emit*` turn a contract into source strings (schema+meta, stylesheet, 3 skins+barrels+tests, demo page with `InstallBlock`, vue/svelte shims, jsrepo items, parity import/cells, index card, exports); `edits.*` splice at inert `gen:*` markers via `insertBeforeMarker` (asserts exactly one marker) + `containsComponent` (collision predicate).
+- **Step 1 (markers):** added `gen:*` anchors to the 8 central files (core/index + 3 package indexes, vue/svelte shims, `jsrepo.config` ×3, `parity.astro`, `parity.spec` arrays, `components/index`) and refactored `cli-smoke.mjs`'s add-list + CSS-assertion loop into marker-guarded arrays. All inert / behavior-preserving — verify + cli + e2e stayed green.
+- **The shell** reads `scripts/contracts/<id>.mjs`, validates, runs an **all-or-nothing collision precheck** (aborts with zero writes if already generated), writes + splices, then `prettier --write`s everything touched. Emits a **working green** scaffold: a trivial opacity fade (incl. the D-014 reduced-motion `will-change: auto`) + passing invariant tests; the author customizes the animation test-first. **`.mjs` not `.ts`** (D-021): Node 20 can't run TS, no tsx/ts-node.
+- **Proven end-to-end:** generated a throwaway `demo-fade` (css-per-char) → `pnpm verify` + `test:cli` + `test:e2e` all green (the generated component passed cross-framework parity with no manual edits) → reverted. The emitted output was already Prettier-clean (every touched file reported "unchanged").
+- **Scope:** CSS patterns only; `pattern: 'gsap'` is rejected with a hand-write hint (GSAP factory + lifecycle scaffolding is a documented follow-up). Decision **D-021**; `COMPONENT_GUIDE.md` gained a "Generate with the scaffolder" section.
+
+Green local: `pnpm verify` (**123 vitest + 45 test:gen** + registry:check, astro check 20 files) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (parity all 10 + install specs). On `feat/phase-3b-scaffolder` (stacked on 3a); PR pending.
 
 ### 2026-06-28 — Phase 3 PR 3a: install tabs + dependency/peer badges (single source)
 

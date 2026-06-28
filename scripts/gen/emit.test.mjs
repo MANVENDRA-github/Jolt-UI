@@ -77,7 +77,10 @@ test('emitSvelteSkin (per-char): $props rune, inline --jolt-* style, segments', 
 
 test('emitBarrel: framework-correct re-export', () => {
   assert.equal(emit.emitBarrel('react', sample), "export { FadeUp } from './FadeUp';\n");
-  assert.equal(emit.emitBarrel('vue', sample), "export { default as FadeUp } from './FadeUp.vue';\n");
+  assert.equal(
+    emit.emitBarrel('vue', sample),
+    "export { default as FadeUp } from './FadeUp.vue';\n",
+  );
   assert.equal(
     emit.emitBarrel('svelte', sample),
     "export { default as FadeUp } from './FadeUp.svelte';\n",

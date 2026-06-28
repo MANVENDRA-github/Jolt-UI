@@ -62,9 +62,7 @@ function svelteStyleString(c) {
 
 /** Vue local Props interface fields (required = no `?`). */
 function vueInterfaceFields(c) {
-  return c.props
-    .map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`)
-    .join('\n');
+  return c.props.map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`).join('\n');
 }
 
 /** JSX/Astro attributes from a props object (string -> "v", other -> {v}). */
@@ -194,9 +192,7 @@ export function emitReactSkin(c) {
   const { id, Name, cls } = names(c);
   const style = styleObjectEntries(c, '    ');
   const hasStyle = cssVarProps(c).length > 0;
-  const styleConst = hasStyle
-    ? `  const rootStyle = {\n${style}\n  } as CSSProperties;\n`
-    : '';
+  const styleConst = hasStyle ? `  const rootStyle = {\n${style}\n  } as CSSProperties;\n` : '';
   const styleAttr = hasStyle ? ' style={rootStyle}' : '';
   const cssImport = `import '@jolt/core/styles/${id}.css';`;
 
@@ -340,7 +336,9 @@ function sampleCssVar(c) {
   const p = cssVarProps(c)[0];
   if (!p) return null;
   const value = p.type === 'number' ? 7 : q(p.default);
-  const expected = p.cssVar.unit ? `'${p.type === 'number' ? 7 : p.default}${p.cssVar.unit}'` : `'${p.default}'`;
+  const expected = p.cssVar.unit
+    ? `'${p.type === 'number' ? 7 : p.default}${p.cssVar.unit}'`
+    : `'${p.default}'`;
   return { prop: p, value, expected };
 }
 
@@ -527,7 +525,9 @@ const sourceTabs = [
 
 export function emitVueShim(c) {
   const { Name } = names(c);
-  const fields = c.props.map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`).join('\n');
+  const fields = c.props
+    .map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`)
+    .join('\n');
   return `export declare const ${Name}: DefineComponent<{
 ${fields}
 }>;`;
@@ -535,7 +535,9 @@ ${fields}
 
 export function emitSvelteShim(c) {
   const { Name } = names(c);
-  const fields = c.props.map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`).join('\n');
+  const fields = c.props
+    .map((p) => `  ${p.name}${p.required ? '' : '?'}: ${tsType(p)};`)
+    .join('\n');
   return `export declare const ${Name}: (props: {
 ${fields}
 }) => unknown;`;

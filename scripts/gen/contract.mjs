@@ -74,7 +74,8 @@ function assertProp(prop, i) {
     }
   }
   if (prop.cssVar !== undefined) {
-    if (typeof prop.cssVar !== 'object' || prop.cssVar === null) fail(`${where}.cssVar must be an object`);
+    if (typeof prop.cssVar !== 'object' || prop.cssVar === null)
+      fail(`${where}.cssVar must be an object`);
     if (typeof prop.cssVar.name !== 'string' || !prop.cssVar.name.startsWith('--')) {
       fail(`${where}.cssVar.name must be a custom property starting with --`);
     }
@@ -97,7 +98,8 @@ export function assertContract(raw) {
     fail(`pattern must be one of ${PATTERNS.join(', ')} (got ${String(c.pattern)})`);
   }
   for (const key of ['blurb', 'a11y', 'cardText']) {
-    if (typeof c[key] !== 'string' || c[key].trim() === '') fail(`${key} must be a non-empty string`);
+    if (typeof c[key] !== 'string' || c[key].trim() === '')
+      fail(`${key} must be a non-empty string`);
   }
   if (!Array.isArray(c.deps) || !c.deps.every((d) => typeof d === 'string')) {
     fail('deps must be an array of strings');

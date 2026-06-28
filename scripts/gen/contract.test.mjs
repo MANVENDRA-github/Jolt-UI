@@ -35,7 +35,10 @@ test('rejects a prop with neither default nor required', () => {
     { name: 'text', type: 'string', required: true, describe: 'x' },
     { name: 'gap', type: 'number', describe: 'no default and not required' },
   ];
-  assert.throws(() => assertContract(withField({ props })), /must be required:true or have a default/);
+  assert.throws(
+    () => assertContract(withField({ props })),
+    /must be required:true or have a default/,
+  );
 });
 
 test('rejects a required prop that also has a default', () => {
@@ -56,7 +59,10 @@ test('rejects an enum default outside its values', () => {
     { name: 'text', type: 'string', required: true, describe: 'x' },
     { name: 'by', type: 'enum', values: ['chars', 'words'], default: 'lines', describe: 'x' },
   ];
-  assert.throws(() => assertContract(withField({ props })), /default must be one of its enum values/);
+  assert.throws(
+    () => assertContract(withField({ props })),
+    /default must be one of its enum values/,
+  );
 });
 
 test('rejects a cssVar name not starting with --', () => {

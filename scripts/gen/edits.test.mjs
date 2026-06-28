@@ -19,7 +19,10 @@ test('insertBeforeMarker inserts on the line before the marker', () => {
 });
 
 test('insertBeforeMarker throws when the marker is missing', () => {
-  assert.throws(() => insertBeforeMarker('no marker here', '// gen:exports', 'x'), /marker not found/);
+  assert.throws(
+    () => insertBeforeMarker('no marker here', '// gen:exports', 'x'),
+    /marker not found/,
+  );
 });
 
 test('insertBeforeMarker throws when the marker is duplicated', () => {
@@ -95,9 +98,13 @@ test('applyCliSmoke adds the id + the css skin/sheet assertion', () => {
 });
 
 test('applyComponentsIndex inserts the import + the card', () => {
-  const src = ['import {', '  // gen:card-import', "} from '@jolt/react';", '  {/* gen:card */}', ''].join(
-    '\n',
-  );
+  const src = [
+    'import {',
+    '  // gen:card-import',
+    "} from '@jolt/react';",
+    '  {/* gen:card */}',
+    '',
+  ].join('\n');
   const out = applyComponentsIndex(src, sample);
   assert.match(out, /^ {2}FadeUp,$/m);
   assert.match(out, /href="\/components\/fade-up"/);
