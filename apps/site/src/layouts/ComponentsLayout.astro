@@ -1,0 +1,47 @@
+---
+import Base from './Base.astro';
+import { categoriesWithComponents } from '../lib/categories';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+
+const cats = categoriesWithComponents();
+const path = Astro.url.pathname;
+// /components/<slug>/<id> → the active category slug (null on the index itself).
+const activeSlug = path.split('/')[2] ?? null;
+---
+
+<Base title={title} description={description}>
+  <nav
+    aria-label="Components"
+    class="mb-8 flex flex-wrap gap-x-4 gap-y-1 border-b border-white/10 pb-3 text-sm"
+    data-pagefind-ignore
+  >
+    <a
+      href="/components"
+      class:list={[
+        'transition hover:opacity-100',
+        path === '/components' ? 'font-semibold opacity-100' : 'opacity-60',
+      ]}
+    >
+      All
+    </a>
+    {
+      cats.map((c) => (
+        <a
+          href={`/components#${c.slug}`}
+          class:list={[
+            'transition hover:opacity-100',
+            activeSlug === c.slug ? 'font-semibold opacity-100' : 'opacity-60',
+          ]}
+        >
+          {c.label}
+        </a>
+      ))
+    }
+  </nav>
+  <slot />
+</Base>

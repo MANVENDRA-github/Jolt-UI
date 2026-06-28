@@ -1,16 +1,16 @@
 ---
-import Base from '../../layouts/Base.astro';
-import CodeTabs from '../../components/CodeTabs.astro';
-import InstallBlock from '../../components/InstallBlock.astro';
-import { CountUp as ReactCountUp } from '@jolt/react';
-import { CountUp as VueCountUp } from '@jolt/vue';
-import { CountUp as SvelteCountUp } from '@jolt/svelte';
-import { propsTable, countUpSchema, countUpMeta } from '@jolt/core';
-import reactSource from '../../../../../packages/react/src/components/CountUp/CountUp.tsx?raw';
-import vueSource from '../../../../../packages/vue/src/components/CountUp/CountUp.vue?raw';
-import svelteSource from '../../../../../packages/svelte/src/components/CountUp/CountUp.svelte?raw';
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import { GradientText as ReactGradientText } from '@jolt/react';
+import { GradientText as VueGradientText } from '@jolt/vue';
+import { GradientText as SvelteGradientText } from '@jolt/svelte';
+import { propsTable, gradientTextSchema, gradientTextMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/GradientText/GradientText.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/GradientText/GradientText.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/GradientText/GradientText.svelte?raw';
 
-const props = propsTable(countUpSchema);
+const props = propsTable(gradientTextSchema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
@@ -18,41 +18,37 @@ const sourceTabs = [
 ];
 ---
 
-<Base
-  title="CountUp — Jolt UI"
-  description="A number that animates to its target with GSAP — for React, Vue, and Svelte."
+<ComponentsLayout
+  title="GradientText — Jolt UI"
+  description="A flowing multi-color gradient clipped to the text — CSS-only, for React, Vue, and Svelte."
 >
-  <h1 class="text-3xl font-bold">CountUp</h1>
+  <h1 class="text-3xl font-bold">GradientText</h1>
   <p class="mt-2 opacity-80">
-    A number that animates to its target on scroll — GSAP, three frameworks.
+    A flowing multi-color gradient clipped to the text — CSS-only, three frameworks.
   </p>
 
   <section class="mt-10 space-y-8">
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
-      <div class="mt-1 text-4xl font-bold tabular-nums">
-        <ReactCountUp to={12500} separator="," client:visible />
-      </div>
+      <div class="mt-1 text-4xl font-bold"><ReactGradientText text="Gradient in motion" /></div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
-      <div class="mt-1 text-4xl font-bold tabular-nums">
-        <VueCountUp to={12500} separator="," client:visible />
-      </div>
+      <div class="mt-1 text-4xl font-bold"><VueGradientText text="Gradient in motion" /></div>
     </div>
     <div>
       <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
-      <div class="mt-1 text-4xl font-bold tabular-nums">
-        <SvelteCountUp to={12500} separator="," client:visible />
-      </div>
+      <div class="mt-1 text-4xl font-bold"><SvelteGradientText text="Gradient in motion" /></div>
     </div>
   </section>
 
-  <InstallBlock meta={countUpMeta} />
+  <InstallBlock meta={gradientTextMeta} />
 
   <section class="mt-12">
     <h2 class="text-xl font-semibold">Source</h2>
-    <p class="mt-2 text-sm opacity-70">Identical behavior, idiomatic per framework.</p>
+    <p class="mt-2 text-sm opacity-70">
+      Pure CSS animation; the skin builds the gradient from <code>colors</code>.
+    </p>
     <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
   </section>
 
@@ -81,4 +77,4 @@ const sourceTabs = [
       </tbody>
     </table>
   </section>
-</Base>
+</ComponentsLayout>

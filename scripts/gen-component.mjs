@@ -46,7 +46,7 @@ const testEmit = { react: emit.emitReactTest, vue: emit.emitVueTest, svelte: emi
 const creates = [
   [`packages/core/src/schemas/${id}.ts`, emit.emitSchema(c)],
   [`packages/core/src/styles/${id}.css`, emit.emitBehavior(c)],
-  [`apps/site/src/pages/components/${id}.astro`, emit.emitDemoPage(c)],
+  [`apps/site/src/pages/components/text/${id}.astro`, emit.emitDemoPage(c)],
 ];
 for (const fw of ['react', 'vue', 'svelte']) {
   const dir = `packages/${fw}/src/components/${Name}`;

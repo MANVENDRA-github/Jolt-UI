@@ -46,14 +46,23 @@ Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (j
 
 Gates per PR: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e` green. Cross-framework parity is enforced by the Playwright harness (`/internal/parity` + `e2e/parity.spec.ts`), which **freezes animations to a deterministic frame** (DECISIONS D-015) — reduced-motion alone won't freeze a looping animation on CI. Live state, the three patterns, and solved gotchas: `PROGRESS.md` → “Next up”; rationale: `DECISIONS.md` (D-008, D-011–D-019).
 
-## Phase 3 — Registry & copy-paste UX + scaffolder
+## ✅ Phase 3 — Registry & copy-paste UX + scaffolder — **DONE (2026-06-28)**
 
-Install tabs (pnpm/npm + jsrepo), dependency/peer badges, `scripts/gen-component.ts` (stamps schema + 3 skins + demos + tests + MDX from one contract), `registry:check` wired into `verify`.
+Install tabs (pnpm/npm + jsrepo), dependency/peer badges, `scripts/gen-component.mjs` (stamps schema + 3 skins + demos + tests from one contract; CSS patterns), `registry:check` wired into `verify`.
 
-## Phase 4 — Deploy + docs + SEO
+## ✅ Phase 4 — Deploy + docs + SEO — **DONE (2026-06-28)**
 
-Cloudflare Pages/Workers (site + `/r/*` registry from one origin); Getting-Started / Theming / Accessibility / Contributing docs; sitemap + per-component OG images + JSON-LD; Pagefind search in prod.
+Cloudflare Pages (site + `/r/*` registry from one origin, single `JOLT_ORIGIN`); Getting-Started / Theming / Accessibility / Contributing docs; sitemap + OG + JSON-LD; Pagefind search in prod; `_headers` + `DEPLOY.md`. **v1 complete** (the dashboard connect is the maintainer's one manual step).
+
+## Phase 5 — Backgrounds category (Three.js) — **in progress**
+
+The first non-text category, built as two slices:
+
+- **5a — Category infrastructure** ✅: nested `/components/<category>/<id>` routes, a category sub-nav (`ComponentsLayout`), a grouped index, redirects from the old flat paths, and a `categories` registry. No new component.
+- **5b — Particles (Three.js) vertical slice**: one canvas background end-to-end to front-load the Three.js stack — a `packages/core/src/webgl/` split + a separate `particles-core` jsrepo item so `three` lands only for Particles' consumers, a functional-core/imperative-shell factory with full GPU disposal, and a non-text "background" parity kind.
+
+More backgrounds follow once the pipeline is proven.
 
 ## Later (out of v1 scope)
 
-Backgrounds (Three.js) + more categories · JS / plain-CSS variants via the scaffolder · more frameworks (Solid, Angular, web components) · shadcn-registry JSON + MCP server · pro templates/themes · Turborepo (only if build caching warrants).
+More categories · JS / plain-CSS variants via the scaffolder · GSAP support in the scaffolder · more frameworks (Solid, Angular, web components) · shadcn-registry JSON + MCP server · pro templates/themes · Turborepo (only if build caching warrants).

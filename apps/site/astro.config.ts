@@ -13,8 +13,21 @@ import pagefind from './src/integrations/pagefind';
 export default defineConfig({
   // Production origin (canonical/OG/sitemap) — shares one source with the registry base.
   site: JOLT_ORIGIN,
-  // Bare /docs lands on the first doc page.
-  redirects: { '/docs': '/docs/getting-started' },
+  // Bare /docs lands on the first doc page; the old flat component paths now live
+  // under their category (Phase 5a) — redirect the pre-existing URLs.
+  redirects: {
+    '/docs': '/docs/getting-started',
+    '/components/split-text': '/components/text/split-text',
+    '/components/blur-in': '/components/text/blur-in',
+    '/components/wave': '/components/text/wave',
+    '/components/gradient-text': '/components/text/gradient-text',
+    '/components/shiny-text': '/components/text/shiny-text',
+    '/components/typewriter': '/components/text/typewriter',
+    '/components/rotating-words': '/components/text/rotating-words',
+    '/components/count-up': '/components/text/count-up',
+    '/components/scramble': '/components/text/scramble',
+    '/components/scroll-velocity': '/components/text/scroll-velocity',
+  },
   // The dev toolbar is position:fixed and bleeds into the parity E2E's element
   // screenshots; disable it when JOLT_E2E=1 (set by Playwright's webServer).
   // Stays on for a normal `pnpm dev`.

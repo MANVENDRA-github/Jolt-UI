@@ -1,14 +1,14 @@
 ---
-import Base from '../../layouts/Base.astro';
-import CodeTabs from '../../components/CodeTabs.astro';
-import InstallBlock from '../../components/InstallBlock.astro';
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
 import { ScrollVelocity as ReactScrollVelocity } from '@jolt/react';
 import { ScrollVelocity as VueScrollVelocity } from '@jolt/vue';
 import { ScrollVelocity as SvelteScrollVelocity } from '@jolt/svelte';
 import { propsTable, scrollVelocitySchema, scrollVelocityMeta } from '@jolt/core';
-import reactSource from '../../../../../packages/react/src/components/ScrollVelocity/ScrollVelocity.tsx?raw';
-import vueSource from '../../../../../packages/vue/src/components/ScrollVelocity/ScrollVelocity.vue?raw';
-import svelteSource from '../../../../../packages/svelte/src/components/ScrollVelocity/ScrollVelocity.svelte?raw';
+import reactSource from '../../../../../../packages/react/src/components/ScrollVelocity/ScrollVelocity.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/ScrollVelocity/ScrollVelocity.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/ScrollVelocity/ScrollVelocity.svelte?raw';
 
 const props = propsTable(scrollVelocitySchema);
 const marquee = 'Animated components for React · Vue · Svelte ·';
@@ -19,14 +19,15 @@ const sourceTabs = [
 ];
 ---
 
-<Base
+<ComponentsLayout
   title="ScrollVelocity — Jolt UI"
   description="A marquee whose speed and direction react to scroll velocity (GSAP) — for React, Vue, and Svelte."
 >
   <h1 class="text-3xl font-bold">ScrollVelocity</h1>
   <p class="mt-2 opacity-80">
     A marquee whose speed and direction react to scroll velocity — GSAP, three frameworks. <span
-      class="opacity-70">(Scroll the page to feel it.)</span>
+      class="opacity-70">(Scroll the page to feel it.)</span
+    >
   </p>
 
   <section class="mt-10 space-y-8">
@@ -81,4 +82,4 @@ const sourceTabs = [
       </tbody>
     </table>
   </section>
-</Base>
+</ComponentsLayout>

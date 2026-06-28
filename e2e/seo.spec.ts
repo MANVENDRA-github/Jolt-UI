@@ -33,10 +33,10 @@ test('the homepage exposes core SEO metadata', async ({ page }) => {
 });
 
 test('a component page sets a path-specific canonical + its own description', async ({ page }) => {
-  await page.goto('/components/blur-in');
+  await page.goto('/components/text/blur-in');
   await expect(page.locator('head link[rel="canonical"]')).toHaveAttribute(
     'href',
-    `${ORIGIN}/components/blur-in`,
+    `${ORIGIN}/components/text/blur-in`,
   );
   await expect(page.locator('head meta[name="description"]')).toHaveAttribute('content', /de-blur/);
 });

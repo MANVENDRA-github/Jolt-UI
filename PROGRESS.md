@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 4 — final slice (v1 effectively done).** PRs **4a–4d** are **merged to `main`** (#18–#21). PR **4e (deploy prep — `apps/site/public/_headers` + `DEPLOY.md`)** is **complete and green** on `feat/phase-4e-deploy` (PR pending). **After 4e merges, the only remaining v1 step is YOU connecting the repo in Cloudflare Pages** (build `pnpm build`, output `apps/site/dist`, `NODE_VERSION=20`) — then confirm the live `*.pages.dev` origin (a one-line `JOLT_ORIGIN` swap only if the project name ≠ `jolt-ui`; see `DEPLOY.md`). Phases 0–3 + 4a–4d merged to `main`.
+- **Current phase:** **Phase 5 — Backgrounds category (Three.js).** v1 (Phases 0–4, incl. 4e = #22) is **complete + merged to `main`**. **PR 5a — category infrastructure** (nested `/components/<category>/<id>` routes + category sub-nav + grouped index + redirects) is **complete and green** on `feat/phase-5a-category-nav` (PR pending). **Next: PR 5b** — the **Particles (Three.js)** WebGL vertical slice (plan: `inherited-dreaming-shore`; will log `DECISIONS.md` D-028/D-029/D-030). *(The one remaining v1 deploy step is still YOURS: connect the repo in Cloudflare Pages — `pnpm build` → `apps/site/dist`, `NODE_VERSION=20`; see `DEPLOY.md`.)*
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 32 files) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` (sitemap + og/favicon + `_headers` + `dist/r/*` + Pagefind index) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (11 specs: parity all 10 + install + SEO + docs + search) green. (Phases 0–3 + 4a–4d on `main`; PR 4e on `feat/phase-4e-deploy`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**133 vitest + 45 `test:gen`** + registry:check) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` · `pnpm test:cli` (10 components) · `pnpm test:e2e` (**14 specs**: parity all 10 + install + SEO + docs + search + components-nav) green. (Phases 0–4 on `main`; PR 5a on `feat/phase-5a-category-nav`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,18 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 5 PR 5a: category infrastructure (nested routes + sub-nav)
+
+Started Phase 5 (Backgrounds category). This slice is the information-architecture refactor the new category needs — **no new component yet**, so it's verifiable in isolation.
+
+- **Category registry** `apps/site/src/lib/categories.ts` — the single ordered source mapping each component's `meta.category` → URL slug + display label, plus `categoriesWithComponents()` (aggregated from the core metas, so the sub-nav never advertises an empty category). Unit-tested (`categories.test.ts`, 5 tests).
+- **Nested routes:** the 10 text demo pages moved to `/components/text/<id>` (git renames; bespoke per-component demos preserved — a generic `[category]/[id].astro` route was rejected for that reason). `astro` redirects map the old flat `/components/<id>` paths (precautionary — nothing's deployed yet).
+- **`ComponentsLayout.astro`** (mirrors `DocsLayout`) renders the category sub-nav; the `/components` index groups its cards into per-category `<section>`s anchored by slug.
+- **Scaffolder** (`scripts/gen/*` + `gen-component.mjs`) made category-aware — emits demo pages under `text/` with `/components/text/<id>` hrefs; the 45 `test:gen` assertions updated to match.
+- `e2e/components-nav.spec.ts` (the redirect + grouped index + sub-nav). Decision **D-027**.
+
+Green local: `pnpm verify` (**133 vitest + 45 test:gen** + registry:check) · `pnpm build` (17 pages) + `pnpm test:dist` · `pnpm test:e2e` (**14 specs**). On `feat/phase-5a-category-nav`; PR pending. **Next: PR 5b — Particles (Three.js) vertical slice.**
 
 ### 2026-06-28 — Phase 4 PR 4e: deploy prep (_headers + DEPLOY.md)
 

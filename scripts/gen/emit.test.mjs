@@ -103,7 +103,10 @@ test('emitVueTest / emitSvelteTest: correct testing-library import', () => {
 
 test('emitDemoPage: InstallBlock from meta, live demos, propsTable', () => {
   const out = emit.emitDemoPage(sample);
-  assert.match(out, /import InstallBlock from '\.\.\/\.\.\/components\/InstallBlock\.astro';/);
+  assert.match(
+    out,
+    /import InstallBlock from '\.\.\/\.\.\/\.\.\/components\/InstallBlock\.astro';/,
+  );
   assert.match(out, /<InstallBlock meta=\{fadeUpMeta\} \/>/);
   assert.match(out, /const props = propsTable\(fadeUpSchema\);/);
   assert.match(out, /<ReactFadeUp text="Fade up into place" \/>/);
@@ -134,7 +137,7 @@ test('emitParityImport / emitParityCells: R/V/S aliases + testids', () => {
 });
 
 test('emitCard / emitCoreExports / emitPackageExport', () => {
-  assert.match(emit.emitCard(sample), /href="\/components\/fade-up"/);
+  assert.match(emit.emitCard(sample), /href="\/components\/text\/fade-up"/);
   assert.match(emit.emitCard(sample), /<FadeUp text="Fade Up" \/>/);
   assert.equal(
     emit.emitCoreExports(sample),
