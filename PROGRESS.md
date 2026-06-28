@@ -5,9 +5,9 @@
 
 ## Snapshot
 
-- **Current phase:** **Phase 4 IN PROGRESS — Deploy + docs + SEO.** PRs **4a–4c** are **merged to `main`** (#18, #19, #20). PR **4d (Pagefind search — build-time index, prod-only)** is **complete and green** on `feat/phase-4d-search` (PR pending). **Next: PR 4e — deploy (CF Pages + `_headers` + finalize the origin; needs the user's CF project) — the last Phase-4 slice.** Phases 0–3 + 4a–4c merged to `main`.
+- **Current phase:** **Phase 4 — final slice (v1 effectively done).** PRs **4a–4d** are **merged to `main`** (#18–#21). PR **4e (deploy prep — `apps/site/public/_headers` + `DEPLOY.md`)** is **complete and green** on `feat/phase-4e-deploy` (PR pending). **After 4e merges, the only remaining v1 step is YOU connecting the repo in Cloudflare Pages** (build `pnpm build`, output `apps/site/dist`, `NODE_VERSION=20`) — then confirm the live `*.pages.dev` origin (a one-line `JOLT_ORIGIN` swap only if the project name ≠ `jolt-ui`; see `DEPLOY.md`). Phases 0–3 + 4a–4d merged to `main`.
 - **Repo:** `D:\Jolt-UI` · remote `github.com/MANVENDRA-github/Jolt-UI`. Branch → PR → merge (never push `main`).
-- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 32 files) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` (incl. the Pagefind index) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (11 specs: parity all 10 + install + SEO + docs + search) green. (Phases 0–3 + 4a–4c on `main`; PR 4d on `feat/phase-4d-search`, PR pending. CI green on every PR.)
+- **Health:** `pnpm verify` green (**128 vitest + 45 `test:gen`** + registry:check, astro check 32 files) · `pnpm build` (17 pages, 16 Pagefind-indexed) + `pnpm test:dist` (sitemap + og/favicon + `_headers` + `dist/r/*` + Pagefind index) · `pnpm test:cli` (10 components) · `pnpm test:e2e` (11 specs: parity all 10 + install + SEO + docs + search) green. (Phases 0–3 + 4a–4d on `main`; PR 4e on `feat/phase-4e-deploy`, PR pending. CI green on every PR.)
 
 ## How to resume
 
@@ -64,6 +64,18 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 - `@astrojs/svelte` bundles its own `vite-plugin-svelte` 5.1.1 (upstream) → no action needed.
 
 ## Session log
+
+### 2026-06-28 — Phase 4 PR 4e: deploy prep (_headers + DEPLOY.md)
+
+The last Phase-4 slice — everything for the Cloudflare Pages deploy except the user's one-time dashboard connect.
+
+- **`apps/site/public/_headers`** — Cloudflare Pages edge config: immutable long-cache for `/_astro/*`, a short cache for `/r/*` + `/pagefind/*`, and baseline security headers (nosniff / referrer-policy / X-Frame-Options) for all responses.
+- **`DEPLOY.md`** — the CF Pages Git-integration runbook: build settings (`pnpm build` → `apps/site/dist`, `NODE_VERSION=20`), what the build emits (site + `/r/*` + sitemap + Pagefind from **one origin**), the single `JOLT_ORIGIN` swap (a no-op if the CF project is named `jolt-ui`), and the post-deploy `npx jsrepo add https://<origin>/r/react/blur-in` proof.
+- `scripts/dist-check.mjs` now also asserts `dist/_headers` ships.
+
+The deploy itself is a CF-dashboard action (connect the repo) — no CI change, no secrets (D-022). Once connected, **Phase 4 and v1 are complete.**
+
+Green local: `pnpm verify` · `pnpm build` (17 pages) + `pnpm test:dist` (incl. `_headers`). On `feat/phase-4e-deploy`; PR pending.
 
 ### 2026-06-28 — Phase 4 PR 4d: Pagefind search (prod-only)
 

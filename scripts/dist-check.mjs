@@ -17,7 +17,14 @@ const die = (msg) => {
 if (!existsSync(dist)) die('no build output at apps/site/dist — run `pnpm build` first');
 
 // 1. Required static assets (favicon/og are referenced from the head; robots/sitemap for SEO).
-for (const f of ['index.html', 'sitemap-index.xml', 'favicon.svg', 'og.svg', 'robots.txt']) {
+for (const f of [
+  'index.html',
+  'sitemap-index.xml',
+  'favicon.svg',
+  'og.svg',
+  'robots.txt',
+  '_headers',
+]) {
   if (!existsSync(join(dist, f))) die(`expected dist/${f}`);
 }
 
