@@ -101,6 +101,20 @@ test('rejects non-boolean pixelParity', () => {
   assert.throws(() => assertContract(withField({ parity })), /pixelParity must be a boolean/);
 });
 
+test('rejects a contract without a text prop', () => {
+  // A required prop (so the "at least one required" check passes) but no `text`.
+  const props = [{ name: 'speed', type: 'number', required: true, describe: 'x' }];
+  assert.throws(() => assertContract(withField({ props })), /a 'text' string prop is required/);
+});
+
+test('rejects a per-char contract without a by enum prop', () => {
+  const props = [{ name: 'text', type: 'string', required: true, describe: 'x' }];
+  assert.throws(
+    () => assertContract(withField({ props, parity: { kind: 'per-char', pixelParity: true } })),
+    /needs a 'by' enum prop/,
+  );
+});
+
 test('isCssPattern distinguishes css from gsap', () => {
   assert.equal(isCssPattern('css-per-char'), true);
   assert.equal(isCssPattern('css-whole-text'), true);

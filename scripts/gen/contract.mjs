@@ -112,6 +112,18 @@ export function assertContract(raw) {
   if (!Array.isArray(c.props) || c.props.length === 0) fail('props must be a non-empty array');
   c.props.forEach(assertProp);
   if (!c.props.some((p) => p.required)) fail('at least one prop must be required');
+  // The generated skins render `text` (the animated content); per-char skins also
+  // split it with `splitSegments(text, by)`.
+  const textProp = c.props.find((p) => p.name === 'text');
+  if (!textProp || textProp.type !== 'string') fail("a 'text' string prop is required");
+  // For CSS components, every tunable beyond text/by maps to a --jolt-* custom
+  // property the skin sets — so each such prop must declare a cssVar (and is used).
+  if (isCssPattern(/** @type {string} */ (c.pattern))) {
+    for (const p of c.props) {
+      if (p.name === 'text' || p.name === 'by') continue;
+      if (!p.cssVar) fail(`CSS prop '${p.name}' must declare a cssVar`);
+    }
+  }
 
   const parity = /** @type {Record<string, unknown>} */ (c.parity);
   if (!parity || typeof parity !== 'object') fail('parity must be an object');
@@ -119,6 +131,10 @@ export function assertContract(raw) {
     fail(`parity.kind must be one of ${PARITY_KINDS.join(', ')}`);
   }
   if (typeof parity.pixelParity !== 'boolean') fail('parity.pixelParity must be a boolean');
+  if (parity.kind === 'per-char') {
+    const byProp = c.props.find((p) => p.name === 'by');
+    if (!byProp || byProp.type !== 'enum') fail("a per-char component needs a 'by' enum prop");
+  }
 
   for (const key of ['demoProps', 'harnessProps']) {
     if (!c[key] || typeof c[key] !== 'object' || Array.isArray(c[key])) {
