@@ -63,3 +63,8 @@ export declare const Scramble: (props: {
   revealDelay?: number;
   speed?: number;
 }) => unknown;
+export declare const ScrollVelocity: (props: {
+  text: string;
+  baseVelocity?: number;
+  direction?: 'left' | 'right';
+}) => unknown;

@@ -1,0 +1,84 @@
+---
+import Base from '../../layouts/Base.astro';
+import {
+  SplitText,
+  BlurIn,
+  Wave,
+  GradientText,
+  ShinyText,
+  Typewriter,
+  RotatingWords,
+  CountUp,
+  Scramble,
+  ScrollVelocity,
+} from '@jolt/react';
+
+const card =
+  'group block overflow-hidden rounded-lg border border-white/10 p-5 transition hover:border-white/30';
+const preview = 'flex h-20 items-center overflow-hidden text-2xl font-bold';
+const name = 'mt-3 text-sm font-semibold';
+const blurb = 'text-xs opacity-60';
+---
+
+<Base title="Components — Jolt UI">
+  <h1 class="text-3xl font-bold">Components</h1>
+  <p class="mt-2 opacity-80">
+    Ten animated text components — React, Vue &amp; Svelte from one design language, kept identical
+    by an automated parity gate. Previews are live (React shown).
+  </p>
+
+  <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <a href="/components/split-text" class={card}>
+      <div class={preview}><SplitText text="Split Text" client:visible /></div>
+      <div class={name}>Split Text</div>
+      <div class={blurb}>Staggered character reveal (GSAP)</div>
+    </a>
+    <a href="/components/blur-in" class={card}>
+      <div class={preview}><BlurIn text="Blur In" /></div>
+      <div class={name}>Blur In</div>
+      <div class={blurb}>Per-character fade + de-blur</div>
+    </a>
+    <a href="/components/wave" class={card}>
+      <div class={preview}><Wave text="Wave" /></div>
+      <div class={name}>Wave</div>
+      <div class={blurb}>Traveling per-character bob</div>
+    </a>
+    <a href="/components/gradient-text" class={card}>
+      <div class={preview}><GradientText text="Gradient Text" /></div>
+      <div class={name}>Gradient Text</div>
+      <div class={blurb}>Flowing multi-color gradient</div>
+    </a>
+    <a href="/components/shiny-text" class={card}>
+      <div class={preview}><ShinyText text="Shiny Text" /></div>
+      <div class={name}>Shiny Text</div>
+      <div class={blurb}>Sweeping sheen across the text</div>
+    </a>
+    <a href="/components/typewriter" class={card}>
+      <div class={preview}><Typewriter text="Typewriter" /></div>
+      <div class={name}>Typewriter</div>
+      <div class={blurb}>Character-by-character reveal + caret</div>
+    </a>
+    <a href="/components/rotating-words" class={card}>
+      <div class={preview}>Build <RotatingWords words={['fast', 'bold', 'clean']} /></div>
+      <div class={name}>Rotating Words</div>
+      <div class={blurb}>Vertical word cycler</div>
+    </a>
+    <a href="/components/count-up" class={card}>
+      <div class={`${preview} tabular-nums`}>
+        <CountUp to={12500} separator="," client:visible />
+      </div>
+      <div class={name}>Count Up</div>
+      <div class={blurb}>Animate a number to a target (GSAP)</div>
+    </a>
+    <a href="/components/scramble" class={card}>
+      <div class={preview}><Scramble text="Scramble" client:visible /></div>
+      <div class={name}>Scramble</div>
+      <div class={blurb}>Decode from a churn of characters (GSAP)</div>
+    </a>
+    <a href="/components/scroll-velocity" class={card}>
+      <div class={preview}><ScrollVelocity text="Scroll · Velocity ·" client:visible /></div>
+      <div class={name}>Scroll Velocity</div>
+      <div class={blurb}>Marquee that reacts to scroll (GSAP)</div>
+    </a>
+  </div>
+</Base>

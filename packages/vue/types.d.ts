@@ -62,3 +62,8 @@ export declare const Scramble: DefineComponent<{
   revealDelay?: number;
   speed?: number;
 }>;
+export declare const ScrollVelocity: DefineComponent<{
+  text: string;
+  baseVelocity?: number;
+  direction?: 'left' | 'right';
+}>;

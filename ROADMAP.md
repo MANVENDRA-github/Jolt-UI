@@ -31,7 +31,7 @@ Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (j
 
 ---
 
-## Phase 2 — Fill the Text-Animations category (~9 components) — **IN PROGRESS**
+## Phase 2 — Fill the Text-Animations category (10 components) — **DONE (2026-06-28)**
 
 ~2 components per PR (each its own small, phone-reviewable PR the maintainer merges). Every component follows the per-component slice in `COMPONENT_GUIDE.md` and **one of three proven patterns**: per-char CSS-only, whole-text CSS-only, or GSAP.
 
@@ -41,10 +41,10 @@ Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (j
 | 2a | Blur In · Wave | per-char CSS | ✅ merged (#8) |
 | 2b | Gradient Text · Shiny Text | whole-text CSS | ✅ merged (#9) |
 | 2c | Typewriter · Rotating Words | CSS (structural) | ✅ merged (#11) |
-| 2d | Count Up · Scramble | GSAP | 🔄 built · PR open |
-| **2e** | **Scroll-Velocity + category index page** | GSAP (ScrollTrigger) | ⬜ **next** |
+| 2d | Count Up · Scramble | GSAP | ✅ merged (#12) |
+| 2e | Scroll-Velocity + category index page | GSAP (ScrollTrigger) | 🔄 built · PR open |
 
-Gates per PR: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e` green. Cross-framework parity is enforced by the Playwright harness (`/internal/parity` + `e2e/parity.spec.ts`), which **freezes animations to a deterministic frame** (DECISIONS D-015) — reduced-motion alone won't freeze a looping animation on CI. Live state, the three patterns, and solved gotchas: `PROGRESS.md` → “Next up”; rationale: `DECISIONS.md` (D-008, D-011–D-018).
+Gates per PR: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e` green. Cross-framework parity is enforced by the Playwright harness (`/internal/parity` + `e2e/parity.spec.ts`), which **freezes animations to a deterministic frame** (DECISIONS D-015) — reduced-motion alone won't freeze a looping animation on CI. Live state, the three patterns, and solved gotchas: `PROGRESS.md` → “Next up”; rationale: `DECISIONS.md` (D-008, D-011–D-019).
 
 ## Phase 3 — Registry & copy-paste UX + scaffolder
 
