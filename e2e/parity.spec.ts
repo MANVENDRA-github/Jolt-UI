@@ -30,17 +30,24 @@ test('every component renders identically across React, Vue, and Svelte', async 
       animation-fill-mode: forwards !important;
       transition-duration: 0s !important;
       transition-delay: 0s !important;
+      /* CPU-rasterize (drop GPU layer hints) so per-glyph antialiasing is identical
+         across frameworks on headless CI — cf. D-014 (SplitText/per-char segments
+         carry will-change: transform). */
+      will-change: auto !important;
     }
     /* Astro's dev toolbar is fixed-position and bleeds into element screenshots
        depending on page height / scroll — hide it so cells compare cleanly. */
     astro-dev-toolbar { display: none !important; }`,
   });
 
-  // Let every client:load GSAP island finish hydrating and settle to its
-  // reduced-motion final state before comparing. Phase 1 had a single GSAP island
-  // (SplitText) that settled before the first screenshot; with several (SplitText,
-  // CountUp, Scramble) the earliest-captured cell could otherwise be caught mid-hydration.
-  await page.waitForTimeout(800);
+  // Wait until the client:load GSAP islands have settled to their final state before
+  // comparing. Waiting on the longest animation (CountUp, 2s) to reach its target is
+  // deterministic whether or not reduced-motion is honored in JS on this runner: if
+  // honored the factory jumps to final instantly; if not, the real tween still
+  // finishes here. By then SplitText (~0.8s) and Scramble (1.5s) are done too.
+  await expect(page.locator('[data-testid="count-up-svelte"] span').first()).toHaveText('100', {
+    timeout: 8000,
+  });
 
   for (const id of COMPONENTS) {
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
