@@ -35,3 +35,14 @@ export declare const ShinyText: DefineComponent<{
   text: string;
   duration?: number;
 }>;
+export declare const Typewriter: DefineComponent<{
+  text: string;
+  duration?: number;
+  delay?: number;
+  caret?: boolean;
+}>;
+export declare const RotatingWords: DefineComponent<{
+  words?: string[];
+  interval?: number;
+  delay?: number;
+}>;

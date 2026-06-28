@@ -1,0 +1,42 @@
+/* RotatingWords — CSS-only structural cycler. A vertical column of words sits in a
+   one-line overflow-clipped box; the list steps up one line per interval (a
+   discrete flip), so each word is held fully readable. A trailing duplicate of the
+   first word makes the loop seamless (cf. GradientText's repeated stop, D-016).
+   The skin sets --jolt-count (word count), --jolt-interval, and --jolt-delay; the
+   shared line box (--jolt-rw-line) keeps the clip height, word height, and step
+   distance in lockstep so glyphs aren't cropped. */
+@keyframes jolt-rotating-words {
+  to {
+    transform: translateY(calc(var(--jolt-count, 1) * var(--jolt-rw-line, 1.2em) * -1));
+  }
+}
+
+.jolt-rotating-words {
+  display: inline-block;
+  overflow: hidden;
+  height: var(--jolt-rw-line, 1.2em);
+  line-height: var(--jolt-rw-line, 1.2em);
+  vertical-align: bottom;
+}
+
+.jolt-rotating-words__list {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: jolt-rotating-words calc(var(--jolt-count, 1) * var(--jolt-interval, 2s))
+    steps(var(--jolt-count, 1)) var(--jolt-delay, 0s) infinite;
+}
+
+.jolt-rotating-words__word {
+  display: block;
+  height: var(--jolt-rw-line, 1.2em);
+  line-height: var(--jolt-rw-line, 1.2em);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-rotating-words__list {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}

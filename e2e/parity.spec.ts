@@ -5,8 +5,8 @@ import { PNG } from 'pngjs';
 // Per-char components split the text into aria-hidden segments (the full text is
 // carried on an aria-label); whole-text components render the text directly, so
 // it's natively accessible — no segments, no aria-label.
-const PER_CHAR = ['split-text', 'blur-in', 'wave'] as const;
-const WHOLE_TEXT = ['gradient-text', 'shiny-text'] as const;
+const PER_CHAR = ['split-text', 'blur-in', 'wave', 'rotating-words'] as const;
+const WHOLE_TEXT = ['gradient-text', 'shiny-text', 'typewriter'] as const;
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';

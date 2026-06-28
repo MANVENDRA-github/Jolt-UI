@@ -94,7 +94,7 @@ writeFileSync(join(fixture, '.npmrc'), 'ignore-workspace=true\nfrozen-lockfile=f
 // 2. Add the component from the local registry (installs gsap/zod + the fixture deps).
 lockfileBackup = existsSync(lockfilePath) ? readFileSync(lockfilePath, 'utf8') : null;
 run(
-  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text --yes --cwd "${fixture}"`,
+  `pnpm exec jsrepo add split-text blur-in wave gradient-text shiny-text typewriter rotating-words --yes --cwd "${fixture}"`,
   root,
 );
 
@@ -128,6 +128,8 @@ for (const [skin, sheet] of [
   ['Wave.tsx', 'wave.css'],
   ['GradientText.tsx', 'gradient-text.css'],
   ['ShinyText.tsx', 'shiny-text.css'],
+  ['Typewriter.tsx', 'typewriter.css'],
+  ['RotatingWords.tsx', 'rotating-words.css'],
 ]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
   if (!files.some((f) => f.endsWith(sheet))) die(`${sheet} stylesheet not bundled`);
@@ -147,4 +149,6 @@ writeFileSync(join(srcDir, 'css.d.ts'), "declare module '*.css';\n");
 run('pnpm exec tsc --noEmit -p tsconfig.json', fixture);
 
 cleanup();
-console.log('\n✓ cli-smoke OK — jsrepo add bundled the core, rewrote imports, no tests leaked, consumer type-checks.');
+console.log(
+  '\n✓ cli-smoke OK — jsrepo add bundled the core, rewrote imports, no tests leaked, consumer type-checks.',
+);
