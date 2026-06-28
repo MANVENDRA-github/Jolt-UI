@@ -12,6 +12,8 @@ import { JOLT_ORIGIN } from '../../packages/core/src/origin';
 export default defineConfig({
   // Production origin (canonical/OG/sitemap) — shares one source with the registry base.
   site: JOLT_ORIGIN,
+  // Bare /docs lands on the first doc page.
+  redirects: { '/docs': '/docs/getting-started' },
   // The dev toolbar is position:fixed and bleeds into the parity E2E's element
   // screenshots; disable it when JOLT_E2E=1 (set by Playwright's webServer).
   // Stays on for a normal `pnpm dev`.

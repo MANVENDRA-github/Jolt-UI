@@ -1,0 +1,122 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+
+// PR 4c appends Accessibility + Contributing here (and creates those pages).
+const docs = [
+  { href: '/docs/getting-started', label: 'Getting Started' },
+  { href: '/docs/theming', label: 'Theming' },
+];
+const path = Astro.url.pathname;
+---
+
+<Base title={title} description={description}>
+  <nav
+    aria-label="Documentation"
+    class="mb-8 flex flex-wrap gap-x-4 gap-y-1 border-b border-white/10 pb-3 text-sm"
+    data-pagefind-ignore
+  >
+    {
+      docs.map((d) => (
+        <a
+          href={d.href}
+          class:list={[
+            'transition hover:opacity-100',
+            path === d.href ? 'font-semibold opacity-100' : 'opacity-60',
+          ]}
+        >
+          {d.label}
+        </a>
+      ))
+    }
+  </nav>
+  <article class="prose-jolt" data-pagefind-body>
+    <slot />
+  </article>
+</Base>
+
+<style>
+  /* Minimal prose typography (no @tailwindcss/typography plugin). The slotted
+     children come from the page's scope, so target them with :global() inside the
+     scoped .prose-jolt wrapper. */
+  .prose-jolt :global(h1) {
+    font-size: 1.875rem;
+    font-weight: 700;
+  }
+  .prose-jolt :global(h2) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-jolt :global(h3) {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .prose-jolt :global(p),
+  .prose-jolt :global(ul),
+  .prose-jolt :global(ol) {
+    margin-top: 0.75rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .prose-jolt :global(ul),
+  .prose-jolt :global(ol) {
+    padding-left: 1.25rem;
+  }
+  .prose-jolt :global(ul) {
+    list-style: disc;
+  }
+  .prose-jolt :global(ol) {
+    list-style: decimal;
+  }
+  .prose-jolt :global(li) {
+    margin-top: 0.25rem;
+  }
+  .prose-jolt :global(strong) {
+    font-weight: 600;
+    opacity: 1;
+  }
+  .prose-jolt :global(a) {
+    color: var(--color-jolt-accent, #6d5efc);
+    text-decoration: underline;
+  }
+  /* Inline code; reset inside expressive-code blocks (figure/pre) so it isn't double-styled. */
+  .prose-jolt :global(code) {
+    font-family: ui-monospace, monospace;
+    font-size: 0.875em;
+    border-radius: 0.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.1rem 0.35rem;
+  }
+  .prose-jolt :global(figure code),
+  .prose-jolt :global(pre code) {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+  .prose-jolt :global(table) {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .prose-jolt :global(th),
+  .prose-jolt :global(td) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+  .prose-jolt :global(th) {
+    font-weight: 600;
+    opacity: 0.7;
+  }
+</style>

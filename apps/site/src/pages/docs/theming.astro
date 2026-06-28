@@ -1,0 +1,103 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+
+const tokens = [
+  { name: '--color-jolt-bg', value: '#0b0b0f', use: 'Brand background' },
+  { name: '--color-jolt-fg', value: '#f5f5f7', use: 'Brand foreground' },
+  { name: '--color-jolt-accent', value: '#6d5efc', use: 'Accent (purple)' },
+  { name: '--ease-jolt-out', value: 'cubic-bezier(0.22, 1, 0.36, 1)', use: 'Default easing' },
+  { name: '--duration-jolt-base', value: '600ms', use: 'Base animation duration' },
+  { name: '--duration-jolt-fast', value: '300ms', use: 'Fast animation duration' },
+  { name: '--jolt-stagger', value: '30ms', use: 'Per-segment stagger' },
+];
+
+const themeTabs = [
+  {
+    label: 'CSS',
+    lang: 'css',
+    code: `:root,
+[data-theme='dark'] {
+  --jolt-surface: #0b0b0f;
+  --jolt-text: #f5f5f7;
+}
+[data-theme='light'] {
+  --jolt-surface: #ffffff;
+  --jolt-text: #11111a;
+}`,
+  },
+];
+
+const overrideTabs = [
+  {
+    label: 'CSS',
+    lang: 'css',
+    code: `:root {
+  /* Override any token — every component reads these, no per-framework change. */
+  --color-jolt-accent: #22d3ee;
+  --duration-jolt-base: 800ms;
+}`,
+  },
+];
+---
+
+<DocsLayout
+  title="Theming — Jolt UI"
+  description="Jolt UI's design tokens, light/dark mode, and how to customize the look across all three frameworks."
+>
+  <h1>Theming</h1>
+  <p>
+    Every Jolt UI component draws its look from a single set of <strong
+      >CSS custom-property tokens</strong
+    >
+    (<code>@jolt/tokens</code>) — one source of visual identity shared by React, Vue, and Svelte.
+    There is no JS theme config; you style with CSS variables.
+  </p>
+
+  <h2>Design tokens</h2>
+  <p>Defined once in <code>@jolt/tokens</code> and consumed everywhere:</p>
+  <table>
+    <thead>
+      <tr><th>Token</th><th>Default</th><th>Use</th></tr>
+    </thead>
+    <tbody>
+      {
+        tokens.map((t) => (
+          <tr>
+            <td>
+              <code>{t.name}</code>
+            </td>
+            <td>
+              <code>{t.value}</code>
+            </td>
+            <td>{t.use}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <h2>Light and dark mode</h2>
+  <p>
+    The theme is driven by a <code>data-theme</code> attribute on <code>&lt;html&gt;</code>, which
+    swaps the surface tokens <code>--jolt-surface</code> and <code>--jolt-text</code>. The header's
+    theme toggle flips it and persists the choice to <code>localStorage</code> under
+    <code>jolt-theme</code>; an inline script applies the stored value before first paint (no
+    flash).
+  </p>
+  <CodeTabs tabs={themeTabs} />
+
+  <h2>Customizing</h2>
+  <p>
+    Override any token in your own CSS — every component picks it up, with no per-framework changes:
+  </p>
+  <CodeTabs tabs={overrideTabs} />
+
+  <h2>Per-component tuning</h2>
+  <p>
+    Each component also exposes its own <code>--jolt-*</code> knobs through props (duration, stagger,
+    delay, …). The <strong>Props</strong> table on every <a href="/components">component page</a>
+    lists them — they're set on the element from the props you pass, so you can tune one instance without
+    touching the global tokens.
+  </p>
+</DocsLayout>
