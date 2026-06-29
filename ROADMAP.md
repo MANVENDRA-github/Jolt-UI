@@ -76,7 +76,7 @@ CSS-only animated loaders across all three frameworks, on the proven shared-CSS 
 
 - **7a — Spinner + Dot-Bounce + Bars** ✅: bootstrapped the `loader` category + a new **`GRAPHIC`** parity kind (non-text, non-canvas, pixel-compared CSS on the shared harness) + a `role="status"` a11y pattern (D-034). Loaders are hand-written (the scaffolder stays text-only).
 - **7b — Pulse + Ripple** ✅ (#33): expanding sonar-ping discs + Material concentric rings. Loaders **3 → 5**.
-- **7c — Grid + Progress Bar** (PR pending): a 3×3 diagonal-wave grid + an indeterminate sliding bar. Loaders **5 → 7**.
+- **7c — Grid + Progress Bar** ✅ (#34): a 3×3 diagonal-wave grid + an indeterminate sliding bar. Loaders **5 → 7**.
 - Next: more categories, or extend the `gen-component` scaffolder to non-text components / categories.
 
 ## Later (out of v1 scope)
