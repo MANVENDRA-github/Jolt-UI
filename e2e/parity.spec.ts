@@ -45,6 +45,8 @@ const GRAPHIC: readonly string[] = [
   'spinner',
   'dot-bounce',
   'bars',
+  'pulse',
+  'ripple',
   // gen:graphic
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC];

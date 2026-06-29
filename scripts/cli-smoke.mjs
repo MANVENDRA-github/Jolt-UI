@@ -120,6 +120,8 @@ const COMPONENTS_TO_ADD = [
   'spinner',
   'dot-bounce',
   'bars',
+  'pulse',
+  'ripple',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -159,6 +161,8 @@ const CSS_SKINS = [
   ['Spinner.tsx', 'spinner.css'],
   ['DotBounce.tsx', 'dot-bounce.css'],
   ['Bars.tsx', 'bars.css'],
+  ['Pulse.tsx', 'pulse.css'],
+  ['Ripple.tsx', 'ripple.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

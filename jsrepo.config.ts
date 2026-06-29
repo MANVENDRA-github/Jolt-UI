@@ -150,6 +150,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Bars/Bars.tsx' }],
         },
+        {
+          name: 'pulse',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Pulse/Pulse.tsx' }],
+        },
+        {
+          name: 'ripple',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Ripple/Ripple.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -256,6 +266,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Bars/Bars.vue' }],
         },
+        {
+          name: 'pulse',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Pulse/Pulse.vue' }],
+        },
+        {
+          name: 'ripple',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Ripple/Ripple.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -361,6 +381,16 @@ export default defineConfig({
           name: 'bars',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Bars/Bars.svelte' }],
+        },
+        {
+          name: 'pulse',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Pulse/Pulse.svelte' }],
+        },
+        {
+          name: 'ripple',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Ripple/Ripple.svelte' }],
         },
         // gen:svelte-items
       ],

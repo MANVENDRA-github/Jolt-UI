@@ -140,4 +140,16 @@ export declare const Bars: (props: {
   speed?: number;
   label?: string;
 }) => unknown;
+export declare const Pulse: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
+export declare const Ripple: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
 // gen:shims

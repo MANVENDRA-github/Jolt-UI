@@ -139,4 +139,16 @@ export declare const Bars: DefineComponent<{
   speed?: number;
   label?: string;
 }>;
+export declare const Pulse: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}>;
+export declare const Ripple: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}>;
 // gen:shims

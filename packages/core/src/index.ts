@@ -51,4 +51,8 @@ export { dotBounceSchema, dotBounceMeta } from './schemas/dot-bounce';
 export type { DotBounceProps } from './schemas/dot-bounce';
 export { barsSchema, barsMeta } from './schemas/bars';
 export type { BarsProps } from './schemas/bars';
+export { pulseSchema, pulseMeta } from './schemas/pulse';
+export type { PulseProps } from './schemas/pulse';
+export { rippleSchema, rippleMeta } from './schemas/ripple';
+export type { RippleProps } from './schemas/ripple';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line
