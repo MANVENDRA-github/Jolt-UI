@@ -151,4 +151,17 @@ export declare const Ripple: DefineComponent<{
   speed?: number;
   label?: string;
 }>;
+export declare const Grid: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}>;
+export declare const ProgressBar: DefineComponent<{
+  color?: string;
+  width?: number;
+  thickness?: number;
+  speed?: number;
+  label?: string;
+}>;
 // gen:shims

@@ -122,6 +122,8 @@ const COMPONENTS_TO_ADD = [
   'bars',
   'pulse',
   'ripple',
+  'grid',
+  'progress-bar',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -163,6 +165,8 @@ const CSS_SKINS = [
   ['Bars.tsx', 'bars.css'],
   ['Pulse.tsx', 'pulse.css'],
   ['Ripple.tsx', 'ripple.css'],
+  ['Grid.tsx', 'grid.css'],
+  ['ProgressBar.tsx', 'progress-bar.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

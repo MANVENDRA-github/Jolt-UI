@@ -1,0 +1,58 @@
+/* Grid — a 3×3 grid of CSS-only squares pulsing in a diagonal wave. The skin sets
+   --jolt-color, --jolt-size, --jolt-speed; the nine squares are staggered by their
+   (row + col) diagonal so the pulse sweeps across. The keyframe returns to full
+   scale/opacity at 100% so the parity freeze captures a non-blank, identical frame. */
+@keyframes jolt-grid {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+}
+
+.jolt-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(3, var(--jolt-size, 12px));
+  gap: calc(var(--jolt-size, 12px) * 0.5);
+}
+
+.jolt-grid span {
+  width: var(--jolt-size, 12px);
+  height: var(--jolt-size, 12px);
+  border-radius: 20%;
+  background: var(--jolt-color, #6d5efc);
+  animation: jolt-grid var(--jolt-speed, 1.3s) ease-in-out infinite;
+}
+
+/* Diagonal (row + col) stagger: corner → opposite corner sweep. */
+.jolt-grid span:nth-child(1) {
+  animation-delay: calc(var(--jolt-speed, 1.3s) * 0);
+}
+.jolt-grid span:nth-child(2),
+.jolt-grid span:nth-child(4) {
+  animation-delay: calc(var(--jolt-speed, 1.3s) * 0.1);
+}
+.jolt-grid span:nth-child(3),
+.jolt-grid span:nth-child(5),
+.jolt-grid span:nth-child(7) {
+  animation-delay: calc(var(--jolt-speed, 1.3s) * 0.2);
+}
+.jolt-grid span:nth-child(6),
+.jolt-grid span:nth-child(8) {
+  animation-delay: calc(var(--jolt-speed, 1.3s) * 0.3);
+}
+.jolt-grid span:nth-child(9) {
+  animation-delay: calc(var(--jolt-speed, 1.3s) * 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-grid span {
+    animation: none;
+    transform: none;
+    opacity: 0.6;
+  }
+}

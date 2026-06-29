@@ -160,6 +160,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Ripple/Ripple.tsx' }],
         },
+        {
+          name: 'grid',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Grid/Grid.tsx' }],
+        },
+        {
+          name: 'progress-bar',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/ProgressBar/ProgressBar.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -276,6 +286,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Ripple/Ripple.vue' }],
         },
+        {
+          name: 'grid',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Grid/Grid.vue' }],
+        },
+        {
+          name: 'progress-bar',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/ProgressBar/ProgressBar.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -391,6 +411,16 @@ export default defineConfig({
           name: 'ripple',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Ripple/Ripple.svelte' }],
+        },
+        {
+          name: 'grid',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Grid/Grid.svelte' }],
+        },
+        {
+          name: 'progress-bar',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/ProgressBar/ProgressBar.svelte' }],
         },
         // gen:svelte-items
       ],

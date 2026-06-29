@@ -55,4 +55,8 @@ export { pulseSchema, pulseMeta } from './schemas/pulse';
 export type { PulseProps } from './schemas/pulse';
 export { rippleSchema, rippleMeta } from './schemas/ripple';
 export type { RippleProps } from './schemas/ripple';
+export { gridSchema, gridMeta } from './schemas/grid';
+export type { GridProps } from './schemas/grid';
+export { progressBarSchema, progressBarMeta } from './schemas/progress-bar';
+export type { ProgressBarProps } from './schemas/progress-bar';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

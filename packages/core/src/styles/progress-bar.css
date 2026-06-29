@@ -1,0 +1,40 @@
+/* ProgressBar — a CSS-only indeterminate bar: a fill sweeping across a neutral track.
+   The skin sets --jolt-color, --jolt-width, --jolt-thickness, --jolt-speed. The track
+   keeps a faint rail so the parity freeze (which leaves the fill swept off the track)
+   still captures a visible, cross-framework-identical frame. */
+@keyframes jolt-progress-bar {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+.jolt-progress-bar {
+  position: relative;
+  width: var(--jolt-width, 160px);
+  height: var(--jolt-thickness, 4px);
+  border-radius: 999px;
+  background: rgba(128, 128, 128, 0.25);
+  overflow: hidden;
+}
+
+.jolt-progress-bar span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40%;
+  border-radius: inherit;
+  background: var(--jolt-color, #6d5efc);
+  animation: jolt-progress-bar var(--jolt-speed, 1.4s) ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-progress-bar span {
+    animation: none;
+    transform: none;
+    width: 45%;
+  }
+}
