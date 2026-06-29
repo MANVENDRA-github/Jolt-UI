@@ -52,12 +52,13 @@ const GRAPHIC: readonly string[] = [
   // gen:graphic
 ];
 // Buttons are interactive: a real <button> carrying a text label, animated by interaction
-// (hover/press) or a self-running surface effect. We pixel-compare the REST state — the freeze
-// below collapses a self-running effect (shimmer/glow/gradient/border-draw) to a deterministic
-// frame, and a hover/press effect (sweep/tactile) renders as its static base at rest since the
-// spec never triggers .hover()/.focus()/.click() — and assert the label text matches across
-// frameworks. Interaction-state parity is deferred; the behavior contract (click/disabled/
-// keyboard) is covered by the per-framework unit tests + the shared CSS single-source (D-036).
+// (hover/press) or a self-running surface effect. Every button asserts a <button> + label-text
+// parity across frameworks (the branch below); the spec never triggers .hover()/.focus()/
+// .click(), so the rest state is compared. The transition-only buttons (sweep/tactile) pixel-
+// compare (their rest frame is identical with or without reduced-motion); the self-running
+// keyframe buttons (shimmer/glow/gradient/border-draw) skip the pixel diff — see NO_PIXEL_PARITY
+// (their reduced-motion frame diverges from the freeze end-state, D-035). Interaction-state
+// parity is deferred; the behavior contract is covered by the per-framework unit tests (D-036).
 const INTERACTIVE: readonly string[] = [
   'shimmer',
   'glow',
@@ -88,6 +89,19 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // is 0%; anti-drift is the shared CSS + the per-framework unit tests + the visibility assert
   // below — same rationale as scroll-velocity (D-019, extended in D-035).
   'progress-bar',
+  // The self-running keyframe buttons share ProgressBar's flaw (D-035): their reduced-motion
+  // static frame (gradient at 0% / a steady glow) diverges sharply from the freeze's keyframe
+  // end-state (gradient swept to ±200% / a small 4px glow), and Playwright's context-level
+  // reducedMotion isn't applied atomically across the three sequential per-cell screenshots, so
+  // cells get captured in different states → a large, intermittent diff over the whole button
+  // surface (observed: shimmer react-vs-svelte tripped the 3% threshold on headless-Linux CI,
+  // intermittently). Anti-drift is the shared CSS + the per-framework unit tests + the
+  // INTERACTIVE <button>/label assert above. The transition-only buttons (sweep/tactile) keep
+  // pixel parity — no keyframes, so their rest frame is identical regardless of reduced-motion.
+  'shimmer',
+  'glow',
+  'gradient',
+  'border-draw',
   // gen:no-pixel
 ];
 
