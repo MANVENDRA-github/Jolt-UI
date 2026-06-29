@@ -1,0 +1,45 @@
+/* Pulse — two CSS-only sonar-ping discs expanding from the center. The skin sets
+   --jolt-color, --jolt-size, --jolt-speed; the second disc is offset half a cycle
+   (negative delay) so the pulse reads as continuous from the first frame. The
+   keyframe returns to a small visible disc at 100% so the parity freeze (which
+   collapses the loop to its end frame) captures a non-blank, identical frame. */
+@keyframes jolt-pulse {
+  0%,
+  100% {
+    transform: scale(0.25);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+}
+
+.jolt-pulse {
+  position: relative;
+  display: inline-block;
+  width: var(--jolt-size, 40px);
+  height: var(--jolt-size, 40px);
+}
+
+.jolt-pulse span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--jolt-color, #6d5efc);
+  animation: jolt-pulse var(--jolt-speed, 1.2s) ease-out infinite;
+}
+.jolt-pulse span:nth-child(2) {
+  animation-delay: calc(var(--jolt-speed, 1.2s) * -0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-pulse span {
+    animation: none;
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  .jolt-pulse span:nth-child(2) {
+    display: none;
+  }
+}

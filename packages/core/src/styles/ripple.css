@@ -1,0 +1,45 @@
+/* Ripple — two CSS-only concentric rings expanding from the center (Material-style).
+   The skin sets --jolt-color, --jolt-size, --jolt-speed; the second ring is offset
+   half a cycle (negative delay) so the ripple reads as continuous. Hollow (bordered)
+   rings distinguish it from the filled Pulse. The keyframe returns to a small visible
+   ring at 100% so the parity freeze captures a non-blank, identical frame. */
+@keyframes jolt-ripple {
+  0%,
+  100% {
+    transform: scale(0.15);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.jolt-ripple {
+  position: relative;
+  display: inline-block;
+  width: var(--jolt-size, 48px);
+  height: var(--jolt-size, 48px);
+}
+
+.jolt-ripple span {
+  position: absolute;
+  inset: 0;
+  border: calc(var(--jolt-size, 48px) * 0.08) solid var(--jolt-color, #6d5efc);
+  border-radius: 50%;
+  animation: jolt-ripple var(--jolt-speed, 1.2s) cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.jolt-ripple span:nth-child(2) {
+  animation-delay: calc(var(--jolt-speed, 1.2s) * -0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-ripple span {
+    animation: none;
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  .jolt-ripple span:nth-child(2) {
+    display: none;
+  }
+}

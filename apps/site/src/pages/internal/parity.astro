@@ -16,6 +16,8 @@ import {
   Spinner as RSpinner,
   DotBounce as RDotBounce,
   Bars as RBars,
+  Pulse as RPulse,
+  Ripple as RRipple,
   // gen:react
 } from '@jolt/react';
 import {
@@ -32,6 +34,8 @@ import {
   Spinner as VSpinner,
   DotBounce as VDotBounce,
   Bars as VBars,
+  Pulse as VPulse,
+  Ripple as VRipple,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -48,6 +52,8 @@ import {
   Spinner as SSpinner,
   DotBounce as SDotBounce,
   Bars as SBars,
+  Pulse as SPulse,
+  Ripple as SRipple,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -95,6 +101,12 @@ const TEXT = 'Jolt UI';
     <div data-testid="bars-react"><RBars /></div>
     <div data-testid="bars-vue"><VBars /></div>
     <div data-testid="bars-svelte"><SBars /></div>
+    <div data-testid="pulse-react"><RPulse /></div>
+    <div data-testid="pulse-vue"><VPulse /></div>
+    <div data-testid="pulse-svelte"><SPulse /></div>
+    <div data-testid="ripple-react"><RRipple /></div>
+    <div data-testid="ripple-vue"><VRipple /></div>
+    <div data-testid="ripple-svelte"><SRipple /></div>
     {/* gen:cells */}
   </div>
 </Base>

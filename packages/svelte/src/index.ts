@@ -18,4 +18,6 @@ export { Aurora } from './components/Aurora';
 export { Spinner } from './components/Spinner';
 export { DotBounce } from './components/DotBounce';
 export { Bars } from './components/Bars';
+export { Pulse } from './components/Pulse';
+export { Ripple } from './components/Ripple';
 // gen:exports
