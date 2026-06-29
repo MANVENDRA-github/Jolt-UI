@@ -165,4 +165,41 @@ export declare const ProgressBar: (props: {
   speed?: number;
   label?: string;
 }) => unknown;
+export declare const Shimmer: (props: {
+  color?: string;
+  shine?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
+export declare const Glow: (props: {
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
+export declare const Gradient: (props: {
+  colors?: string[];
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
+export declare const Sweep: (props: {
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
+export declare const BorderDraw: (props: {
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
+export declare const Tactile: (props: {
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
 // gen:shims

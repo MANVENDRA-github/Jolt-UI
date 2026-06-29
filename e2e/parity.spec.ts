@@ -51,7 +51,24 @@ const GRAPHIC: readonly string[] = [
   'progress-bar',
   // gen:graphic
 ];
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC];
+// Buttons are interactive: a real <button> carrying a text label, animated by interaction
+// (hover/press) or a self-running surface effect. Every button asserts a <button> + label-text
+// parity across frameworks (the branch below); the spec never triggers .hover()/.focus()/
+// .click(), so the rest state is compared. The transition-only buttons (sweep/tactile) pixel-
+// compare (their rest frame is identical with or without reduced-motion); the self-running
+// keyframe buttons (shimmer/glow/gradient/border-draw) skip the pixel diff — see NO_PIXEL_PARITY
+// (their reduced-motion frame diverges from the freeze end-state, D-035). Interaction-state
+// parity is deferred; the behavior contract is covered by the per-framework unit tests (D-036).
+const INTERACTIVE: readonly string[] = [
+  'shimmer',
+  'glow',
+  'gradient',
+  'sweep',
+  'border-draw',
+  'tactile',
+  // gen:interactive
+];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -72,10 +89,25 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // is 0%; anti-drift is the shared CSS + the per-framework unit tests + the visibility assert
   // below — same rationale as scroll-velocity (D-019, extended in D-035).
   'progress-bar',
+  // The self-running keyframe buttons share ProgressBar's flaw (D-035): their reduced-motion
+  // static frame (gradient at 0% / a steady glow) diverges sharply from the freeze's keyframe
+  // end-state (gradient swept to ±200% / a small 4px glow), and Playwright's context-level
+  // reducedMotion isn't applied atomically across the three sequential per-cell screenshots, so
+  // cells get captured in different states → a large, intermittent diff over the whole button
+  // surface (observed: shimmer react-vs-svelte tripped the 3% threshold on headless-Linux CI,
+  // intermittently). Anti-drift is the shared CSS + the per-framework unit tests + the
+  // INTERACTIVE <button>/label assert above. The transition-only buttons (sweep/tactile) keep
+  // pixel parity — no keyframes, so their rest frame is identical regardless of reduced-motion.
+  'shimmer',
+  'glow',
+  'gradient',
+  'border-draw',
   // gen:no-pixel
 ];
 
-test('every on-page component renders identically across React, Vue, and Svelte', async ({ page }) => {
+test('every on-page component renders identically across React, Vue, and Svelte', async ({
+  page,
+}) => {
   // The whole E2E run shares one cold Astro dev server across parallel workers; the first
   // loads trigger a Vite dep-optimization + hydration storm that can delay these GSAP
   // islands settling, so keep generous headroom over Playwright's 30s default (D-018).
@@ -122,6 +154,7 @@ test('every on-page component renders identically across React, Vue, and Svelte'
   for (const id of COMPONENTS) {
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
     const isGraphic = (GRAPHIC as readonly string[]).includes(id);
+    const isInteractive = (INTERACTIVE as readonly string[]).includes(id);
 
     if (isGraphic) {
       // Graphic (loader): no text — just assert every framework cell is visible; the
@@ -129,6 +162,17 @@ test('every on-page component renders identically across React, Vue, and Svelte'
       for (const fw of FRAMEWORKS) {
         await expect(page.locator(`[data-testid="${id}-${fw}"]`)).toBeVisible();
       }
+    } else if (isInteractive) {
+      // Interactive (button): assert every framework renders a <button> and that its
+      // accessible label text matches across frameworks; the pixel comparison below
+      // covers the rest-state visual parity.
+      const labels: (string | null)[] = [];
+      for (const fw of FRAMEWORKS) {
+        const button = page.locator(`[data-testid="${id}-${fw}"] button`);
+        await expect(button).toBeVisible();
+        labels.push((await button.textContent())?.trim() ?? null);
+      }
+      expect(new Set(labels).size, `${id}: label differs: ${labels.join(' | ')}`).toBe(1);
     } else {
       // DOM parity: every framework shows the same accessible text. Per-char
       // components additionally expose it via aria-label + aria-hidden segments.

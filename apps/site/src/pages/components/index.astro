@@ -21,6 +21,12 @@ import {
   Ripple,
   Grid,
   ProgressBar,
+  Shimmer,
+  Glow,
+  Gradient,
+  Sweep,
+  BorderDraw,
+  Tactile,
   // gen:card-import
 } from '@jolt/react';
 
@@ -29,6 +35,11 @@ const card =
 const preview = 'flex h-20 items-center overflow-hidden text-2xl font-bold';
 const name = 'mt-3 text-sm font-semibold';
 const blurb = 'text-xs opacity-60';
+// Buttons are interactive (a real <button>), so their card is a <div> with a separate
+// "View" link — a live <button> must not be nested inside the card's <a> (invalid HTML +
+// a double tab stop). See DECISIONS D-036.
+const buttonCard = 'overflow-hidden rounded-lg border border-white/10 p-5';
+const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition hover:opacity-100';
 ---
 
 <ComponentsLayout
@@ -165,6 +176,53 @@ const blurb = 'text-xs opacity-60';
         <div class={name}>Progress Bar</div>
         <div class={blurb}>Indeterminate sliding fill (CSS)</div>
       </a>
+    </div>
+  </section>
+
+  <section id="buttons" class="mt-12 scroll-mt-24">
+    <h2 class="text-xl font-semibold">Buttons</h2>
+    <p class="mt-1 text-xs opacity-50">
+      Previews are live and interactive — hover, focus, or click a button; follow “View” for the
+      full demo.
+    </p>
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><Shimmer label="Shimmer" /></div>
+        <div class={name}>Shimmer</div>
+        <div class={blurb}>Sheen sweeps across the surface (CSS)</div>
+        <a href="/components/buttons/shimmer" class={viewLink}>View →</a>
+      </div>
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><Glow label="Glow" /></div>
+        <div class={name}>Glow</div>
+        <div class={blurb}>Breathing halo that pulses (CSS)</div>
+        <a href="/components/buttons/glow" class={viewLink}>View →</a>
+      </div>
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><Gradient label="Gradient" /></div>
+        <div class={name}>Gradient</div>
+        <div class={blurb}>Flowing multi-color gradient (CSS)</div>
+        <a href="/components/buttons/gradient" class={viewLink}>View →</a>
+      </div>
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><Sweep label="Sweep" /></div>
+        <div class={name}>Sweep</div>
+        <div class={blurb}>Fill wipes in on hover/focus (CSS)</div>
+        <a href="/components/buttons/sweep" class={viewLink}>View →</a>
+      </div>
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><BorderDraw label="Border Draw" /></div>
+        <div class={name}>Border Draw</div>
+        <div class={blurb}>Flowing gradient border (CSS)</div>
+        <a href="/components/buttons/border-draw" class={viewLink}>View →</a>
+      </div>
+      <div class={buttonCard}>
+        <div class="flex h-20 items-center justify-center"><Tactile label="Tactile" /></div>
+        <div class={name}>Tactile</div>
+        <div class={blurb}>Presses down on click (CSS)</div>
+        <a href="/components/buttons/tactile" class={viewLink}>View →</a>
+      </div>
+      {/* gen:card */}
     </div>
   </section>
 </ComponentsLayout>

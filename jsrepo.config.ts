@@ -170,6 +170,36 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/ProgressBar/ProgressBar.tsx' }],
         },
+        {
+          name: 'shimmer',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Shimmer/Shimmer.tsx' }],
+        },
+        {
+          name: 'glow',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Glow/Glow.tsx' }],
+        },
+        {
+          name: 'gradient',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Gradient/Gradient.tsx' }],
+        },
+        {
+          name: 'sweep',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Sweep/Sweep.tsx' }],
+        },
+        {
+          name: 'border-draw',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/BorderDraw/BorderDraw.tsx' }],
+        },
+        {
+          name: 'tactile',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Tactile/Tactile.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -296,6 +326,36 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/ProgressBar/ProgressBar.vue' }],
         },
+        {
+          name: 'shimmer',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Shimmer/Shimmer.vue' }],
+        },
+        {
+          name: 'glow',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Glow/Glow.vue' }],
+        },
+        {
+          name: 'gradient',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Gradient/Gradient.vue' }],
+        },
+        {
+          name: 'sweep',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Sweep/Sweep.vue' }],
+        },
+        {
+          name: 'border-draw',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/BorderDraw/BorderDraw.vue' }],
+        },
+        {
+          name: 'tactile',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Tactile/Tactile.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -421,6 +481,36 @@ export default defineConfig({
           name: 'progress-bar',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/ProgressBar/ProgressBar.svelte' }],
+        },
+        {
+          name: 'shimmer',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Shimmer/Shimmer.svelte' }],
+        },
+        {
+          name: 'glow',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Glow/Glow.svelte' }],
+        },
+        {
+          name: 'gradient',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Gradient/Gradient.svelte' }],
+        },
+        {
+          name: 'sweep',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Sweep/Sweep.svelte' }],
+        },
+        {
+          name: 'border-draw',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/BorderDraw/BorderDraw.svelte' }],
+        },
+        {
+          name: 'tactile',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Tactile/Tactile.svelte' }],
         },
         // gen:svelte-items
       ],

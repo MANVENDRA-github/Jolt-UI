@@ -23,4 +23,10 @@ export { Pulse } from './components/Pulse';
 export { Ripple } from './components/Ripple';
 export { Grid } from './components/Grid';
 export { ProgressBar } from './components/ProgressBar';
+export { Shimmer } from './components/Shimmer';
+export { Glow } from './components/Glow';
+export { Gradient } from './components/Gradient';
+export { Sweep } from './components/Sweep';
+export { BorderDraw } from './components/BorderDraw';
+export { Tactile } from './components/Tactile';
 // gen:exports

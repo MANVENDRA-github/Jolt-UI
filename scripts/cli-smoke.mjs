@@ -124,6 +124,12 @@ const COMPONENTS_TO_ADD = [
   'ripple',
   'grid',
   'progress-bar',
+  'shimmer',
+  'glow',
+  'gradient',
+  'sweep',
+  'border-draw',
+  'tactile',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -167,6 +173,12 @@ const CSS_SKINS = [
   ['Ripple.tsx', 'ripple.css'],
   ['Grid.tsx', 'grid.css'],
   ['ProgressBar.tsx', 'progress-bar.css'],
+  ['Shimmer.tsx', 'shimmer.css'],
+  ['Glow.tsx', 'glow.css'],
+  ['Gradient.tsx', 'gradient.css'],
+  ['Sweep.tsx', 'sweep.css'],
+  ['BorderDraw.tsx', 'border-draw.css'],
+  ['Tactile.tsx', 'tactile.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

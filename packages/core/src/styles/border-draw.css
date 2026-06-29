@@ -1,0 +1,58 @@
+/* Border Draw — a CSS-only ghost button with a gradient border that continuously
+   flows around the perimeter. The border ring is a ::before with a flowing gradient,
+   masked to just the 2px frame (mask-composite: exclude) so the center stays
+   transparent and works on any background. Self-contained; the skin sets --jolt-color
+   / --jolt-speed and renders on a native <button>. */
+@keyframes jolt-border-draw {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.jolt-border-draw {
+  position: relative;
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font: inherit;
+  font-weight: 600;
+  background: transparent;
+  color: var(--jolt-color, #6d5efc);
+  cursor: pointer;
+}
+
+.jolt-border-draw::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(
+      90deg,
+      var(--jolt-color, #6d5efc),
+      #b3a9ff,
+      var(--jolt-color, #6d5efc)
+    )
+    border-box;
+  background-size: 200% auto;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: jolt-border-draw var(--jolt-speed, 3s) linear infinite;
+  pointer-events: none;
+}
+
+.jolt-border-draw:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-border-draw::before {
+    animation: none;
+    background-position: 0% center;
+  }
+}

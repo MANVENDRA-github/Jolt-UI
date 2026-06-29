@@ -59,4 +59,16 @@ export { gridSchema, gridMeta } from './schemas/grid';
 export type { GridProps } from './schemas/grid';
 export { progressBarSchema, progressBarMeta } from './schemas/progress-bar';
 export type { ProgressBarProps } from './schemas/progress-bar';
+export { shimmerSchema, shimmerMeta } from './schemas/shimmer';
+export type { ShimmerProps } from './schemas/shimmer';
+export { glowSchema, glowMeta } from './schemas/glow';
+export type { GlowProps } from './schemas/glow';
+export { gradientSchema, gradientMeta } from './schemas/gradient';
+export type { GradientProps } from './schemas/gradient';
+export { sweepSchema, sweepMeta } from './schemas/sweep';
+export type { SweepProps } from './schemas/sweep';
+export { borderDrawSchema, borderDrawMeta } from './schemas/border-draw';
+export type { BorderDrawProps } from './schemas/border-draw';
+export { tactileSchema, tactileMeta } from './schemas/tactile';
+export type { TactileProps } from './schemas/tactile';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

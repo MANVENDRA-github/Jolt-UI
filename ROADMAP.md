@@ -18,9 +18,10 @@ Delivered: pnpm workspace; TS strict + `tsconfig.base`; ESLint flat + Prettier; 
 
 Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (jsrepo registry, own-the-code bundling), #5 (CLI-smoke E2E), #6 (Playwright parity E2E), and the docs slice (code-tabs + schema-driven props table). `pnpm verify` + `test:cli` + `test:e2e` + `build` all green; the `split-text` registry installs into a real consumer and type-checks.
 
-**Goal:** prove the *entire* pipeline on the hardest path so the rest is downhill. Component: `split-text` (a GSAP split/stagger reveal).
+**Goal:** prove the _entire_ pipeline on the hardest path so the rest is downhill. Component: `split-text` (a GSAP split/stagger reveal).
 
 **Deliverables:**
+
 - `packages/core`: Zod prop schema (`schemas/split-text.ts`) + framework-agnostic GSAP primitive (`primitives/split-text.ts`) + `motion.ts` (reduced-motion + plugin registration).
 - Three thin skins: `@jolt/{react,vue,svelte}` SplitText calling the core, reverting on unmount.
 - Site: a component page with 3 live islands + tabbed source (expressive-code) + copy button + MDX doc with a schema-generated props table.
@@ -35,14 +36,14 @@ Delivered across PRs #1/#3 (SplitText core + 3 skins + demo + unit tests), #4 (j
 
 ~2 components per PR (each its own small, phone-reviewable PR the maintainer merges). Every component follows the per-component slice in `COMPONENT_GUIDE.md` and **one of three proven patterns**: per-char CSS-only, whole-text CSS-only, or GSAP.
 
-| PR | Components | Pattern | Status |
-|----|-----------|---------|--------|
-| Phase 1 | Split Text | GSAP | ✅ merged (#1–#7) |
-| 2a | Blur In · Wave | per-char CSS | ✅ merged (#8) |
-| 2b | Gradient Text · Shiny Text | whole-text CSS | ✅ merged (#9) |
-| 2c | Typewriter · Rotating Words | CSS (structural) | ✅ merged (#11) |
-| 2d | Count Up · Scramble | GSAP | ✅ merged (#12) |
-| 2e | Scroll-Velocity + category index page | GSAP (ScrollTrigger) | ✅ merged (#13) |
+| PR      | Components                            | Pattern              | Status            |
+| ------- | ------------------------------------- | -------------------- | ----------------- |
+| Phase 1 | Split Text                            | GSAP                 | ✅ merged (#1–#7) |
+| 2a      | Blur In · Wave                        | per-char CSS         | ✅ merged (#8)    |
+| 2b      | Gradient Text · Shiny Text            | whole-text CSS       | ✅ merged (#9)    |
+| 2c      | Typewriter · Rotating Words           | CSS (structural)     | ✅ merged (#11)   |
+| 2d      | Count Up · Scramble                   | GSAP                 | ✅ merged (#12)   |
+| 2e      | Scroll-Velocity + category index page | GSAP (ScrollTrigger) | ✅ merged (#13)   |
 
 Gates per PR: `pnpm verify` + `pnpm test:cli` + `pnpm test:e2e` green. Cross-framework parity is enforced by the Playwright harness (`/internal/parity` + `e2e/parity.spec.ts`), which **freezes animations to a deterministic frame** (DECISIONS D-015) — reduced-motion alone won't freeze a looping animation on CI. Live state, the three patterns, and solved gotchas: `PROGRESS.md` → “Next up”; rationale: `DECISIONS.md` (D-008, D-011–D-019).
 
@@ -70,14 +71,20 @@ More Three.js backgrounds on the proven Particles pattern (per-component slice +
 - **6c — Aurora** ✅: the first **shader** background — a flowing aurora light-curtain in a custom-GLSL `ShaderMaterial` (the functional core becomes prop→uniform resolution; the GLSL is live-verified, D-033). Establishes the shader pattern.
 - Backgrounds is a solid 6-component category; more (shaders / CPU-vertex) can come later.
 
-## Phase 7 — Loaders (the 3rd category) — **in progress**
+## ✅ Phase 7 — Loaders (the 3rd category) — **DONE (2026-06-29)**
 
 CSS-only animated loaders across all three frameworks, on the proven shared-CSS distribution.
 
-- **7a — Spinner + Dot-Bounce + Bars** ✅: bootstrapped the `loader` category + a new **`GRAPHIC`** parity kind (non-text, non-canvas, pixel-compared CSS on the shared harness) + a `role="status"` a11y pattern (D-034). Loaders are hand-written (the scaffolder stays text-only).
+- **7a — Spinner + Dot-Bounce + Bars** ✅ (#31): bootstrapped the `loader` category + a new **`GRAPHIC`** parity kind (non-text, non-canvas, pixel-compared CSS on the shared harness) + a `role="status"` a11y pattern (D-034). Loaders are hand-written (the scaffolder stays text-only).
 - **7b — Pulse + Ripple** ✅ (#33): expanding sonar-ping discs + Material concentric rings. Loaders **3 → 5**.
-- **7c — Grid + Progress Bar** ✅ (#34): a 3×3 diagonal-wave grid + an indeterminate sliding bar. Loaders **5 → 7**.
-- Next: more categories, or extend the `gen-component` scaffolder to non-text components / categories.
+- **7c — Grid + Progress Bar** ✅ (#34): a 3×3 diagonal-wave grid + an indeterminate sliding bar. Loaders **5 → 7**. (Follow-up #36: ProgressBar opts out of pixel parity, D-035.)
+
+## Phase 8 — Buttons (the 4th category) — **in progress**
+
+The gallery's first **interactive** components — a real `<button>` with a text label, animated by interaction (hover/press) or a self-running surface effect. CSS-only, across all three frameworks, on the shared-CSS distribution.
+
+- **Bootstrap (one PR, 6 buttons): Shimmer · Glow · Gradient · Sweep · Border Draw · Tactile** — establishes the **interactive skin pattern** (native `<button>`; `label` via children/slot; `onClick`/`disabled`/native attrs forwarded — React `& ButtonHTMLAttributes` + `...rest`, Vue attribute fallthrough, Svelte 5 `& HTMLButtonAttributes` + Snippet children) and a new **`INTERACTIVE`** parity kind (assert `<button>` + label-text parity + rest-state pixel-compare; hover/focus/press-triggered parity deferred). Buttons are hand-written (the scaffolder stays text-only). Decision **D-036**.
+- Next: more buttons (icon / loading states, button groups), interaction-state parity, or a 5th category.
 
 ## Later (out of v1 scope)
 
