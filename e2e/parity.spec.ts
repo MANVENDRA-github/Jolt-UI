@@ -62,6 +62,16 @@ const TEXT = 'Jolt UI';
 // per-framework unit tests (identical markup); only the screenshot diff is skipped.
 const NO_PIXEL_PARITY: readonly string[] = [
   'scroll-velocity',
+  // ProgressBar has no stable frozen frame: its reduced-motion static state (a 45% fill at
+  // the left) and its animation end-state — the freeze target — sweep the fill off the track,
+  // leaving the bare rail. Those two states differ sharply, and the harness's reduced-motion
+  // emulation is not applied atomically across the three sequential per-cell screenshots
+  // (Playwright's context-level reducedMotion is flaky — the live-verify uses page.emulateMedia
+  // instead), so one cell can be captured mid-fill while another shows the rail, spiking the
+  // diff (~12%) intermittently. The DOM is byte-identical across frameworks and the stable diff
+  // is 0%; anti-drift is the shared CSS + the per-framework unit tests + the visibility assert
+  // below — same rationale as scroll-velocity (D-019, extended in D-035).
+  'progress-bar',
   // gen:no-pixel
 ];
 

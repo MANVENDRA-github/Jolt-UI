@@ -66,6 +66,13 @@ A reusable `gen-component` scaffolder (Phase 3) will stamp this slice from one c
 
 ## Session log
 
+### 2026-06-29 — Phase 7 fix: ProgressBar opts out of pixel parity (flaky CI)
+
+PR **#35**'s CI caught a **flaky** parity failure — `progress-bar: react vs vue` — that #33/#34's CI happened to pass. (CI runs `pnpm test:e2e`, not just `verify`; the repo has **no branch protection**, so #35 merged over the red check — it shouldn't have. Future merges gate on the real CI conclusion.) Root-caused and fixed on `fix/progress-bar-parity`.
+
+- **Not drift.** Dumped all three progress-bar cells' `innerHTML` + screenshots under the harness freeze: the DOM is **byte-identical** and the stable diff is **0%**. The flake is a **state divergence** — ProgressBar's reduced-motion static frame (a 45% fill) vs its animation end-state (fill swept off-track → bare rail) differ sharply, and Playwright's context-level `reducedMotion` isn't applied atomically across the three sequential per-cell screenshots (cf. the 7b live-verify, which moved to `page.emulateMedia`), so one cell is caught mid-fill while another shows the rail → ~12% diff, intermittently over the 3% threshold. (The "cold-start CountUp" attribution in the 7c entry below was actually this.)
+- **Fix:** added `progress-bar` to `NO_PIXEL_PARITY` in `e2e/parity.spec.ts` (2nd member after scroll-velocity). Anti-drift = shared CSS + per-framework unit tests + the `GRAPHIC` visibility assert. Decision **D-035**. Confirmed deterministic: `pnpm test:e2e` parity ran green repeatedly after the fix.
+
 ### 2026-06-29 — Phase 7 PR 7c: Loaders — Grid + Progress Bar
 
 The other two loaders from the PR-7b selection, on the same slice (D-034), filling the Loaders category **5 → 7** (parity with Backgrounds). Built off fresh `main` after #33 merged; one branch `feat/phase-7c-grid-progress`; PR pending.
