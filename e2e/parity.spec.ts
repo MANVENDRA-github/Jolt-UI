@@ -47,6 +47,8 @@ const GRAPHIC: readonly string[] = [
   'bars',
   'pulse',
   'ripple',
+  'grid',
+  'progress-bar',
   // gen:graphic
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC];

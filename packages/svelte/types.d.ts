@@ -152,4 +152,17 @@ export declare const Ripple: (props: {
   speed?: number;
   label?: string;
 }) => unknown;
+export declare const Grid: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
+export declare const ProgressBar: (props: {
+  color?: string;
+  width?: number;
+  thickness?: number;
+  speed?: number;
+  label?: string;
+}) => unknown;
 // gen:shims

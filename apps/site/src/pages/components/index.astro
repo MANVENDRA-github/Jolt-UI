@@ -19,6 +19,8 @@ import {
   Bars,
   Pulse,
   Ripple,
+  Grid,
+  ProgressBar,
   // gen:card-import
 } from '@jolt/react';
 
@@ -152,6 +154,16 @@ const blurb = 'text-xs opacity-60';
         <div class="flex h-20 items-center justify-center"><Ripple /></div>
         <div class={name}>Ripple</div>
         <div class={blurb}>Concentric expanding rings (CSS)</div>
+      </a>
+      <a href="/components/loaders/grid" class={card}>
+        <div class="flex h-20 items-center justify-center"><Grid /></div>
+        <div class={name}>Grid</div>
+        <div class={blurb}>3×3 squares pulsing in a wave (CSS)</div>
+      </a>
+      <a href="/components/loaders/progress-bar" class={card}>
+        <div class="flex h-20 items-center justify-center"><ProgressBar /></div>
+        <div class={name}>Progress Bar</div>
+        <div class={blurb}>Indeterminate sliding fill (CSS)</div>
       </a>
     </div>
   </section>

@@ -18,6 +18,8 @@ import {
   Bars as RBars,
   Pulse as RPulse,
   Ripple as RRipple,
+  Grid as RGrid,
+  ProgressBar as RProgressBar,
   // gen:react
 } from '@jolt/react';
 import {
@@ -36,6 +38,8 @@ import {
   Bars as VBars,
   Pulse as VPulse,
   Ripple as VRipple,
+  Grid as VGrid,
+  ProgressBar as VProgressBar,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -54,6 +58,8 @@ import {
   Bars as SBars,
   Pulse as SPulse,
   Ripple as SRipple,
+  Grid as SGrid,
+  ProgressBar as SProgressBar,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -107,6 +113,12 @@ const TEXT = 'Jolt UI';
     <div data-testid="ripple-react"><RRipple /></div>
     <div data-testid="ripple-vue"><VRipple /></div>
     <div data-testid="ripple-svelte"><SRipple /></div>
+    <div data-testid="grid-react"><RGrid /></div>
+    <div data-testid="grid-vue"><VGrid /></div>
+    <div data-testid="grid-svelte"><SGrid /></div>
+    <div data-testid="progress-bar-react"><RProgressBar /></div>
+    <div data-testid="progress-bar-vue"><VProgressBar /></div>
+    <div data-testid="progress-bar-svelte"><SProgressBar /></div>
     {/* gen:cells */}
   </div>
 </Base>
