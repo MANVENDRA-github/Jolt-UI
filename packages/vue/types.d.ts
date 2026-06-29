@@ -164,4 +164,41 @@ export declare const ProgressBar: DefineComponent<{
   speed?: number;
   label?: string;
 }>;
+export declare const Shimmer: DefineComponent<{
+  color?: string;
+  shine?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
+export declare const Glow: DefineComponent<{
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
+export declare const Gradient: DefineComponent<{
+  colors?: string[];
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
+export declare const Sweep: DefineComponent<{
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
+export declare const BorderDraw: DefineComponent<{
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
+export declare const Tactile: DefineComponent<{
+  color?: string;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
 // gen:shims

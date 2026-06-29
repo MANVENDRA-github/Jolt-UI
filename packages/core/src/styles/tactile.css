@@ -1,0 +1,35 @@
+/* Tactile — a CSS-only raised button that presses down with a collapsing shadow on
+   :active (a chunky bottom box-shadow + translateY). Self-contained; the skin sets
+   --jolt-color / --jolt-speed and renders on a native <button>. */
+.jolt-tactile {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: var(--jolt-color, #6d5efc);
+  box-shadow: 0 4px 0 0 color-mix(in srgb, var(--jolt-color, #6d5efc) 55%, #000);
+  transform: translateY(0);
+  transition:
+    transform var(--jolt-speed, 0.12s) ease,
+    box-shadow var(--jolt-speed, 0.12s) ease;
+}
+
+.jolt-tactile:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--jolt-color, #6d5efc) 55%, #000);
+}
+
+.jolt-tactile:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-tactile {
+    transition: none;
+  }
+}

@@ -1,0 +1,38 @@
+/* Glow — a CSS-only button with a breathing box-shadow halo pulsing in and out.
+   Self-contained; the skin sets --jolt-color / --jolt-speed and renders on a native
+   <button>. */
+@keyframes jolt-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 4px 0 var(--jolt-color, #6d5efc);
+  }
+  50% {
+    box-shadow: 0 0 18px 4px var(--jolt-color, #6d5efc);
+  }
+}
+
+.jolt-glow {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: var(--jolt-color, #6d5efc);
+  animation: jolt-glow var(--jolt-speed, 2s) ease-in-out infinite;
+}
+
+.jolt-glow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-glow {
+    animation: none;
+    box-shadow: 0 0 10px 2px var(--jolt-color, #6d5efc);
+  }
+}

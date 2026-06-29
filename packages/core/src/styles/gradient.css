@@ -1,0 +1,38 @@
+/* Gradient — a CSS-only button with a multi-color gradient flowing across the surface
+   (the gradient-text background-position idiom, on a solid fill). Self-contained; the
+   skin sets --jolt-gradient (built from the colors prop) / --jolt-speed and renders on
+   a native <button>. */
+@keyframes jolt-gradient {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.jolt-gradient {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background-image: var(
+    --jolt-gradient,
+    linear-gradient(90deg, #6d5efc, #a855f7, #ec4899, #6d5efc)
+  );
+  background-size: 200% auto;
+  animation: jolt-gradient var(--jolt-speed, 4s) linear infinite;
+}
+
+.jolt-gradient:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-gradient {
+    animation: none;
+    background-position: 0% center;
+  }
+}

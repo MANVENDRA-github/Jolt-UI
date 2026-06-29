@@ -51,7 +51,23 @@ const GRAPHIC: readonly string[] = [
   'progress-bar',
   // gen:graphic
 ];
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC];
+// Buttons are interactive: a real <button> carrying a text label, animated by interaction
+// (hover/press) or a self-running surface effect. We pixel-compare the REST state — the freeze
+// below collapses a self-running effect (shimmer/glow/gradient/border-draw) to a deterministic
+// frame, and a hover/press effect (sweep/tactile) renders as its static base at rest since the
+// spec never triggers .hover()/.focus()/.click() — and assert the label text matches across
+// frameworks. Interaction-state parity is deferred; the behavior contract (click/disabled/
+// keyboard) is covered by the per-framework unit tests + the shared CSS single-source (D-036).
+const INTERACTIVE: readonly string[] = [
+  'shimmer',
+  'glow',
+  'gradient',
+  'sweep',
+  'border-draw',
+  'tactile',
+  // gen:interactive
+];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -75,7 +91,9 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // gen:no-pixel
 ];
 
-test('every on-page component renders identically across React, Vue, and Svelte', async ({ page }) => {
+test('every on-page component renders identically across React, Vue, and Svelte', async ({
+  page,
+}) => {
   // The whole E2E run shares one cold Astro dev server across parallel workers; the first
   // loads trigger a Vite dep-optimization + hydration storm that can delay these GSAP
   // islands settling, so keep generous headroom over Playwright's 30s default (D-018).
@@ -122,6 +140,7 @@ test('every on-page component renders identically across React, Vue, and Svelte'
   for (const id of COMPONENTS) {
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
     const isGraphic = (GRAPHIC as readonly string[]).includes(id);
+    const isInteractive = (INTERACTIVE as readonly string[]).includes(id);
 
     if (isGraphic) {
       // Graphic (loader): no text — just assert every framework cell is visible; the
@@ -129,6 +148,17 @@ test('every on-page component renders identically across React, Vue, and Svelte'
       for (const fw of FRAMEWORKS) {
         await expect(page.locator(`[data-testid="${id}-${fw}"]`)).toBeVisible();
       }
+    } else if (isInteractive) {
+      // Interactive (button): assert every framework renders a <button> and that its
+      // accessible label text matches across frameworks; the pixel comparison below
+      // covers the rest-state visual parity.
+      const labels: (string | null)[] = [];
+      for (const fw of FRAMEWORKS) {
+        const button = page.locator(`[data-testid="${id}-${fw}"] button`);
+        await expect(button).toBeVisible();
+        labels.push((await button.textContent())?.trim() ?? null);
+      }
+      expect(new Set(labels).size, `${id}: label differs: ${labels.join(' | ')}`).toBe(1);
     } else {
       // DOM parity: every framework shows the same accessible text. Per-char
       // components additionally expose it via aria-label + aria-hidden segments.
