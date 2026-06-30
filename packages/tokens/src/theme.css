@@ -1,25 +1,124 @@
-/* Jolt UI design tokens — the single source of visual identity (Tailwind v4 @theme).
-   Every framework package and the site import this file; nothing redefines these values. */
-@theme {
-  /* Brand palette */
-  --color-jolt-bg: #0b0b0f;
-  --color-jolt-fg: #f5f5f7;
-  --color-jolt-accent: #6d5efc;
+/* Jolt UI — "Voltage" design tokens. The single source of visual identity (Tailwind v4
+   @theme). Every framework package and the site import this file.
 
-  /* Motion language (mirrored in tokens.ts; a parity test asserts they match) */
+   Structure: @theme{} holds the brand-constant palette + type/radii/motion (static, and
+   minted as Tailwind utilities). The [data-theme] blocks below map those raw values to
+   semantic roles that resolve per light/dark. Required public token NAMES
+   (--color-jolt-bg/-fg/-accent, --ease-jolt-out, --duration-jolt-base/-fast,
+   --jolt-stagger, --jolt-surface, --jolt-text) are frozen; their values evolve and new
+   tokens are added alongside. */
+@theme {
+  /* ---- Raw palette: "volt" (primary electric violet, evolves #6d5efc) ---- */
+  --color-volt-50: #efebff;
+  --color-volt-100: #dad0ff;
+  --color-volt-200: #bca9ff;
+  --color-volt-300: #9b82ff; /* hover / glow-light */
+  --color-volt-400: #8a6bff;
+  --color-volt-500: #7c5cff; /* PRIMARY */
+  --color-volt-600: #6645e6; /* pressed */
+  --color-volt-700: #5436bf; /* accent text — AA on light */
+  --color-volt-800: #3f2a8f;
+  --color-volt-900: #2a1c61;
+
+  /* ---- Raw palette: "spark" (acid secondary — live/charged moments only) ---- */
+  --color-spark-300: #e0ffa6;
+  --color-spark-400: #d4ff7a;
+  --color-spark-500: #c6ff4f; /* SPARK */
+  --color-spark-600: #9fe000;
+  --color-spark-700: #4e7a00; /* deep spark — readable on light */
+
+  /* ---- Raw palette: ink + violet-tinted neutral "steel" ramp ---- */
+  --color-ink: #f3f1fb;
+  --color-steel-200: #c9c5dd;
+  --color-steel-300: #a8a3c4;
+  --color-steel-400: #8a85a8;
+  --color-steel-500: #6a6786; /* structure / labels */
+  --color-steel-600: #514e69;
+  --color-steel-700: #3a384d;
+  --color-steel-800: #252336;
+  --color-steel-900: #16142a;
+
+  /* ---- Raw palette: charged near-black base (blue-violet cast, never pure #000) ---- */
+  --color-base-950: #0a0911; /* canvas */
+  --color-base-900: #0f0d1a;
+  --color-base-850: #14121f; /* raised surface */
+  --color-base-800: #1b1830;
+  --color-base-750: #221f3a;
+
+  /* ---- Required public brand tokens (names frozen, values evolve) ---- */
+  --color-jolt-bg: #0a0911;
+  --color-jolt-fg: #f3f1fb;
+  --color-jolt-accent: #7c5cff;
+
+  /* ---- Type roles (self-hosted variable fonts; mapped in global.css) ---- */
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'JetBrains Mono', monospace;
+  --font-sans: var(--font-body); /* Tailwind's default `font-sans` => Inter */
+
+  --tracking-display: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-label: 0.14em; /* the uppercase mono eyebrow labels */
+  --leading-display: 1.04;
+  --leading-body: 1.65;
+
+  /* ---- Radii ---- */
+  --radius-jolt-sm: 0.375rem;
+  --radius-jolt: 0.625rem;
+  --radius-jolt-lg: 1rem;
+  --radius-jolt-pill: 999px;
+
+  /* ---- Motion (FROZEN values — mirrored in tokens.ts; tokens.test.ts asserts these
+     exact strings appear here. Do not reformat.) ---- */
   --ease-jolt-out: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-jolt-base: 600ms;
   --duration-jolt-fast: 300ms;
   --jolt-stagger: 30ms;
+
+  /* ---- New motion (CSS-only; NOT in tokens.ts) ---- */
+  --ease-jolt-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-jolt-slow: 1200ms;
+  --duration-jolt-current: 2400ms; /* hero rail "current" beat */
 }
 
-/* Theme surfaces, switched via [data-theme] on <html> (consumed by the site + demos). */
+/* ===== Semantic roles — resolve per theme ===== */
 :root,
 [data-theme='dark'] {
-  --jolt-surface: #0b0b0f;
-  --jolt-text: #f5f5f7;
+  --jolt-surface: var(--color-base-950); /* REQUIRED name */
+  --jolt-surface-raised: var(--color-base-850);
+  --jolt-surface-sunken: #07060d;
+  --jolt-text: var(--color-ink); /* REQUIRED name */
+  --jolt-text-muted: var(--color-steel-300);
+  --jolt-text-subtle: var(--color-steel-500);
+  --jolt-border: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  --jolt-border-strong: color-mix(in srgb, var(--color-ink) 24%, transparent);
+  --jolt-accent: var(--color-volt-500);
+  --jolt-accent-hover: var(--color-volt-300);
+  --jolt-accent-contrast: #0a0911; /* text on a volt fill */
+  --jolt-spark: var(--color-spark-500);
+  --jolt-ring: color-mix(in srgb, var(--color-volt-500) 60%, transparent);
+  --shadow-jolt: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --shadow-jolt-glow:
+    0 0 0 1px color-mix(in srgb, var(--color-volt-500) 40%, transparent),
+    0 0 28px -6px color-mix(in srgb, var(--color-volt-500) 65%, transparent);
 }
+
 [data-theme='light'] {
-  --jolt-surface: #ffffff;
-  --jolt-text: #11111a;
+  --jolt-surface: #f6f5fc; /* tinted near-white, not pure #fff, not cream */
+  --jolt-surface-raised: #ffffff;
+  --jolt-surface-sunken: #eceaf6;
+  --jolt-text: #14121f;
+  --jolt-text-muted: var(--color-steel-600);
+  --jolt-text-subtle: var(--color-steel-500);
+  --jolt-border: color-mix(in srgb, #14121f 12%, transparent);
+  --jolt-border-strong: color-mix(in srgb, #14121f 22%, transparent);
+  --jolt-accent: var(--color-volt-700); /* AA contrast on light surfaces */
+  --jolt-accent-hover: var(--color-volt-600);
+  --jolt-accent-contrast: #ffffff;
+  --jolt-spark: var(--color-spark-700);
+  --jolt-ring: color-mix(in srgb, var(--color-volt-700) 55%, transparent);
+  --shadow-jolt: 0 1px 2px rgb(20 18 31 / 0.06), 0 10px 30px -16px rgb(20 18 31 / 0.25);
+  --shadow-jolt-glow:
+    0 0 0 1px color-mix(in srgb, var(--color-volt-500) 30%, transparent),
+    0 0 24px -8px color-mix(in srgb, var(--color-volt-600) 45%, transparent);
 }
