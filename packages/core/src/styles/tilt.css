@@ -1,0 +1,24 @@
+/* Tilt — a CSS card that rotates in 3-D toward the cursor. The pointer behavior
+   (behavior/pointer.ts) writes --jolt-rx / --jolt-ry (defaulting to 0deg = flat), eased by
+   --jolt-speed; under reduced-motion the behavior stops tracking and the static rule below
+   keeps the card flat. Self-contained; the skin sets --jolt-color / --jolt-speed and wraps
+   the consumer's content. */
+.jolt-tilt {
+  display: block;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #14141c;
+  border: 1px solid color-mix(in srgb, var(--jolt-color, #6d5efc) 40%, transparent);
+  transform: perspective(800px) rotateX(var(--jolt-rx, 0deg)) rotateY(var(--jolt-ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform var(--jolt-speed, 0.15s) ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-tilt {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
