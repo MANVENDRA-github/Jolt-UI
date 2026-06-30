@@ -50,11 +50,11 @@
     position: relative;
     width: 13rem;
     --pagefind-ui-scale: 0.8;
-    --pagefind-ui-background: var(--jolt-surface);
+    --pagefind-ui-background: var(--jolt-surface-raised);
     --pagefind-ui-text: var(--jolt-text);
-    --pagefind-ui-primary: var(--color-jolt-accent, #6d5efc);
-    --pagefind-ui-border: rgba(255, 255, 255, 0.15);
-    --pagefind-ui-tag: rgba(255, 255, 255, 0.08);
+    --pagefind-ui-primary: var(--jolt-accent);
+    --pagefind-ui-border: var(--jolt-border-strong);
+    --pagefind-ui-tag: var(--jolt-surface-sunken);
   }
   /* Float the results over the page instead of pushing the sticky nav down. */
   .jolt-search :global(.pagefind-ui__drawer) {
@@ -66,10 +66,11 @@
     max-width: 80vw;
     max-height: 70vh;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.5rem;
-    background: var(--jolt-surface);
+    border: 1px solid var(--jolt-border-strong);
+    border-radius: var(--radius-jolt-lg);
+    background: var(--jolt-surface-raised);
     padding: 0.5rem 0.75rem;
+    box-shadow: var(--shadow-jolt);
     z-index: 30;
   }
 </style>

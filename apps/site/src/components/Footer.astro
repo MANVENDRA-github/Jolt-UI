@@ -2,15 +2,27 @@
 const repo = 'https://github.com/MANVENDRA-github/Jolt-UI';
 ---
 
-<footer data-pagefind-ignore class="mt-16 border-t border-white/10">
+<footer data-pagefind-ignore class="mt-20 border-t border-[color:var(--jolt-border)]">
   <div
-    class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-sm opacity-60"
+    class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-8 text-sm text-[var(--jolt-text-subtle)]"
   >
-    <span>Jolt UI — React · Vue · Svelte from one design language.</span>
-    <div class="flex gap-4">
-      <a class="transition hover:opacity-100" href="/components">Components</a>
-      <a class="transition hover:opacity-100" href="/docs/getting-started">Docs</a>
-      <a class="transition hover:opacity-100" href={repo}>GitHub</a>
+    <span class="flex items-center gap-2">
+      <svg
+        class="h-3.5 w-3.5 text-[var(--jolt-accent)]"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M13 2 4 13.5h6L9 22l9-11.5h-6L13 2Z"></path>
+      </svg>
+      Jolt UI — React · Vue · Svelte from one design language.
+    </span>
+    <div class="flex gap-5">
+      <a class="transition-colors hover:text-[var(--jolt-text)]" href="/components">Components</a>
+      <a class="transition-colors hover:text-[var(--jolt-text)]" href="/docs/getting-started"
+        >Docs</a
+      >
+      <a class="transition-colors hover:text-[var(--jolt-text)]" href={repo}>GitHub</a>
     </div>
   </div>
 </footer>
