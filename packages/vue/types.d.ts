@@ -201,4 +201,19 @@ export declare const Tactile: DefineComponent<{
   label?: string;
   disabled?: boolean;
 }>;
+export declare const Spotlight: DefineComponent<{
+  color?: string;
+  size?: number;
+  opacity?: number;
+}>;
+export declare const Tilt: DefineComponent<{
+  color?: string;
+  maxTilt?: number;
+  speed?: number;
+}>;
+export declare const ShineBorder: DefineComponent<{
+  color?: string;
+  speed?: number;
+  width?: number;
+}>;
 // gen:shims

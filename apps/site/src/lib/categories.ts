@@ -6,7 +6,7 @@
 import * as core from '@jolt/core';
 
 /** The data value carried on each component's `meta.category`. */
-export type CategoryId = 'text' | 'background' | 'loader' | 'button';
+export type CategoryId = 'text' | 'background' | 'loader' | 'button' | 'card';
 
 export interface Category {
   /** Matches `meta.category` on a component. */
@@ -25,6 +25,7 @@ export const CATEGORIES: readonly Category[] = [
   { id: 'background', slug: 'backgrounds', label: 'Backgrounds', order: 1 },
   { id: 'loader', slug: 'loaders', label: 'Loaders', order: 2 },
   { id: 'button', slug: 'buttons', label: 'Buttons', order: 3 },
+  { id: 'card', slug: 'cards', label: 'Cards', order: 4 },
 ];
 
 interface ComponentMeta {

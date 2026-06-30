@@ -29,4 +29,7 @@ export { Gradient } from './components/Gradient';
 export { Sweep } from './components/Sweep';
 export { BorderDraw } from './components/BorderDraw';
 export { Tactile } from './components/Tactile';
+export { Spotlight } from './components/Spotlight';
+export { Tilt } from './components/Tilt';
+export { ShineBorder } from './components/ShineBorder';
 // gen:exports

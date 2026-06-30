@@ -200,6 +200,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Tactile/Tactile.tsx' }],
         },
+        {
+          name: 'spotlight',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Spotlight/Spotlight.tsx' }],
+        },
+        {
+          name: 'tilt',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Tilt/Tilt.tsx' }],
+        },
+        {
+          name: 'shine-border',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/ShineBorder/ShineBorder.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -356,6 +371,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Tactile/Tactile.vue' }],
         },
+        {
+          name: 'spotlight',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Spotlight/Spotlight.vue' }],
+        },
+        {
+          name: 'tilt',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Tilt/Tilt.vue' }],
+        },
+        {
+          name: 'shine-border',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/ShineBorder/ShineBorder.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -511,6 +541,21 @@ export default defineConfig({
           name: 'tactile',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Tactile/Tactile.svelte' }],
+        },
+        {
+          name: 'spotlight',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Spotlight/Spotlight.svelte' }],
+        },
+        {
+          name: 'tilt',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Tilt/Tilt.svelte' }],
+        },
+        {
+          name: 'shine-border',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/ShineBorder/ShineBorder.svelte' }],
         },
         // gen:svelte-items
       ],

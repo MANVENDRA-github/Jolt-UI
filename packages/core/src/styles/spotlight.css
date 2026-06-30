@@ -1,0 +1,29 @@
+/* Spotlight — a CSS card whose radial glow follows the cursor. The pointer behavior
+   (behavior/pointer.ts) writes --jolt-x / --jolt-y (defaulting to the center), so the glow
+   tracks the pointer with no JS animation; under reduced-motion the behavior simply stops
+   tracking and the glow stays centered. Self-contained; the skin sets --jolt-color /
+   --jolt-size / --jolt-opacity and wraps the consumer's content. */
+.jolt-spotlight {
+  position: relative;
+  display: block;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #14141c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.jolt-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--jolt-x, 50%) var(--jolt-y, 50%),
+    var(--jolt-color, #6d5efc) 0%,
+    transparent var(--jolt-size, 60%)
+  );
+  opacity: var(--jolt-opacity, 0.35);
+}

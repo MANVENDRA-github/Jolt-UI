@@ -1,0 +1,48 @@
+/* Shine Border — a CSS card with a gradient border that continuously flows around the
+   perimeter. The border ring is a ::before with a flowing linear-gradient, masked to just
+   the --jolt-width frame (mask-composite: exclude) so the center stays transparent and
+   works on any background (cf. the Border Draw button). Self-running; the skin sets
+   --jolt-color / --jolt-speed / --jolt-width and wraps the consumer's content. */
+@keyframes jolt-shine-border {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.jolt-shine-border {
+  position: relative;
+  display: block;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #14141c;
+}
+
+.jolt-shine-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--jolt-width, 2px);
+  background: linear-gradient(
+      90deg,
+      var(--jolt-color, #6d5efc),
+      #b3a9ff,
+      var(--jolt-color, #6d5efc)
+    )
+    border-box;
+  background-size: 200% auto;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: jolt-shine-border var(--jolt-speed, 3s) linear infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-shine-border::before {
+    animation: none;
+    background-position: 0% center;
+  }
+}

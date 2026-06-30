@@ -68,7 +68,19 @@ const INTERACTIVE: readonly string[] = [
   'tactile',
   // gen:interactive
 ];
-const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE];
+// Cards are presentational <div> containers wrapping slotted child content. Parity asserts
+// each framework renders the card root + identical slotted child text; the rest-state pixel
+// diff below covers visual parity. Spotlight/Tilt are pixel-stable at rest (the pointer
+// behavior writes a deterministic center/flat state on mount, and the spec never moves the
+// pointer); ShineBorder self-animates → NO_PIXEL_PARITY (D-035). Pointer-driven states are
+// deferred to the per-framework unit tests + live-verify (mirrors buttons' deferred hover/press).
+const CONTAINER: readonly string[] = [
+  'spotlight',
+  'tilt',
+  'shine-border',
+  // gen:container
+];
+const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE, ...CONTAINER];
 const FRAMEWORKS = ['react', 'vue', 'svelte'] as const;
 const TEXT = 'Jolt UI';
 
@@ -102,6 +114,12 @@ const NO_PIXEL_PARITY: readonly string[] = [
   'glow',
   'gradient',
   'border-draw',
+  // ShineBorder is a self-running keyframe card (a flowing gradient border) — same flaw as the
+  // keyframe buttons above (D-035): its reduced-motion static frame diverges from the freeze's
+  // end-state and the per-cell reducedMotion isn't applied atomically. Anti-drift is the shared
+  // CSS + the per-framework unit tests + the CONTAINER root/child-text assert. Spotlight/Tilt are
+  // NOT excluded — their rest frame (centered glow / flat card) is deterministic under the freeze.
+  'shine-border',
   // gen:no-pixel
 ];
 
@@ -155,6 +173,7 @@ test('every on-page component renders identically across React, Vue, and Svelte'
     const isPerChar = (PER_CHAR as readonly string[]).includes(id);
     const isGraphic = (GRAPHIC as readonly string[]).includes(id);
     const isInteractive = (INTERACTIVE as readonly string[]).includes(id);
+    const isContainer = (CONTAINER as readonly string[]).includes(id);
 
     if (isGraphic) {
       // Graphic (loader): no text — just assert every framework cell is visible; the
@@ -173,6 +192,20 @@ test('every on-page component renders identically across React, Vue, and Svelte'
         labels.push((await button.textContent())?.trim() ?? null);
       }
       expect(new Set(labels).size, `${id}: label differs: ${labels.join(' | ')}`).toBe(1);
+    } else if (isContainer) {
+      // Container (card): assert every framework renders the card root + the same slotted child
+      // text; the pixel comparison below covers rest-state parity. Read the text from the card
+      // root (.jolt-<id>), not the cell, so a client:load island's inline hydration script never
+      // leaks into textContent (same precaution as the whole-text branch below).
+      const texts: (string | null)[] = [];
+      for (const fw of FRAMEWORKS) {
+        const cell = page.locator(`[data-testid="${id}-${fw}"]`);
+        await expect(cell).toBeVisible();
+        const root = cell.locator(`.jolt-${id}`);
+        await expect(root).toBeVisible();
+        texts.push((await root.textContent())?.trim() ?? null);
+      }
+      expect(new Set(texts).size, `${id}: child text differs: ${texts.join(' | ')}`).toBe(1);
     } else {
       // DOM parity: every framework shows the same accessible text. Per-char
       // components additionally expose it via aria-label + aria-hidden segments.

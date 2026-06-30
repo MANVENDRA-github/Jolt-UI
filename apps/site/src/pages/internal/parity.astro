@@ -26,6 +26,9 @@ import {
   Sweep as RSweep,
   BorderDraw as RBorderDraw,
   Tactile as RTactile,
+  Spotlight as RSpotlight,
+  Tilt as RTilt,
+  ShineBorder as RShineBorder,
   // gen:react
 } from '@jolt/react';
 import {
@@ -52,6 +55,9 @@ import {
   Sweep as VSweep,
   BorderDraw as VBorderDraw,
   Tactile as VTactile,
+  Spotlight as VSpotlight,
+  Tilt as VTilt,
+  ShineBorder as VShineBorder,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -78,6 +84,9 @@ import {
   Sweep as SSweep,
   BorderDraw as SBorderDraw,
   Tactile as STactile,
+  Spotlight as SSpotlight,
+  Tilt as STilt,
+  ShineBorder as SShineBorder,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -155,6 +164,15 @@ const TEXT = 'Jolt UI';
     <div data-testid="tactile-react"><RTactile /></div>
     <div data-testid="tactile-vue"><VTactile /></div>
     <div data-testid="tactile-svelte"><STactile /></div>
+    <div data-testid="spotlight-react"><RSpotlight client:load>{TEXT}</RSpotlight></div>
+    <div data-testid="spotlight-vue"><VSpotlight client:load>{TEXT}</VSpotlight></div>
+    <div data-testid="spotlight-svelte"><SSpotlight client:load>{TEXT}</SSpotlight></div>
+    <div data-testid="tilt-react"><RTilt client:load>{TEXT}</RTilt></div>
+    <div data-testid="tilt-vue"><VTilt client:load>{TEXT}</VTilt></div>
+    <div data-testid="tilt-svelte"><STilt client:load>{TEXT}</STilt></div>
+    <div data-testid="shine-border-react"><RShineBorder>{TEXT}</RShineBorder></div>
+    <div data-testid="shine-border-vue"><VShineBorder>{TEXT}</VShineBorder></div>
+    <div data-testid="shine-border-svelte"><SShineBorder>{TEXT}</SShineBorder></div>
     {/* gen:cells */}
   </div>
 </Base>
