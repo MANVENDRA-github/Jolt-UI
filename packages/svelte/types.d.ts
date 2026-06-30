@@ -202,4 +202,15 @@ export declare const Tactile: (props: {
   label?: string;
   disabled?: boolean;
 }) => unknown;
+export declare const Spotlight: (props: {
+  color?: string;
+  size?: number;
+  opacity?: number;
+}) => unknown;
+export declare const Tilt: (props: { color?: string; maxTilt?: number; speed?: number }) => unknown;
+export declare const ShineBorder: (props: {
+  color?: string;
+  speed?: number;
+  width?: number;
+}) => unknown;
 // gen:shims

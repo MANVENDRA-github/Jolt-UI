@@ -27,6 +27,9 @@ import {
   Sweep,
   BorderDraw,
   Tactile,
+  Spotlight,
+  Tilt,
+  ShineBorder,
   // gen:card-import
 } from '@jolt/react';
 
@@ -223,6 +226,40 @@ const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition ho
         <a href="/components/buttons/tactile" class={viewLink}>View →</a>
       </div>
       {/* gen:card */}
+    </div>
+  </section>
+
+  <section id="cards" class="mt-12 scroll-mt-24">
+    <h2 class="text-xl font-semibold">Cards</h2>
+    <p class="mt-1 text-xs opacity-50">
+      Containers that wrap your content — move your cursor over Spotlight and Tilt for the live
+      effect.
+    </p>
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <a href="/components/cards/spotlight" class={card}>
+        <Spotlight client:visible>
+          <div class="text-sm font-semibold">Spotlight</div>
+          <div class="text-xs opacity-60">A glow that follows the cursor</div>
+        </Spotlight>
+        <div class={name}>Spotlight</div>
+        <div class={blurb}>Radial glow follows the cursor (CSS + pointer)</div>
+      </a>
+      <a href="/components/cards/tilt" class={card}>
+        <Tilt client:visible>
+          <div class="text-sm font-semibold">Tilt</div>
+          <div class="text-xs opacity-60">Rotates toward the cursor</div>
+        </Tilt>
+        <div class={name}>Tilt</div>
+        <div class={blurb}>3-D tilt toward the cursor (CSS + pointer)</div>
+      </a>
+      <a href="/components/cards/shine-border" class={card}>
+        <ShineBorder>
+          <div class="text-sm font-semibold">Shine Border</div>
+          <div class="text-xs opacity-60">A flowing gradient frame</div>
+        </ShineBorder>
+        <div class={name}>Shine Border</div>
+        <div class={blurb}>Gradient border flows around the edge (CSS)</div>
+      </a>
     </div>
   </section>
 </ComponentsLayout>

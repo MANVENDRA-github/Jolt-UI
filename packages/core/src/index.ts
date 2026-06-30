@@ -71,4 +71,14 @@ export { borderDrawSchema, borderDrawMeta } from './schemas/border-draw';
 export type { BorderDrawProps } from './schemas/border-draw';
 export { tactileSchema, tactileMeta } from './schemas/tactile';
 export type { TactileProps } from './schemas/tactile';
+export { pointerFraction, tiltRotation } from './behavior/pointer-math';
+export type { PointerFraction } from './behavior/pointer-math';
+export { trackPointer, writeSpotlight, makeTiltWriter } from './behavior/pointer';
+export type { PointerController, PointerWriter } from './behavior/pointer';
+export { spotlightSchema, spotlightMeta } from './schemas/spotlight';
+export type { SpotlightProps } from './schemas/spotlight';
+export { tiltSchema, tiltMeta } from './schemas/tilt';
+export type { TiltProps } from './schemas/tilt';
+export { shineBorderSchema, shineBorderMeta } from './schemas/shine-border';
+export type { ShineBorderProps } from './schemas/shine-border';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

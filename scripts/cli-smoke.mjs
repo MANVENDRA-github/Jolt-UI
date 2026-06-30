@@ -130,6 +130,9 @@ const COMPONENTS_TO_ADD = [
   'sweep',
   'border-draw',
   'tactile',
+  'spotlight',
+  'tilt',
+  'shine-border',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -179,6 +182,9 @@ const CSS_SKINS = [
   ['Sweep.tsx', 'sweep.css'],
   ['BorderDraw.tsx', 'border-draw.css'],
   ['Tactile.tsx', 'tactile.css'],
+  ['Spotlight.tsx', 'spotlight.css'],
+  ['Tilt.tsx', 'tilt.css'],
+  ['ShineBorder.tsx', 'shine-border.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {
