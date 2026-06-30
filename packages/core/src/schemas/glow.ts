@@ -7,7 +7,7 @@ import { z } from 'zod';
  * forwards click / disabled / native attributes.
  */
 export const glowSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Button + glow color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Button + glow color (any CSS color).'),
   speed: z.number().positive().default(2).describe('Seconds per glow pulse.'),
   label: z
     .string()

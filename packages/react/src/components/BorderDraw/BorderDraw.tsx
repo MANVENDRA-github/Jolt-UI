@@ -6,7 +6,7 @@ type BorderDrawProps = BorderDrawStyleProps & ButtonHTMLAttributes<HTMLButtonEle
 
 /** A ghost button with a flowing gradient border (CSS-only). Renders a real <button>. */
 export function BorderDraw({
-  color = '#6d5efc',
+  color = '#7c5cff',
   speed = 3,
   label = 'Button',
   type = 'button',

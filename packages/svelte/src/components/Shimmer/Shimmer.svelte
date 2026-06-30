@@ -15,7 +15,7 @@
     };
 
   let {
-    color = '#6d5efc',
+    color = '#7c5cff',
     shine = '#b3a9ff',
     speed = 3,
     label = 'Button',

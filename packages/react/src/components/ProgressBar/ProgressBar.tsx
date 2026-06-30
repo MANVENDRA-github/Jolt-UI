@@ -4,7 +4,7 @@ import '@jolt/core/styles/progress-bar.css';
 
 /** An indeterminate progress bar (CSS-only loader). Exposes role="status" with an accessible label. */
 export function ProgressBar({
-  color = '#6d5efc',
+  color = '#7c5cff',
   width = 160,
   thickness = 4,
   speed = 1.4,

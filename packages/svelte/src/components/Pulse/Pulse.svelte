@@ -2,7 +2,7 @@
   import type { PulseProps } from '@jolt/core';
   import '@jolt/core/styles/pulse.css';
 
-  let { color = '#6d5efc', size = 40, speed = 1.2, label = 'Loading…' }: PulseProps = $props();
+  let { color = '#7c5cff', size = 40, speed = 1.2, label = 'Loading…' }: PulseProps = $props();
 </script>
 
 <div

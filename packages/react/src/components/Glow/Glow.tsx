@@ -6,7 +6,7 @@ type GlowProps = GlowStyleProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /** A glowing CTA button (CSS-only). Renders a real <button> and forwards native button attrs. */
 export function Glow({
-  color = '#6d5efc',
+  color = '#7c5cff',
   speed = 2,
   label = 'Button',
   type = 'button',

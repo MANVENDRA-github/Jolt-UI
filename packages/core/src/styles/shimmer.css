@@ -18,9 +18,9 @@
   cursor: pointer;
   background-image: linear-gradient(
     120deg,
-    var(--jolt-color, #6d5efc) 40%,
+    var(--jolt-color, #7c5cff) 40%,
     var(--jolt-shine, #b3a9ff) 50%,
-    var(--jolt-color, #6d5efc) 60%
+    var(--jolt-color, #7c5cff) 60%
   );
   background-size: 200% auto;
   animation: jolt-shimmer var(--jolt-speed, 3s) linear infinite;

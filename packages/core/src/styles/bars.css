@@ -22,7 +22,7 @@
   width: calc(var(--jolt-size, 32px) * 0.16);
   height: 100%;
   border-radius: calc(var(--jolt-size, 32px) * 0.08);
-  background: var(--jolt-color, #6d5efc);
+  background: var(--jolt-color, #7c5cff);
   transform-origin: bottom;
   animation: jolt-bars var(--jolt-speed, 1s) ease-in-out infinite;
 }

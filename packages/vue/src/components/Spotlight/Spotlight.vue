@@ -10,7 +10,7 @@ interface Props {
   size?: number;
   opacity?: number;
 }
-const { color = '#6d5efc', size = 60, opacity = 0.35 } = defineProps<Props>();
+const { color = '#7c5cff', size = 60, opacity = 0.35 } = defineProps<Props>();
 
 const root = ref<HTMLDivElement | null>(null);
 let controller: PointerController | null = null;

@@ -3,7 +3,7 @@ import type { BarsProps } from '@jolt/core';
 import '@jolt/core/styles/bars.css';
 
 /** Five equalizer bars (CSS-only loader). Exposes role="status" with an accessible label. */
-export function Bars({ color = '#6d5efc', size = 32, speed = 1, label = 'Loading…' }: BarsProps) {
+export function Bars({ color = '#7c5cff', size = 32, speed = 1, label = 'Loading…' }: BarsProps) {
   const style = {
     '--jolt-color': color,
     '--jolt-size': `${size}px`,

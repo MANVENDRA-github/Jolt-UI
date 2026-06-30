@@ -10,7 +10,7 @@ export const gradientSchema = z.object({
   colors: z
     .array(z.string())
     .min(2)
-    .default(['#6d5efc', '#a855f7', '#ec4899'])
+    .default(['#7c5cff', '#a855f7', '#ec4899'])
     .describe('Gradient color stops, flowing left to right and looping.'),
   speed: z.number().positive().default(4).describe('Seconds per gradient sweep.'),
   label: z

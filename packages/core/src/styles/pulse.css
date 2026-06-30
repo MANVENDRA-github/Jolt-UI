@@ -26,7 +26,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--jolt-color, #6d5efc);
+  background: var(--jolt-color, #7c5cff);
   animation: jolt-pulse var(--jolt-speed, 1.2s) ease-out infinite;
 }
 .jolt-pulse span:nth-child(2) {

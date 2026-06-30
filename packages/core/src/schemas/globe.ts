@@ -5,11 +5,14 @@ import { z } from 'zod';
  * gentle breathing pulse — full-bleed, no text, no required input.
  */
 export const globeSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Point color (any CSS color Three.js accepts).'),
+  color: z.string().default('#7c5cff').describe('Point color (any CSS color Three.js accepts).'),
   count: z.number().int().positive().default(900).describe('Number of points on the sphere.'),
   size: z.number().positive().default(3).describe('Point size in pixels.'),
   radius: z.number().positive().default(5).describe('Sphere radius in world units.'),
-  speed: z.number().default(0.25).describe('Rotation speed in radians per second (negative reverses).'),
+  speed: z
+    .number()
+    .default(0.25)
+    .describe('Rotation speed in radians per second (negative reverses).'),
   amplitude: z
     .number()
     .nonnegative()

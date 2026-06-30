@@ -6,7 +6,7 @@ describe('particlesSchema', () => {
     const opts = particlesSchema.parse({});
     expect(opts).toEqual({
       count: 800,
-      color: '#6d5efc',
+      color: '#7c5cff',
       size: 2,
       speed: 0.4,
       spread: 12,

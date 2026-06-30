@@ -5,7 +5,7 @@ describe('auroraSchema', () => {
   it('applies sensible defaults (no required props)', () => {
     const opts = auroraSchema.parse({});
     expect(opts).toEqual({
-      colors: ['#5eead4', '#6d5efc', '#22d3ee'],
+      colors: ['#5eead4', '#7c5cff', '#22d3ee'],
       speed: 0.3,
       intensity: 1,
       scale: 1,

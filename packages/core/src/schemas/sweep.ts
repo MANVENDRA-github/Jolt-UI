@@ -7,7 +7,7 @@ import { z } from 'zod';
  * this `label` fallback) and forwards click / disabled / native attributes.
  */
 export const sweepSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Border, text, and fill color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Border, text, and fill color (any CSS color).'),
   speed: z.number().positive().default(0.3).describe('Seconds for the fill to wipe across.'),
   label: z
     .string()

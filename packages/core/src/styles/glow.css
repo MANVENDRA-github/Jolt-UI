@@ -4,10 +4,10 @@
 @keyframes jolt-glow {
   0%,
   100% {
-    box-shadow: 0 0 4px 0 var(--jolt-color, #6d5efc);
+    box-shadow: 0 0 4px 0 var(--jolt-color, #7c5cff);
   }
   50% {
-    box-shadow: 0 0 18px 4px var(--jolt-color, #6d5efc);
+    box-shadow: 0 0 18px 4px var(--jolt-color, #7c5cff);
   }
 }
 
@@ -20,7 +20,7 @@
   font-weight: 600;
   color: #fff;
   cursor: pointer;
-  background: var(--jolt-color, #6d5efc);
+  background: var(--jolt-color, #7c5cff);
   animation: jolt-glow var(--jolt-speed, 2s) ease-in-out infinite;
 }
 
@@ -33,6 +33,6 @@
 @media (prefers-reduced-motion: reduce) {
   .jolt-glow {
     animation: none;
-    box-shadow: 0 0 10px 2px var(--jolt-color, #6d5efc);
+    box-shadow: 0 0 10px 2px var(--jolt-color, #7c5cff);
   }
 }

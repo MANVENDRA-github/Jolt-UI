@@ -7,13 +7,13 @@
   isolation: isolate;
   overflow: hidden;
   display: inline-block;
-  border: 1px solid var(--jolt-color, #6d5efc);
+  border: 1px solid var(--jolt-color, #7c5cff);
   border-radius: 8px;
   padding: 0.6em 1.2em;
   font: inherit;
   font-weight: 600;
   background: transparent;
-  color: var(--jolt-color, #6d5efc);
+  color: var(--jolt-color, #7c5cff);
   cursor: pointer;
   transition: color var(--jolt-speed, 0.3s) ease;
 }
@@ -23,7 +23,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--jolt-color, #6d5efc);
+  background: var(--jolt-color, #7c5cff);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--jolt-speed, 0.3s) ease;

@@ -7,7 +7,7 @@ import { z } from 'zod';
  * `--jolt-y`. The skin renders a `<div>` wrapping your content (children/slot).
  */
 export const spotlightSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Glow color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Glow color (any CSS color).'),
   size: z.number().positive().default(60).describe('Glow radius as a % of the card.'),
   opacity: z.number().min(0).max(1).default(0.35).describe('Peak glow opacity (0–1).'),
 });

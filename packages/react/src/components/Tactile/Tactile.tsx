@@ -6,7 +6,7 @@ type TactileProps = TactileStyleProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /** A raised button that presses down on click (CSS-only). Renders a real <button>. */
 export function Tactile({
-  color = '#6d5efc',
+  color = '#7c5cff',
   speed = 0.12,
   label = 'Button',
   type = 'button',

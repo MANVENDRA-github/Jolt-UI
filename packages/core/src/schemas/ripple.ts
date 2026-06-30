@@ -6,7 +6,7 @@ import { z } from 'zod';
  * `--jolt-size` / `--jolt-speed`. `role="status"` carries the accessible `label`.
  */
 export const rippleSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Ring color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Ring color (any CSS color).'),
   size: z.number().positive().default(48).describe('Diameter in pixels at full expansion.'),
   speed: z.number().positive().default(1.2).describe('Seconds per ripple cycle.'),
   label: z.string().default('Loading…').describe('Accessible label announced via role="status".'),

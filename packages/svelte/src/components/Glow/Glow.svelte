@@ -12,7 +12,7 @@
     };
 
   let {
-    color = '#6d5efc',
+    color = '#7c5cff',
     speed = 2,
     label = 'Button',
     type = 'button',

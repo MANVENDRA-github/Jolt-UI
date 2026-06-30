@@ -9,11 +9,15 @@ export const auroraSchema = z.object({
   colors: z
     .array(z.string())
     .min(1)
-    .default(['#5eead4', '#6d5efc', '#22d3ee'])
+    .default(['#5eead4', '#7c5cff', '#22d3ee'])
     .describe('Aurora color stops (hex), blended across the curtains. Up to 3 are used.'),
   speed: z.number().nonnegative().default(0.3).describe('Flow speed of the curtains.'),
   intensity: z.number().nonnegative().default(1).describe('Brightness/strength of the aurora.'),
-  scale: z.number().positive().default(1).describe('Spatial scale of the curtains (higher = finer).'),
+  scale: z
+    .number()
+    .positive()
+    .default(1)
+    .describe('Spatial scale of the curtains (higher = finer).'),
   opacity: z.number().min(0).max(1).default(0.85).describe('Overall opacity.'),
 });
 

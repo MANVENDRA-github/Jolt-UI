@@ -2,7 +2,7 @@
   import type { RippleProps } from '@jolt/core';
   import '@jolt/core/styles/ripple.css';
 
-  let { color = '#6d5efc', size = 48, speed = 1.2, label = 'Loading…' }: RippleProps = $props();
+  let { color = '#7c5cff', size = 48, speed = 1.2, label = 'Loading…' }: RippleProps = $props();
 </script>
 
 <div

@@ -6,7 +6,7 @@ type TiltProps = TiltStyleProps & HTMLAttributes<HTMLDivElement>;
 
 /** A card that rotates in 3-D toward the cursor. Renders a <div> wrapping your content. */
 export function Tilt({
-  color = '#6d5efc',
+  color = '#7c5cff',
   maxTilt = 12,
   speed = 0.15,
   className,

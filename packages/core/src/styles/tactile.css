@@ -10,8 +10,8 @@
   font-weight: 600;
   color: #fff;
   cursor: pointer;
-  background: var(--jolt-color, #6d5efc);
-  box-shadow: 0 4px 0 0 color-mix(in srgb, var(--jolt-color, #6d5efc) 55%, #000);
+  background: var(--jolt-color, #7c5cff);
+  box-shadow: 0 4px 0 0 color-mix(in srgb, var(--jolt-color, #7c5cff) 55%, #000);
   transform: translateY(0);
   transition:
     transform var(--jolt-speed, 0.12s) ease,
@@ -20,7 +20,7 @@
 
 .jolt-tactile:active {
   transform: translateY(4px);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--jolt-color, #6d5efc) 55%, #000);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--jolt-color, #7c5cff) 55%, #000);
 }
 
 .jolt-tactile:disabled {
