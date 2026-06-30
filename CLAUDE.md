@@ -78,3 +78,4 @@ One focused PR per task or phase-slice, small and reviewable. Conventional-commi
 - Never let a component's frameworks drift in look/motion/API — fix the shared source, not one skin.
 - Never let a unit test hit a live network endpoint.
 - Never delete or rewrite files outside the task's scope.
+- Never add `Co-Authored-By: Claude` / `Claude-Session:` trailers (or any AI/Claude attribution) to commit messages or PR bodies.
