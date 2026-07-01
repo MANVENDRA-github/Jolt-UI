@@ -1,0 +1,32 @@
+---
+import { componentNeighbors } from '../lib/categories';
+
+interface Props {
+  /** Component id; its category + name are derived from the catalogue. */
+  id: string;
+}
+const { id } = Astro.props;
+const current = componentNeighbors(id).current;
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="mb-4 flex items-center gap-1.5 font-mono text-xs text-[var(--jolt-text-subtle)]"
+>
+  <a href="/components" class="transition-colors hover:text-[var(--jolt-text)]">Components</a>
+  {
+    current && (
+      <Fragment>
+        <span aria-hidden="true">/</span>
+        <a
+          href={`/components#${current.slug}`}
+          class="transition-colors hover:text-[var(--jolt-text)]"
+        >
+          {current.categoryLabel}
+        </a>
+        <span aria-hidden="true">/</span>
+        <span class="text-[var(--jolt-text)]">{current.name}</span>
+      </Fragment>
+    )
+  }
+</nav>

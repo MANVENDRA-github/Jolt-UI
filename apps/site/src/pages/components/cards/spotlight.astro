@@ -1,42 +1,47 @@
 ---
 import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
 import { Spotlight as ReactSpotlight } from '@jolt/react';
 import { Spotlight as VueSpotlight } from '@jolt/vue';
 import { Spotlight as SvelteSpotlight } from '@jolt/svelte';
-import { propsTable, spotlightSchema, spotlightMeta } from '@jolt/core';
+import { spotlightSchema, spotlightMeta } from '@jolt/core';
 import reactSource from '../../../../../../packages/react/src/components/Spotlight/Spotlight.tsx?raw';
 import vueSource from '../../../../../../packages/vue/src/components/Spotlight/Spotlight.vue?raw';
 import svelteSource from '../../../../../../packages/svelte/src/components/Spotlight/Spotlight.svelte?raw';
 
-const props = propsTable(spotlightSchema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
   { label: 'Svelte', lang: 'svelte', code: svelteSource },
 ];
-const previewBox = 'h-40 w-full rounded-lg border border-white/10 bg-black/20 p-3';
+const previewBox =
+  'h-40 w-full rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)] p-3';
 const cardBody = 'space-y-2';
 const cardTitle = 'text-lg font-semibold';
-const cardText = 'text-sm opacity-70';
+const cardText = 'text-sm text-[var(--jolt-text-muted)]';
+const codePill = 'rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono';
 ---
 
 <ComponentsLayout
   title="Spotlight Card — Jolt UI"
   description="A card whose radial glow follows the cursor — CSS + a tiny pointer behavior, for React, Vue, and Svelte."
 >
-  <h1 class="text-3xl font-bold">Spotlight</h1>
-  <p class="mt-2 opacity-80">
-    A presentational <code class="rounded bg-white/10 px-1">&lt;div&gt;</code> card that wraps your content;
-    a soft radial glow follows the cursor across its surface. One design language, three frameworks. The
-    glow is decorative — under reduced-motion it stays centered and the pointer isn't tracked.
+  <Breadcrumbs id="spotlight" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Spotlight</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">
+    A presentational <code class={codePill}>&lt;div&gt;</code> card that wraps your content; a soft radial
+    glow follows the cursor across its surface. One design language, three frameworks. The glow is decorative
+    — under reduced-motion it stays centered and the pointer isn't tracked.
   </p>
 
-  <section class="mt-10 space-y-8">
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
-      <div class={previewBox}>
+  <div class="mt-8">
+    <FrameworkSwitcher id="spotlight">
+      <div class={previewBox} slot="react">
         <ReactSpotlight client:visible>
           <div class={cardBody}>
             <div class={cardTitle}>Spotlight</div>
@@ -44,10 +49,7 @@ const cardText = 'text-sm opacity-70';
           </div>
         </ReactSpotlight>
       </div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
-      <div class={previewBox}>
+      <div class={previewBox} slot="vue">
         <VueSpotlight client:visible>
           <div class={cardBody}>
             <div class={cardTitle}>Spotlight</div>
@@ -55,10 +57,7 @@ const cardText = 'text-sm opacity-70';
           </div>
         </VueSpotlight>
       </div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
-      <div class={previewBox}>
+      <div class={previewBox} slot="svelte">
         <SvelteSpotlight client:visible>
           <div class={cardBody}>
             <div class={cardTitle}>Spotlight</div>
@@ -66,43 +65,20 @@ const cardText = 'text-sm opacity-70';
           </div>
         </SvelteSpotlight>
       </div>
-    </div>
-  </section>
+    </FrameworkSwitcher>
+  </div>
 
   <InstallBlock meta={spotlightMeta} />
 
   <section class="mt-12">
-    <h2 class="text-xl font-semibold">Source</h2>
-    <p class="mt-2 text-sm opacity-70">
-      A <code class="rounded bg-white/10 px-1">&lt;div&gt;</code> container; the shared pointer behavior
-      writes the glow position to CSS custom properties.
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      A <code class={codePill}>&lt;div&gt;</code> container; the shared pointer behavior writes the glow
+      position to CSS custom properties.
     </p>
     <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
   </section>
 
-  <section class="mt-12">
-    <h2 class="text-xl font-semibold">Props</h2>
-    <table class="mt-3 w-full border-collapse text-left text-sm">
-      <thead>
-        <tr class="border-b border-white/15">
-          <th class="py-2 pr-4 font-semibold">Prop</th>
-          <th class="py-2 pr-4 font-semibold">Type</th>
-          <th class="py-2 pr-4 font-semibold">Default</th>
-          <th class="py-2 font-semibold">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          props.map((p) => (
-            <tr class="border-b border-white/10">
-              <td class="py-2 pr-4 font-mono">{p.name}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.type}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.default ?? 'required'}</td>
-              <td class="py-2 opacity-80">{p.description}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </section>
+  <PropsTable schema={spotlightSchema} />
+  <ComponentPager id="spotlight" />
 </ComponentsLayout>

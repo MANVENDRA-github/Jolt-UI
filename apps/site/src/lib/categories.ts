@@ -57,3 +57,38 @@ export function categoriesWithComponents(): Category[] {
     .slice()
     .sort((a, b) => a.order - b.order);
 }
+
+/** A component's place in the ordered catalogue — for breadcrumbs + prev/next nav. */
+export interface ComponentRef {
+  id: string;
+  name: string;
+  /** The category URL slug (e.g. 'backgrounds'). */
+  slug: string;
+  /** The category display label (e.g. 'Backgrounds'). */
+  categoryLabel: string;
+}
+
+/** Every shipped component flattened in catalogue order: category order, then barrel order. */
+export function orderedComponents(): ComponentRef[] {
+  const byId = new Map(CATEGORIES.map((c) => [c.id, c]));
+  return COMPONENT_METAS.flatMap((m) => {
+    const cat = byId.get(m.category as CategoryId);
+    return cat
+      ? [{ id: m.id, name: m.name, slug: cat.slug, categoryLabel: cat.label, order: cat.order }]
+      : [];
+  })
+    .sort((a, b) => a.order - b.order) // stable sort preserves barrel order within a category
+    .map(({ order: _order, ...ref }) => ref);
+}
+
+/** The current component plus its previous/next neighbours in catalogue order. */
+export function componentNeighbors(id: string): {
+  current?: ComponentRef;
+  prev?: ComponentRef;
+  next?: ComponentRef;
+} {
+  const list = orderedComponents();
+  const i = list.findIndex((c) => c.id === id);
+  if (i === -1) return {};
+  return { current: list[i], prev: list[i - 1], next: list[i + 1] };
+}

@@ -1,0 +1,38 @@
+---
+import { componentNeighbors } from '../lib/categories';
+
+interface Props {
+  /** Component id; its previous/next neighbours come from the catalogue order. */
+  id: string;
+}
+const { id } = Astro.props;
+const { prev, next } = componentNeighbors(id);
+
+const cell =
+  'group flex max-w-[48%] flex-col gap-0.5 rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] px-4 py-3 transition-colors hover:border-[color:var(--jolt-border-strong)]';
+const eyebrow = 'font-mono text-xs text-[var(--jolt-text-subtle)]';
+const name = 'font-medium text-[var(--jolt-text)]';
+---
+
+<nav aria-label="Component pagination" class="mt-14 flex items-center justify-between gap-4">
+  {
+    prev ? (
+      <a href={`/components/${prev.slug}/${prev.id}`} class={cell}>
+        <span class={eyebrow}>← Previous</span>
+        <span class={name}>{prev.name}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+  {
+    next ? (
+      <a href={`/components/${next.slug}/${next.id}`} class={`${cell} ml-auto items-end text-right`}>
+        <span class={eyebrow}>Next →</span>
+        <span class={name}>{next.name}</span>
+      </a>
+    ) : (
+      <span />
+    )
+  }
+</nav>

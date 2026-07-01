@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { CATEGORIES, COMPONENT_METAS, categoriesWithComponents } from './categories';
+import {
+  CATEGORIES,
+  COMPONENT_METAS,
+  categoriesWithComponents,
+  orderedComponents,
+  componentNeighbors,
+} from './categories';
 
 describe('CATEGORIES', () => {
   it('has unique ids and slugs', () => {
@@ -28,5 +34,51 @@ describe('categoriesWithComponents', () => {
   it('is returned in ascending registry order', () => {
     const orders = categoriesWithComponents().map((c) => c.order);
     expect(orders).toEqual([...orders].sort((a, b) => a - b));
+  });
+});
+
+describe('orderedComponents', () => {
+  it('flattens every shipped component, in category order', () => {
+    const list = orderedComponents();
+    expect(list.length).toBe(COMPONENT_METAS.length);
+    const orders = list.map((c) => CATEGORIES.find((cat) => cat.slug === c.slug)!.order);
+    expect(orders).toEqual([...orders].sort((a, b) => a - b));
+  });
+
+  it('carries the category slug + label on each entry', () => {
+    for (const c of orderedComponents()) {
+      expect(CATEGORIES.some((cat) => cat.slug === c.slug && cat.label === c.categoryLabel)).toBe(
+        true,
+      );
+    }
+  });
+});
+
+describe('componentNeighbors', () => {
+  it('the first component has no previous, but has a next', () => {
+    const list = orderedComponents();
+    const { current, prev, next } = componentNeighbors(list[0].id);
+    expect(current?.id).toBe(list[0].id);
+    expect(prev).toBeUndefined();
+    expect(next?.id).toBe(list[1].id);
+  });
+
+  it('the last component has no next, but has a previous', () => {
+    const list = orderedComponents();
+    const last = list[list.length - 1];
+    const { next, prev } = componentNeighbors(last.id);
+    expect(next).toBeUndefined();
+    expect(prev?.id).toBe(list[list.length - 2].id);
+  });
+
+  it('a middle component has both neighbours', () => {
+    const list = orderedComponents();
+    const { prev, next } = componentNeighbors(list[2].id);
+    expect(prev?.id).toBe(list[1].id);
+    expect(next?.id).toBe(list[3].id);
+  });
+
+  it('an unknown id returns no neighbours', () => {
+    expect(componentNeighbors('does-not-exist')).toEqual({});
   });
 });

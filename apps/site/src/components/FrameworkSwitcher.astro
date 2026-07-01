@@ -1,0 +1,139 @@
+---
+// One live preview, toggled across React / Vue / Svelte. All three frameworks are
+// rendered (and their islands hydrate) — inactive panels are visually hidden but keep a
+// layout box, so `client:visible` still fires and there's no height jump on switch. With
+// no JS, React shows by default (progressive enhancement). The framework-specific previews
+// arrive via the named slots `react` / `vue` / `svelte` (Astro consumes `slot=…` at the
+// boundary, so it never leaks onto the component as a prop).
+interface Props {
+  /** Component id — used to scope the tab/panel ARIA ids. */
+  id: string;
+}
+const { id } = Astro.props;
+const frameworks = [
+  { key: 'react', label: 'React' },
+  { key: 'vue', label: 'Vue' },
+  { key: 'svelte', label: 'Svelte' },
+] as const;
+---
+
+<div class="jolt-fw" data-active="react">
+  <div class="jolt-fw-tablist" role="tablist" aria-label="Framework">
+    {
+      frameworks.map((f, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`fw-${id}-tab-${f.key}`}
+          class="jolt-fw-tab"
+          data-fw={f.key}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`fw-${id}-panel-${f.key}`}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          {f.label}
+        </button>
+      ))
+    }
+  </div>
+  <div class="jolt-fw-stage">
+    <div
+      class="jolt-fw-panel"
+      id={`fw-${id}-panel-react`}
+      role="tabpanel"
+      aria-labelledby={`fw-${id}-tab-react`}
+      data-fw="react"
+    >
+      <slot name="react" />
+    </div>
+    <div
+      class="jolt-fw-panel"
+      id={`fw-${id}-panel-vue`}
+      role="tabpanel"
+      aria-labelledby={`fw-${id}-tab-vue`}
+      data-fw="vue"
+    >
+      <slot name="vue" />
+    </div>
+    <div
+      class="jolt-fw-panel"
+      id={`fw-${id}-panel-svelte`}
+      role="tabpanel"
+      aria-labelledby={`fw-${id}-tab-svelte`}
+      data-fw="svelte"
+    >
+      <slot name="svelte" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .jolt-fw-tablist {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .jolt-fw-tab {
+    cursor: pointer;
+    border-radius: var(--radius-jolt-sm);
+    padding: 0.25rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--jolt-text-subtle);
+    border: 1px solid transparent;
+    transition:
+      color 0.15s,
+      background 0.15s,
+      border-color 0.15s;
+  }
+  .jolt-fw-tab:hover {
+    color: var(--jolt-text);
+  }
+  .jolt-fw-tab[aria-selected='true'] {
+    color: var(--jolt-text);
+    background: var(--jolt-surface-raised);
+    border-color: var(--jolt-border);
+  }
+  .jolt-fw-stage {
+    position: relative;
+  }
+  /* Inactive panels keep a layout box (so islands hydrate) but are hidden + out of the
+     a11y tree and tab order. The active panel takes flow, so the stage sizes to it. */
+  .jolt-fw-panel {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+  }
+  .jolt-fw[data-active='react'] .jolt-fw-panel[data-fw='react'],
+  .jolt-fw[data-active='vue'] .jolt-fw-panel[data-fw='vue'],
+  .jolt-fw[data-active='svelte'] .jolt-fw-panel[data-fw='svelte'] {
+    position: relative;
+    visibility: visible;
+  }
+</style>
+
+<script>
+  for (const fw of document.querySelectorAll<HTMLElement>('.jolt-fw')) {
+    const tabs = [...fw.querySelectorAll<HTMLButtonElement>('.jolt-fw-tab')];
+    const activate = (key: string | null) => {
+      if (!key) return;
+      fw.dataset.active = key;
+      for (const t of tabs) {
+        const on = t.dataset.fw === key;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      }
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => activate(tab.dataset.fw ?? null));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        activate(next.dataset.fw ?? null);
+        next.focus();
+      });
+    });
+  }
+</script>
