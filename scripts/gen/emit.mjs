@@ -443,21 +443,24 @@ export const emitSvelteTest = (c) => frameworkTestBody(c, 'svelte');
 // ------------------------------------------------------------------ demo page
 
 export function emitDemoPage(c) {
-  const { Name, camel } = names(c);
+  const { id, Name, camel } = names(c);
   const demo = attrs(c.demoProps);
   return `---
 import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
 import { ${Name} as React${Name} } from '@jolt/react';
 import { ${Name} as Vue${Name} } from '@jolt/vue';
 import { ${Name} as Svelte${Name} } from '@jolt/svelte';
-import { propsTable, ${camel}Schema, ${camel}Meta } from '@jolt/core';
+import { ${camel}Schema, ${camel}Meta } from '@jolt/core';
 import reactSource from '../../../../../../packages/react/src/components/${Name}/${Name}.tsx?raw';
 import vueSource from '../../../../../../packages/vue/src/components/${Name}/${Name}.vue?raw';
 import svelteSource from '../../../../../../packages/svelte/src/components/${Name}/${Name}.svelte?raw';
 
-const props = propsTable(${camel}Schema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
@@ -466,57 +469,28 @@ const sourceTabs = [
 ---
 
 <ComponentsLayout title="${Name} — Jolt UI">
-  <h1 class="text-3xl font-bold">${Name}</h1>
-  <p class="mt-2 opacity-80">${c.blurb}</p>
+  <Breadcrumbs id="${id}" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">${Name}</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">${c.blurb}</p>
 
-  <section class="mt-10 space-y-8">
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
-      <div class="mt-1 text-3xl font-semibold"><React${Name} ${demo} /></div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
-      <div class="mt-1 text-3xl font-semibold"><Vue${Name} ${demo} /></div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
-      <div class="mt-1 text-3xl font-semibold"><Svelte${Name} ${demo} /></div>
-    </div>
-  </section>
+  <div class="mt-8">
+    <FrameworkSwitcher id="${id}">
+      <div class="text-3xl font-semibold" slot="react"><React${Name} ${demo} /></div>
+      <div class="text-3xl font-semibold" slot="vue"><Vue${Name} ${demo} /></div>
+      <div class="text-3xl font-semibold" slot="svelte"><Svelte${Name} ${demo} /></div>
+    </FrameworkSwitcher>
+  </div>
 
   <InstallBlock meta={${camel}Meta} />
 
   <section class="mt-12">
-    <h2 class="text-xl font-semibold">Source</h2>
-    <p class="mt-2 text-sm opacity-70">Identical behavior, idiomatic per framework.</p>
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">Identical behavior, idiomatic per framework.</p>
     <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
   </section>
 
-  <section class="mt-12">
-    <h2 class="text-xl font-semibold">Props</h2>
-    <table class="mt-3 w-full border-collapse text-left text-sm">
-      <thead>
-        <tr class="border-b border-white/15">
-          <th class="py-2 pr-4 font-semibold">Prop</th>
-          <th class="py-2 pr-4 font-semibold">Type</th>
-          <th class="py-2 pr-4 font-semibold">Default</th>
-          <th class="py-2 font-semibold">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          props.map((p) => (
-            <tr class="border-b border-white/10">
-              <td class="py-2 pr-4 font-mono">{p.name}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.type}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.default ?? 'required'}</td>
-              <td class="py-2 opacity-80">{p.description}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </section>
+  <PropsTable schema={${camel}Schema} />
+  <ComponentPager id="${id}" />
 </ComponentsLayout>
 `;
 }

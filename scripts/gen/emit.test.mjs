@@ -101,15 +101,26 @@ test('emitVueTest / emitSvelteTest: correct testing-library import', () => {
   assert.match(emit.emitVueTest(sample), /describe\('FadeUp \(vue\)'/);
 });
 
-test('emitDemoPage: InstallBlock from meta, live demos, propsTable', () => {
+test('emitDemoPage: switcher slots, InstallBlock, PropsTable, breadcrumbs + pager', () => {
   const out = emit.emitDemoPage(sample);
   assert.match(
     out,
     /import InstallBlock from '\.\.\/\.\.\/\.\.\/components\/InstallBlock\.astro';/,
   );
+  assert.match(
+    out,
+    /import FrameworkSwitcher from '\.\.\/\.\.\/\.\.\/components\/FrameworkSwitcher\.astro';/,
+  );
+  assert.match(out, /import PropsTable from '\.\.\/\.\.\/\.\.\/components\/PropsTable\.astro';/);
+  assert.match(out, /<Breadcrumbs id="fade-up" \/>/);
+  assert.match(out, /<FrameworkSwitcher id="fade-up">/);
+  // The framework preview is slotted (slot on the wrapping div, not the component).
+  assert.match(out, /slot="react"><ReactFadeUp text="Fade up into place" \/>/);
   assert.match(out, /<InstallBlock meta=\{fadeUpMeta\} \/>/);
-  assert.match(out, /const props = propsTable\(fadeUpSchema\);/);
-  assert.match(out, /<ReactFadeUp text="Fade up into place" \/>/);
+  assert.match(out, /<PropsTable schema=\{fadeUpSchema\} \/>/);
+  assert.match(out, /<ComponentPager id="fade-up" \/>/);
+  // The old inline props table + propsTable frontmatter are gone.
+  assert.doesNotMatch(out, /propsTable\(/);
 });
 
 test('emitVueShim / emitSvelteShim: typed prop declarations', () => {
