@@ -5,8 +5,10 @@ import { categoriesWithComponents } from '../lib/categories';
 interface Props {
   title: string;
   description?: string;
+  /** Widen the column to the chrome width (used by the gallery grid, not the demo pages). */
+  wide?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, wide = false } = Astro.props;
 
 const cats = categoriesWithComponents();
 const path = Astro.url.pathname;
@@ -14,7 +16,7 @@ const path = Astro.url.pathname;
 const activeSlug = path.split('/')[2] ?? null;
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} wide={wide}>
   <nav
     aria-label="Components"
     class="mb-8 flex flex-wrap gap-x-5 gap-y-1 border-b border-[color:var(--jolt-border)] pb-3 text-sm"
