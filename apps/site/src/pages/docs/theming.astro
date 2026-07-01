@@ -3,9 +3,9 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
 import CodeTabs from '../../components/CodeTabs.astro';
 
 const tokens = [
-  { name: '--color-jolt-bg', value: '#0b0b0f', use: 'Brand background' },
-  { name: '--color-jolt-fg', value: '#f5f5f7', use: 'Brand foreground' },
-  { name: '--color-jolt-accent', value: '#6d5efc', use: 'Accent (purple)' },
+  { name: '--color-jolt-bg', value: '#0a0911', use: 'Brand background' },
+  { name: '--color-jolt-fg', value: '#f3f1fb', use: 'Brand foreground' },
+  { name: '--color-jolt-accent', value: '#7c5cff', use: 'Accent (volt)' },
   { name: '--ease-jolt-out', value: 'cubic-bezier(0.22, 1, 0.36, 1)', use: 'Default easing' },
   { name: '--duration-jolt-base', value: '600ms', use: 'Base animation duration' },
   { name: '--duration-jolt-fast', value: '300ms', use: 'Fast animation duration' },
@@ -18,12 +18,12 @@ const themeTabs = [
     lang: 'css',
     code: `:root,
 [data-theme='dark'] {
-  --jolt-surface: #0b0b0f;
-  --jolt-text: #f5f5f7;
+  --jolt-surface: #0a0911;
+  --jolt-text: #f3f1fb;
 }
 [data-theme='light'] {
-  --jolt-surface: #ffffff;
-  --jolt-text: #11111a;
+  --jolt-surface: #f6f5fc;
+  --jolt-text: #14121f;
 }`,
   },
 ];
