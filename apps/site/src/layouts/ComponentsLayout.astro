@@ -16,7 +16,7 @@ const path = Astro.url.pathname;
 const activeSlug = path.split('/')[2] ?? null;
 ---
 
-<Base title={title} description={description} wide={wide}>
+<Base title={title} description={description} width={wide ? 'wide' : 'default'}>
   <nav
     aria-label="Components"
     class="mb-8 flex flex-wrap gap-x-5 gap-y-1 border-b border-[color:var(--jolt-border)] pb-3 text-sm"

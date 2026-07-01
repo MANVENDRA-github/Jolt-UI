@@ -1,10 +1,18 @@
 ---
+interface Props {
+  /** Tailwind max-width class, shared with the content column so the footer aligns with it. */
+  maxW?: string;
+}
+const { maxW = 'max-w-[84rem]' } = Astro.props;
 const repo = 'https://github.com/MANVENDRA-github/Jolt-UI';
 ---
 
 <footer data-pagefind-ignore class="mt-20 border-t border-[color:var(--jolt-border)]">
   <div
-    class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-8 text-sm text-[var(--jolt-text-subtle)]"
+    class:list={[
+      'mx-auto flex flex-wrap items-center justify-between gap-3 px-4 py-8 text-sm text-[var(--jolt-text-subtle)] sm:px-6 lg:px-8',
+      maxW,
+    ]}
   >
     <span class="flex items-center gap-2">
       <svg
