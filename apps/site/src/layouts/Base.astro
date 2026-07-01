@@ -14,6 +14,8 @@ interface Props {
   ogImage?: string;
   /** Set on non-indexable pages (e.g. the internal parity harness). */
   noindex?: boolean;
+  /** Widen the content column (e.g. the homepage) from the reading width to the chrome width. */
+  wide?: boolean;
   /** Structured data; defaults to the site-wide WebSite JSON-LD. Pass `null` to omit. */
   jsonLd?: Record<string, unknown> | null;
 }
@@ -23,6 +25,7 @@ const {
   description = SITE_DESCRIPTION,
   ogImage = '/og.svg',
   noindex = false,
+  wide = false,
   jsonLd,
 } = Astro.props;
 
@@ -71,7 +74,7 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
   <body class="flex min-h-screen flex-col">
     <Nav />
     <main
-      class="mx-auto w-full max-w-2xl flex-1 p-8"
+      class:list={['mx-auto w-full flex-1 p-8', wide ? 'max-w-5xl' : 'max-w-2xl']}
       data-pagefind-body={noindex ? undefined : true}
     >
       <slot />
