@@ -37,7 +37,8 @@ export default defineConfig({
     react(),
     vue(),
     svelte(),
-    expressiveCode({ themes: ['github-dark'] }),
+    // Options live in ec.config.mjs (themeCssSelector is a function → not inline-serializable).
+    expressiveCode(),
     mdx(),
     // Exclude the internal parity harness from the sitemap (it's noindex too).
     sitemap({ filter: (page) => !page.includes('/internal/') }),
