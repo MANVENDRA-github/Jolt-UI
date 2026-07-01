@@ -6,7 +6,7 @@ import { z } from 'zod';
  * `role="status"` carries the accessible `label`.
  */
 export const dotBounceSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Dot color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Dot color (any CSS color).'),
   size: z.number().positive().default(12).describe('Dot diameter in pixels.'),
   speed: z.number().positive().default(1.2).describe('Seconds per bounce cycle.'),
   label: z.string().default('Loading…').describe('Accessible label announced via role="status".'),

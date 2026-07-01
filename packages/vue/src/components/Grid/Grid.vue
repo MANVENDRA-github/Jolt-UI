@@ -9,7 +9,7 @@ interface Props {
   speed?: number;
   label?: string;
 }
-const { color = '#6d5efc', size = 12, speed = 1.3, label = 'Loading…' } = defineProps<Props>();
+const { color = '#7c5cff', size = 12, speed = 1.3, label = 'Loading…' } = defineProps<Props>();
 
 const style = computed(() => ({
   '--jolt-color': color,

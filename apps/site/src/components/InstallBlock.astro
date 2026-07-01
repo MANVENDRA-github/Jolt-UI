@@ -14,18 +14,22 @@ const { tabs, peers } = installInfo(meta, 'react');
 ---
 
 <section class="mt-12">
-  <h2 class="text-xl font-semibold">Installation</h2>
-  <p class="mt-2 text-sm opacity-70">
-    Adds the component plus its bundled core. Swap <code>react</code> for <code>vue</code> or
-    <code>svelte</code>.
+  <h2 class="font-display text-xl font-semibold">Installation</h2>
+  <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+    Adds the component plus its bundled core. Swap <code
+      class="rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono">react</code
+    > for <code class="rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono">vue</code> or
+    <code class="rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono">svelte</code>.
   </p>
   <div class="mt-3 flex flex-wrap items-center gap-2">
-    <span class="text-xs uppercase tracking-widest opacity-50">Dependencies</span>
+    <span class="font-mono text-xs uppercase tracking-widest text-[var(--jolt-text-subtle)]"
+      >Dependencies</span
+    >
     {
       peers.map((dep) => (
         <span
           data-testid="dependency-badge"
-          class="rounded border border-white/20 px-2 py-1 font-mono text-xs opacity-80"
+          class="rounded-[var(--radius-jolt-sm)] border border-[color:var(--jolt-border-strong)] px-2 py-1 font-mono text-xs text-[var(--jolt-text-muted)]"
         >
           {dep}
         </span>

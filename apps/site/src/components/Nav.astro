@@ -2,6 +2,12 @@
 import ThemeToggle from './ThemeToggle.astro';
 import Search from './Search.astro';
 
+interface Props {
+  /** Tailwind max-width class, shared with the content column so the nav aligns with it. */
+  maxW?: string;
+}
+const { maxW = 'max-w-[84rem]' } = Astro.props;
+
 const links = [
   { href: '/components', label: 'Components', match: '/components' },
   { href: '/docs/getting-started', label: 'Docs', match: '/docs' },
@@ -11,29 +17,45 @@ const path = Astro.url.pathname;
 
 <header
   data-pagefind-ignore
-  class="sticky top-0 z-20 border-b border-white/10 bg-[var(--jolt-surface)]"
+  class="sticky top-0 z-20 border-b border-[color:var(--jolt-border)] bg-[var(--jolt-surface)]/85 backdrop-blur-md"
 >
-  <nav class="mx-auto flex max-w-5xl items-center gap-6 px-6 py-3">
-    <a href="/" class="font-bold tracking-tight">Jolt UI</a>
-    <ul class="flex items-center gap-4 text-sm">
+  <nav class:list={['mx-auto flex items-center gap-4 px-4 py-3 sm:gap-6 sm:px-6 lg:px-8', maxW]}>
+    <a href="/" class="group flex items-center gap-2" aria-label="Jolt UI — home">
+      <svg
+        class="h-5 w-5 text-[var(--jolt-accent)] transition-transform group-hover:scale-110"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M13 2 4 13.5h6L9 22l9-11.5h-6L13 2Z"></path>
+      </svg>
+      <span class="font-display text-base font-semibold tracking-tight">Jolt UI</span>
+    </a>
+    <ul class="flex items-center gap-1 text-sm">
       {
-        links.map((l) => (
-          <li>
-            <a
-              href={l.href}
-              class:list={[
-                'transition hover:opacity-100',
-                path.startsWith(l.match) ? 'opacity-100' : 'opacity-60',
-              ]}
-            >
-              {l.label}
-            </a>
-          </li>
-        ))
+        links.map((l) => {
+          const active = path.startsWith(l.match);
+          return (
+            <li>
+              <a
+                href={l.href}
+                aria-current={active ? 'page' : undefined}
+                class:list={[
+                  'rounded-[var(--radius-jolt-sm)] px-2.5 py-1.5 transition-colors',
+                  active
+                    ? 'font-medium text-[var(--jolt-text)]'
+                    : 'text-[var(--jolt-text-subtle)] hover:text-[var(--jolt-text)]',
+                ]}
+              >
+                {l.label}
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
-    <div class="ml-auto flex items-center gap-3">
-      <Search />
+    <div class="ml-auto flex items-center gap-2">
+      <div class="hidden sm:block"><Search /></div>
       <ThemeToggle />
     </div>
   </nav>

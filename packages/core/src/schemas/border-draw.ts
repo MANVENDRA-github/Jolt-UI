@@ -7,7 +7,7 @@ import { z } from 'zod';
  * via children/slot or this `label` fallback) and forwards click / disabled / native attributes.
  */
 export const borderDrawSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Border + text color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Border + text color (any CSS color).'),
   speed: z.number().positive().default(3).describe('Seconds per border-gradient sweep.'),
   label: z
     .string()

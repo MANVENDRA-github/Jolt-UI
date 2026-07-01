@@ -6,7 +6,7 @@ import { z } from 'zod';
  * required input.
  */
 export const ringsSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Point color (any CSS color Three.js accepts).'),
+  color: z.string().default('#7c5cff').describe('Point color (any CSS color Three.js accepts).'),
   ringCount: z.number().int().positive().default(7).describe('Number of concentric rings.'),
   pointsPerRing: z.number().int().positive().default(64).describe('Points per ring.'),
   spacing: z.number().positive().default(0.9).describe('Radius step between rings (world units).'),

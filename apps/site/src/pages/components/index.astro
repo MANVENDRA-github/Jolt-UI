@@ -14,6 +14,9 @@ import {
   Particles,
   Waves,
   Dots,
+  Globe,
+  Rings,
+  Aurora,
   Spinner,
   DotBounce,
   Bars,
@@ -34,30 +37,38 @@ import {
 } from '@jolt/react';
 
 const card =
-  'group block overflow-hidden rounded-lg border border-white/10 p-5 transition hover:border-white/30';
+  'group block overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5 transition hover:border-[color:var(--jolt-border-strong)] hover:shadow-[var(--shadow-jolt-glow)]';
 const preview = 'flex h-20 items-center overflow-hidden text-2xl font-bold';
 const name = 'mt-3 text-sm font-semibold';
-const blurb = 'text-xs opacity-60';
+const blurb = 'mt-0.5 font-mono text-xs text-[var(--jolt-text-subtle)]';
+// Preview wrappers shared by the non-text cards.
+const bgPreview =
+  'relative h-20 overflow-hidden rounded-[var(--radius-jolt-sm)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)]';
+const centerPreview = 'flex h-20 items-center justify-center';
 // Buttons are interactive (a real <button>), so their card is a <div> with a separate
 // "View" link — a live <button> must not be nested inside the card's <a> (invalid HTML +
 // a double tab stop). See DECISIONS D-036.
-const buttonCard = 'overflow-hidden rounded-lg border border-white/10 p-5';
-const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition hover:opacity-100';
+const buttonCard =
+  'overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5';
+const viewLink =
+  'mt-3 inline-block font-mono text-xs text-[var(--jolt-accent)] transition hover:text-[var(--jolt-accent-hover)]';
+const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
 ---
 
 <ComponentsLayout
   title="Components — Jolt UI"
   description="Browse Jolt UI's animated components — live React, Vue, and Svelte previews from one design language, kept identical by an automated parity gate."
+  wide
 >
-  <h1 class="text-3xl font-bold">Components</h1>
-  <p class="mt-2 opacity-80">
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Components</h1>
+  <p class="mt-2 max-w-2xl text-[var(--jolt-text-muted)]">
     Animated components for React, Vue &amp; Svelte from one design language, kept identical by an
     automated parity gate. Previews are live (React shown).
   </p>
 
   <section id="text" class="mt-12 scroll-mt-24">
-    <h2 class="text-xl font-semibold">Text Animations</h2>
-    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <h2 class="font-display text-xl font-semibold">Text Animations</h2>
+    <div class={grid}>
       <a href="/components/text/split-text" class={card}>
         <div class={preview}><SplitText text="Split Text" client:visible /></div>
         <div class={name}>Split Text</div>
@@ -115,67 +126,76 @@ const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition ho
   </section>
 
   <section id="backgrounds" class="mt-12 scroll-mt-24">
-    <h2 class="text-xl font-semibold">Backgrounds</h2>
-    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <h2 class="font-display text-xl font-semibold">Backgrounds</h2>
+    <div class={grid}>
       <a href="/components/backgrounds/particles" class={card}>
-        <div class="relative h-20 overflow-hidden rounded-md border border-white/10 bg-black/20">
-          <Particles client:visible />
-        </div>
+        <div class={bgPreview}><Particles client:visible /></div>
         <div class={name}>Particles</div>
         <div class={blurb}>Drifting WebGL point field (Three.js)</div>
       </a>
       <a href="/components/backgrounds/waves" class={card}>
-        <div class="relative h-20 overflow-hidden rounded-md border border-white/10 bg-black/20">
-          <Waves client:visible />
-        </div>
+        <div class={bgPreview}><Waves client:visible /></div>
         <div class={name}>Waves</div>
         <div class={blurb}>Undulating wireframe plane (Three.js)</div>
       </a>
       <a href="/components/backgrounds/dots" class={card}>
-        <div class="relative h-20 overflow-hidden rounded-md border border-white/10 bg-black/20">
-          <Dots client:visible />
-        </div>
+        <div class={bgPreview}><Dots client:visible /></div>
         <div class={name}>Dots</div>
         <div class={blurb}>Rippling grid of points (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/globe" class={card}>
+        <div class={bgPreview}><Globe client:visible /></div>
+        <div class={name}>Globe</div>
+        <div class={blurb}>Rotating sphere of points (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/rings" class={card}>
+        <div class={bgPreview}><Rings client:visible /></div>
+        <div class={name}>Rings</div>
+        <div class={blurb}>Counter-rotating point rings (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/aurora" class={card}>
+        <div class={bgPreview}><Aurora client:visible /></div>
+        <div class={name}>Aurora</div>
+        <div class={blurb}>Flowing light-curtain shader (Three.js)</div>
       </a>
     </div>
   </section>
 
   <section id="loaders" class="mt-12 scroll-mt-24">
-    <h2 class="text-xl font-semibold">Loaders</h2>
-    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <h2 class="font-display text-xl font-semibold">Loaders</h2>
+    <div class={grid}>
       <a href="/components/loaders/spinner" class={card}>
-        <div class="flex h-20 items-center justify-center"><Spinner /></div>
+        <div class={centerPreview}><Spinner /></div>
         <div class={name}>Spinner</div>
         <div class={blurb}>Rotating ring (CSS)</div>
       </a>
       <a href="/components/loaders/dot-bounce" class={card}>
-        <div class="flex h-20 items-center justify-center"><DotBounce /></div>
+        <div class={centerPreview}><DotBounce /></div>
         <div class={name}>Dot Bounce</div>
         <div class={blurb}>Three bouncing dots (CSS)</div>
       </a>
       <a href="/components/loaders/bars" class={card}>
-        <div class="flex h-20 items-center justify-center"><Bars /></div>
+        <div class={centerPreview}><Bars /></div>
         <div class={name}>Bars</div>
         <div class={blurb}>Equalizer bars (CSS)</div>
       </a>
       <a href="/components/loaders/pulse" class={card}>
-        <div class="flex h-20 items-center justify-center"><Pulse /></div>
+        <div class={centerPreview}><Pulse /></div>
         <div class={name}>Pulse</div>
         <div class={blurb}>Expanding sonar-ping discs (CSS)</div>
       </a>
       <a href="/components/loaders/ripple" class={card}>
-        <div class="flex h-20 items-center justify-center"><Ripple /></div>
+        <div class={centerPreview}><Ripple /></div>
         <div class={name}>Ripple</div>
         <div class={blurb}>Concentric expanding rings (CSS)</div>
       </a>
       <a href="/components/loaders/grid" class={card}>
-        <div class="flex h-20 items-center justify-center"><Grid /></div>
+        <div class={centerPreview}><Grid /></div>
         <div class={name}>Grid</div>
         <div class={blurb}>3×3 squares pulsing in a wave (CSS)</div>
       </a>
       <a href="/components/loaders/progress-bar" class={card}>
-        <div class="flex h-20 items-center justify-center"><ProgressBar /></div>
+        <div class={centerPreview}><ProgressBar /></div>
         <div class={name}>Progress Bar</div>
         <div class={blurb}>Indeterminate sliding fill (CSS)</div>
       </a>
@@ -183,63 +203,62 @@ const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition ho
   </section>
 
   <section id="buttons" class="mt-12 scroll-mt-24">
-    <h2 class="text-xl font-semibold">Buttons</h2>
-    <p class="mt-1 text-xs opacity-50">
+    <h2 class="font-display text-xl font-semibold">Buttons</h2>
+    <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
       Previews are live and interactive — hover, focus, or click a button; follow “View” for the
       full demo.
     </p>
-    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class={grid}>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><Shimmer label="Shimmer" /></div>
+        <div class={centerPreview}><Shimmer label="Shimmer" /></div>
         <div class={name}>Shimmer</div>
         <div class={blurb}>Sheen sweeps across the surface (CSS)</div>
         <a href="/components/buttons/shimmer" class={viewLink}>View →</a>
       </div>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><Glow label="Glow" /></div>
+        <div class={centerPreview}><Glow label="Glow" /></div>
         <div class={name}>Glow</div>
         <div class={blurb}>Breathing halo that pulses (CSS)</div>
         <a href="/components/buttons/glow" class={viewLink}>View →</a>
       </div>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><Gradient label="Gradient" /></div>
+        <div class={centerPreview}><Gradient label="Gradient" /></div>
         <div class={name}>Gradient</div>
         <div class={blurb}>Flowing multi-color gradient (CSS)</div>
         <a href="/components/buttons/gradient" class={viewLink}>View →</a>
       </div>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><Sweep label="Sweep" /></div>
+        <div class={centerPreview}><Sweep label="Sweep" /></div>
         <div class={name}>Sweep</div>
         <div class={blurb}>Fill wipes in on hover/focus (CSS)</div>
         <a href="/components/buttons/sweep" class={viewLink}>View →</a>
       </div>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><BorderDraw label="Border Draw" /></div>
+        <div class={centerPreview}><BorderDraw label="Border Draw" /></div>
         <div class={name}>Border Draw</div>
         <div class={blurb}>Flowing gradient border (CSS)</div>
         <a href="/components/buttons/border-draw" class={viewLink}>View →</a>
       </div>
       <div class={buttonCard}>
-        <div class="flex h-20 items-center justify-center"><Tactile label="Tactile" /></div>
+        <div class={centerPreview}><Tactile label="Tactile" /></div>
         <div class={name}>Tactile</div>
         <div class={blurb}>Presses down on click (CSS)</div>
         <a href="/components/buttons/tactile" class={viewLink}>View →</a>
       </div>
-      {/* gen:card */}
     </div>
   </section>
 
   <section id="cards" class="mt-12 scroll-mt-24">
-    <h2 class="text-xl font-semibold">Cards</h2>
-    <p class="mt-1 text-xs opacity-50">
+    <h2 class="font-display text-xl font-semibold">Cards</h2>
+    <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
       Containers that wrap your content — move your cursor over Spotlight and Tilt for the live
       effect.
     </p>
-    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class={grid}>
       <a href="/components/cards/spotlight" class={card}>
         <Spotlight client:visible>
           <div class="text-sm font-semibold">Spotlight</div>
-          <div class="text-xs opacity-60">A glow that follows the cursor</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">A glow that follows the cursor</div>
         </Spotlight>
         <div class={name}>Spotlight</div>
         <div class={blurb}>Radial glow follows the cursor (CSS + pointer)</div>
@@ -247,7 +266,7 @@ const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition ho
       <a href="/components/cards/tilt" class={card}>
         <Tilt client:visible>
           <div class="text-sm font-semibold">Tilt</div>
-          <div class="text-xs opacity-60">Rotates toward the cursor</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">Rotates toward the cursor</div>
         </Tilt>
         <div class={name}>Tilt</div>
         <div class={blurb}>3-D tilt toward the cursor (CSS + pointer)</div>
@@ -255,7 +274,7 @@ const viewLink = 'mt-3 inline-block text-xs font-medium opacity-70 transition ho
       <a href="/components/cards/shine-border" class={card}>
         <ShineBorder>
           <div class="text-sm font-semibold">Shine Border</div>
-          <div class="text-xs opacity-60">A flowing gradient frame</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">A flowing gradient frame</div>
         </ShineBorder>
         <div class={name}>Shine Border</div>
         <div class={blurb}>Gradient border flows around the edge (CSS)</div>

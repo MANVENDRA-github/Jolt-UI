@@ -7,7 +7,7 @@ import { z } from 'zod';
  * this `label` fallback) and forwards click / disabled / native attributes.
  */
 export const tactileSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Button color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Button color (any CSS color).'),
   speed: z.number().positive().default(0.12).describe('Seconds for the press transition.'),
   label: z
     .string()

@@ -8,7 +8,7 @@
   border-radius: 12px;
   padding: 1.5rem;
   background: #14141c;
-  border: 1px solid color-mix(in srgb, var(--jolt-color, #6d5efc) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--jolt-color, #7c5cff) 40%, transparent);
   transform: perspective(800px) rotateX(var(--jolt-rx, 0deg)) rotateY(var(--jolt-ry, 0deg));
   transform-style: preserve-3d;
   transition: transform var(--jolt-speed, 0.15s) ease-out;

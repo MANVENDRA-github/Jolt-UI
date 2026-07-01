@@ -19,7 +19,7 @@
   cursor: pointer;
   background-image: var(
     --jolt-gradient,
-    linear-gradient(90deg, #6d5efc, #a855f7, #ec4899, #6d5efc)
+    linear-gradient(90deg, #7c5cff, #a855f7, #ec4899, #7c5cff)
   );
   background-size: 200% auto;
   animation: jolt-gradient var(--jolt-speed, 4s) linear infinite;

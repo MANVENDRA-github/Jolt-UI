@@ -6,7 +6,7 @@ import { z } from 'zod';
  */
 export const particlesSchema = z.object({
   count: z.number().int().positive().default(800).describe('Number of points in the field.'),
-  color: z.string().default('#6d5efc').describe('Point color (any CSS color Three.js accepts).'),
+  color: z.string().default('#7c5cff').describe('Point color (any CSS color Three.js accepts).'),
   size: z.number().positive().default(2).describe('Point size in pixels.'),
   speed: z
     .number()

@@ -6,7 +6,7 @@ import { z } from 'zod';
  * `--jolt-speed`. `role="status"` carries the accessible `label`.
  */
 export const gridSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Square color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Square color (any CSS color).'),
   size: z.number().positive().default(12).describe('Square size in pixels (the grid is 3×3).'),
   speed: z.number().positive().default(1.3).describe('Seconds per pulse cycle.'),
   label: z.string().default('Loading…').describe('Accessible label announced via role="status".'),

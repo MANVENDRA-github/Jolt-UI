@@ -18,7 +18,7 @@
   font: inherit;
   font-weight: 600;
   background: transparent;
-  color: var(--jolt-color, #6d5efc);
+  color: var(--jolt-color, #7c5cff);
   cursor: pointer;
 }
 
@@ -30,9 +30,9 @@
   padding: 2px;
   background: linear-gradient(
       90deg,
-      var(--jolt-color, #6d5efc),
+      var(--jolt-color, #7c5cff),
       #b3a9ff,
-      var(--jolt-color, #6d5efc)
+      var(--jolt-color, #7c5cff)
     )
     border-box;
   background-size: 200% auto;

@@ -25,9 +25,9 @@
   padding: var(--jolt-width, 2px);
   background: linear-gradient(
       90deg,
-      var(--jolt-color, #6d5efc),
+      var(--jolt-color, #7c5cff),
       #b3a9ff,
-      var(--jolt-color, #6d5efc)
+      var(--jolt-color, #7c5cff)
     )
     border-box;
   background-size: 200% auto;

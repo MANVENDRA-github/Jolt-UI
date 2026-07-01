@@ -4,7 +4,7 @@ import '@jolt/core/styles/spinner.css';
 
 /** A rotating-ring loading spinner (CSS-only). Exposes role="status" with an accessible label. */
 export function Spinner({
-  color = '#6d5efc',
+  color = '#7c5cff',
   size = 40,
   thickness = 4,
   speed = 0.8,

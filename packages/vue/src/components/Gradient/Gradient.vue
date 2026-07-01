@@ -10,7 +10,7 @@ interface Props {
   label?: string;
 }
 const {
-  colors = ['#6d5efc', '#a855f7', '#ec4899'],
+  colors = ['#7c5cff', '#a855f7', '#ec4899'],
   speed = 4,
   label = 'Button',
 } = defineProps<Props>();

@@ -2,7 +2,7 @@
   import type { DotBounceProps } from '@jolt/core';
   import '@jolt/core/styles/dot-bounce.css';
 
-  let { color = '#6d5efc', size = 12, speed = 1.2, label = 'Loading…' }: DotBounceProps = $props();
+  let { color = '#7c5cff', size = 12, speed = 1.2, label = 'Loading…' }: DotBounceProps = $props();
 </script>
 
 <div

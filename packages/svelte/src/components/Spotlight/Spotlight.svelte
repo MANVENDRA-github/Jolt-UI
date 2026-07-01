@@ -13,7 +13,7 @@
     };
 
   let {
-    color = '#6d5efc',
+    color = '#7c5cff',
     size = 60,
     opacity = 0.35,
     class: className = '',

@@ -25,7 +25,7 @@
 .jolt-ripple span {
   position: absolute;
   inset: 0;
-  border: calc(var(--jolt-size, 48px) * 0.08) solid var(--jolt-color, #6d5efc);
+  border: calc(var(--jolt-size, 48px) * 0.08) solid var(--jolt-color, #7c5cff);
   border-radius: 50%;
   animation: jolt-ripple var(--jolt-speed, 1.2s) cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }

@@ -6,7 +6,7 @@ import { z } from 'zod';
  * carries the accessible `label`.
  */
 export const spinnerSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Ring color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Ring color (any CSS color).'),
   size: z.number().positive().default(40).describe('Diameter in pixels.'),
   thickness: z.number().positive().default(4).describe('Ring thickness in pixels.'),
   speed: z.number().positive().default(0.8).describe('Seconds per rotation.'),

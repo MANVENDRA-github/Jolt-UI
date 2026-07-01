@@ -10,7 +10,7 @@ interface Props {
   maxTilt?: number;
   speed?: number;
 }
-const { color = '#6d5efc', maxTilt = 12, speed = 0.15 } = defineProps<Props>();
+const { color = '#7c5cff', maxTilt = 12, speed = 0.15 } = defineProps<Props>();
 
 const root = ref<HTMLDivElement | null>(null);
 let controller: PointerController | null = null;

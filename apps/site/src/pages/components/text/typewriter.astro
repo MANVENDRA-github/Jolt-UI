@@ -1,81 +1,62 @@
 ---
 import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
 import { Typewriter as ReactTypewriter } from '@jolt/react';
 import { Typewriter as VueTypewriter } from '@jolt/vue';
 import { Typewriter as SvelteTypewriter } from '@jolt/svelte';
-import { propsTable, typewriterSchema, typewriterMeta } from '@jolt/core';
+import { typewriterSchema, typewriterMeta } from '@jolt/core';
 import reactSource from '../../../../../../packages/react/src/components/Typewriter/Typewriter.tsx?raw';
 import vueSource from '../../../../../../packages/vue/src/components/Typewriter/Typewriter.vue?raw';
 import svelteSource from '../../../../../../packages/svelte/src/components/Typewriter/Typewriter.svelte?raw';
 
-const props = propsTable(typewriterSchema);
 const sourceTabs = [
   { label: 'React', lang: 'tsx', code: reactSource },
   { label: 'Vue', lang: 'vue', code: vueSource },
   { label: 'Svelte', lang: 'svelte', code: svelteSource },
 ];
+const codePill = 'rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono';
 ---
 
 <ComponentsLayout
   title="Typewriter — Jolt UI"
   description="A character-by-character reveal with a blinking caret — CSS-only, for React, Vue, and Svelte."
 >
-  <h1 class="text-3xl font-bold">Typewriter</h1>
-  <p class="mt-2 opacity-80">
+  <Breadcrumbs id="typewriter" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Typewriter</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">
     A character-by-character reveal with a blinking caret — CSS-only, three frameworks.
   </p>
 
-  <section class="mt-10 space-y-8">
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">React</h2>
-      <div class="mt-1 text-4xl font-bold"><ReactTypewriter text="Type it out with Jolt" /></div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Vue</h2>
-      <div class="mt-1 text-4xl font-bold"><VueTypewriter text="Type it out with Jolt" /></div>
-    </div>
-    <div>
-      <h2 class="text-xs uppercase tracking-widest opacity-50">Svelte</h2>
-      <div class="mt-1 text-4xl font-bold"><SvelteTypewriter text="Type it out with Jolt" /></div>
-    </div>
-  </section>
+  <div class="mt-8">
+    <FrameworkSwitcher id="typewriter">
+      <div class="text-4xl font-bold" slot="react">
+        <ReactTypewriter text="Type it out with Jolt" />
+      </div>
+      <div class="text-4xl font-bold" slot="vue">
+        <VueTypewriter text="Type it out with Jolt" />
+      </div>
+      <div class="text-4xl font-bold" slot="svelte">
+        <SvelteTypewriter text="Type it out with Jolt" />
+      </div>
+    </FrameworkSwitcher>
+  </div>
 
   <InstallBlock meta={typewriterMeta} />
 
   <section class="mt-12">
-    <h2 class="text-xl font-semibold">Source</h2>
-    <p class="mt-2 text-sm opacity-70">
-      Pure CSS animation; the skin sets the character count from <code>text</code> and a monospace font
-      lands each step on a character.
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Pure CSS animation; the skin sets the character count from <code class={codePill}>text</code> and
+      a monospace font lands each step on a character.
     </p>
     <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
   </section>
 
-  <section class="mt-12">
-    <h2 class="text-xl font-semibold">Props</h2>
-    <table class="mt-3 w-full border-collapse text-left text-sm">
-      <thead>
-        <tr class="border-b border-white/15">
-          <th class="py-2 pr-4 font-semibold">Prop</th>
-          <th class="py-2 pr-4 font-semibold">Type</th>
-          <th class="py-2 pr-4 font-semibold">Default</th>
-          <th class="py-2 font-semibold">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          props.map((p) => (
-            <tr class="border-b border-white/10">
-              <td class="py-2 pr-4 font-mono">{p.name}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.type}</td>
-              <td class="py-2 pr-4 font-mono opacity-80">{p.default ?? 'required'}</td>
-              <td class="py-2 opacity-80">{p.description}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </section>
+  <PropsTable schema={typewriterSchema} />
+  <ComponentPager id="typewriter" />
 </ComponentsLayout>

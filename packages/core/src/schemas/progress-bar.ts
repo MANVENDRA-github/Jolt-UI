@@ -6,7 +6,7 @@ import { z } from 'zod';
  * / `--jolt-thickness` / `--jolt-speed`. `role="status"` carries the accessible `label`.
  */
 export const progressBarSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Fill color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Fill color (any CSS color).'),
   width: z.number().positive().default(160).describe('Track width in pixels.'),
   thickness: z.number().positive().default(4).describe('Track height in pixels.'),
   speed: z.number().positive().default(1.4).describe('Seconds per sweep.'),

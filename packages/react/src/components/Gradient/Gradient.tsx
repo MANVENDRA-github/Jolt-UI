@@ -6,7 +6,7 @@ type GradientProps = GradientStyleProps & ButtonHTMLAttributes<HTMLButtonElement
 
 /** A flowing-gradient CTA button (CSS-only). Renders a real <button> and forwards native button attrs. */
 export function Gradient({
-  colors = ['#6d5efc', '#a855f7', '#ec4899'],
+  colors = ['#7c5cff', '#a855f7', '#ec4899'],
   speed = 4,
   label = 'Button',
   type = 'button',

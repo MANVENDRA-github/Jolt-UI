@@ -4,7 +4,7 @@ import '@jolt/core/styles/ripple.css';
 
 /** Two concentric expanding rings (CSS-only loader). Exposes role="status" with an accessible label. */
 export function Ripple({
-  color = '#6d5efc',
+  color = '#7c5cff',
   size = 48,
   speed = 1.2,
   label = 'Loading…',

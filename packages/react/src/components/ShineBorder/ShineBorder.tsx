@@ -6,7 +6,7 @@ type ShineBorderProps = ShineBorderStyleProps & HTMLAttributes<HTMLDivElement>;
 
 /** A card with a gradient border that continuously flows around the perimeter (CSS-only). */
 export function ShineBorder({
-  color = '#6d5efc',
+  color = '#7c5cff',
   speed = 3,
   width = 2,
   className,

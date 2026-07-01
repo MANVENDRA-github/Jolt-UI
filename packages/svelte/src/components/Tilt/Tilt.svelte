@@ -13,7 +13,7 @@
     };
 
   let {
-    color = '#6d5efc',
+    color = '#7c5cff',
     maxTilt = 12,
     speed = 0.15,
     class: className = '',

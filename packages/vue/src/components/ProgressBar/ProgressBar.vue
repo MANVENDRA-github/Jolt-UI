@@ -11,7 +11,7 @@ interface Props {
   label?: string;
 }
 const {
-  color = '#6d5efc',
+  color = '#7c5cff',
   width = 160,
   thickness = 4,
   speed = 1.4,

@@ -7,7 +7,7 @@ import { z } from 'zod';
 export const wavesSchema = z.object({
   color: z
     .string()
-    .default('#6d5efc')
+    .default('#7c5cff')
     .describe('Wireframe color (any CSS color Three.js accepts).'),
   amplitude: z.number().nonnegative().default(1.5).describe('Wave height in world units.'),
   frequency: z.number().positive().default(0.35).describe('Spatial frequency of the ripples.'),

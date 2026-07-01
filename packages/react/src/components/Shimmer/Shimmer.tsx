@@ -6,7 +6,7 @@ type ShimmerProps = ShimmerStyleProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /** A shimmering CTA button (CSS-only). Renders a real <button> and forwards native button attrs. */
 export function Shimmer({
-  color = '#6d5efc',
+  color = '#7c5cff',
   shine = '#b3a9ff',
   speed = 3,
   label = 'Button',

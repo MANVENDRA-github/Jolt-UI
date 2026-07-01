@@ -24,7 +24,7 @@
   width: var(--jolt-size, 12px);
   height: var(--jolt-size, 12px);
   border-radius: 50%;
-  background: var(--jolt-color, #6d5efc);
+  background: var(--jolt-color, #7c5cff);
   animation: jolt-dot-bounce var(--jolt-speed, 1.2s) ease-in-out infinite;
 }
 .jolt-dot-bounce span:nth-child(2) {

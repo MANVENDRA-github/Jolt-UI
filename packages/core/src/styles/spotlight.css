@@ -22,7 +22,7 @@
   pointer-events: none;
   background: radial-gradient(
     circle at var(--jolt-x, 50%) var(--jolt-y, 50%),
-    var(--jolt-color, #6d5efc) 0%,
+    var(--jolt-color, #7c5cff) 0%,
     transparent var(--jolt-size, 60%)
   );
   opacity: var(--jolt-opacity, 0.35);

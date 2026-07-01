@@ -7,7 +7,7 @@ import { z } from 'zod';
  * skin renders a `<div>` wrapping your content (children/slot).
  */
 export const shineBorderSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Border gradient base color.'),
+  color: z.string().default('#7c5cff').describe('Border gradient base color.'),
   speed: z.number().positive().default(3).describe('Seconds per border-gradient sweep.'),
   width: z.number().positive().default(2).describe('Border thickness in px.'),
 });

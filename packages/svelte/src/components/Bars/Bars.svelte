@@ -2,7 +2,7 @@
   import type { BarsProps } from '@jolt/core';
   import '@jolt/core/styles/bars.css';
 
-  let { color = '#6d5efc', size = 32, speed = 1, label = 'Loading…' }: BarsProps = $props();
+  let { color = '#7c5cff', size = 32, speed = 1, label = 'Loading…' }: BarsProps = $props();
 </script>
 
 <div

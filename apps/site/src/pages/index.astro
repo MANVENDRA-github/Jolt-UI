@@ -1,19 +1,289 @@
 ---
 import Base from '../layouts/Base.astro';
-import { GradientText } from '@jolt/react';
+import { Wave as ReactWave } from '@jolt/react';
+import { Wave as VueWave } from '@jolt/vue';
+import { Wave as SvelteWave } from '@jolt/svelte';
+import { orderedComponents, categoriesWithComponents } from '../lib/categories';
+
+const count = orderedComponents().length;
+const cats = categoriesWithComponents();
 ---
 
-<Base title="Jolt UI — multi-framework animated components">
-  <h1 class="text-5xl font-bold"><GradientText text="Jolt UI" /></h1>
-  <p class="mt-4 max-w-prose opacity-80">
-    Polished animated text components for <strong>React</strong>, <strong>Vue</strong> and
-    <strong>Svelte</strong> — one design language, kept identical across frameworks by a shared animation
-    core and an automated parity gate. Copy-paste or <code>npx jsrepo add</code>.
-  </p>
-  <a
-    href="/components"
-    class="mt-8 inline-block rounded-lg border border-white/20 px-4 py-2 text-sm font-semibold transition hover:border-white/40"
-  >
-    Browse components →
-  </a>
+<Base title="Jolt UI — multi-framework animated components" width="wide">
+  <section class="hero">
+    <p class="eyebrow">React · Vue · Svelte — one design language</p>
+    <h1 class="headline">Motion, <span class="grad">tripled</span>.</h1>
+    <p class="subhead">
+      Polished animated components for <strong>React</strong>, <strong>Vue</strong>, and
+      <strong>Svelte</strong> — one design language, kept identical across frameworks by a shared animation
+      core and an automated parity gate. Copy-paste or <code>npx jsrepo add</code>.
+    </p>
+    <div class="cta-row">
+      <a href="/components" class="cta-primary">Browse {count} components →</a>
+      <a href="/docs/getting-started" class="cta-ghost">npx jsrepo add</a>
+    </div>
+    <nav class="cat-row" aria-label="Component categories">
+      {cats.map((c) => <a href={`/components#${c.slug}`}>{c.label}</a>)}
+    </nav>
+  </section>
+
+  <section class="current" aria-label="The same component, identical across three frameworks">
+    <p class="current-eyebrow">The parity gate, alive</p>
+    <div class="rails">
+      <div class="rail">
+        <span class="rail-fw">React</span>
+        <div class="rail-track">
+          <ReactWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+      <div class="rail">
+        <span class="rail-fw">Vue</span>
+        <div class="rail-track">
+          <VueWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+      <div class="rail">
+        <span class="rail-fw">Svelte</span>
+        <div class="rail-track">
+          <SvelteWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+    </div>
+    <p class="current-caption">
+      The same component in every framework, held in lockstep by an automated parity gate — so the
+      motion you copy is the motion you ship.
+    </p>
+  </section>
 </Base>
+
+<style>
+  .hero {
+    padding: 2rem 0 1rem;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .headline {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2.75rem, 9vw, 5.5rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+  .grad {
+    background: linear-gradient(
+      100deg,
+      var(--color-volt-400),
+      var(--color-volt-300) 45%,
+      var(--jolt-spark)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subhead {
+    margin-top: 1.25rem;
+    max-width: 42rem;
+    font-size: 1.0625rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+  .subhead strong {
+    color: var(--jolt-text);
+    font-weight: 600;
+  }
+  .subhead code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 0.05rem 0.35rem;
+    border-radius: var(--radius-jolt-sm);
+    background: var(--jolt-surface-sunken);
+    border: 1px solid var(--jolt-border);
+  }
+  .cta-row {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .cta-primary {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-jolt);
+    background: var(--jolt-accent);
+    color: var(--jolt-accent-contrast);
+    padding: 0.6rem 1.15rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    box-shadow: var(--shadow-jolt-glow);
+    transition:
+      background 0.15s,
+      transform 0.15s;
+  }
+  .cta-primary:hover {
+    background: var(--jolt-accent-hover);
+    transform: translateY(-1px);
+  }
+  .cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-jolt);
+    border: 1px solid var(--jolt-border-strong);
+    padding: 0.6rem 1.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--jolt-text-muted);
+    transition:
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .cta-ghost:hover {
+    color: var(--jolt-text);
+    border-color: var(--jolt-accent);
+  }
+  .cat-row {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cat-row a {
+    color: var(--jolt-text-subtle);
+    transition: color 0.15s;
+  }
+  .cat-row a:hover {
+    color: var(--jolt-accent);
+  }
+
+  /* ---- "the current" signature ---- */
+  .current {
+    margin-top: 3.5rem;
+    border: 1px solid var(--jolt-border);
+    border-radius: var(--radius-jolt-lg);
+    background: var(--jolt-surface-raised);
+    padding: 1.75rem clamp(1rem, 4vw, 2.5rem);
+  }
+  .current-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .rails {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .rail {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .rail-fw {
+    flex: none;
+    width: 4.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--jolt-text-subtle);
+  }
+  .rail-track {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 600;
+    padding-bottom: 0.75rem;
+  }
+  .rail-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--jolt-border);
+    overflow: visible;
+  }
+  .rail-spark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 999px;
+    background: var(--jolt-spark);
+    box-shadow: 0 0 10px 1px var(--jolt-spark);
+  }
+  .current-caption {
+    margin-top: 1.5rem;
+    max-width: 46rem;
+    font-size: 0.9375rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rail-spark {
+      left: 0;
+      animation: rail-sweep var(--duration-jolt-current) linear infinite;
+    }
+    .rail:nth-child(2) .rail-spark {
+      animation-delay: -0.16s;
+    }
+    .rail:nth-child(3) .rail-spark {
+      animation-delay: -0.32s;
+    }
+    .rail-fw {
+      animation: fw-pulse var(--duration-jolt-current) linear infinite;
+    }
+    .rail:nth-child(2) .rail-fw {
+      animation-delay: -0.16s;
+    }
+    .rail:nth-child(3) .rail-fw {
+      animation-delay: -0.32s;
+    }
+  }
+  @keyframes rail-sweep {
+    0% {
+      left: 0;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes fw-pulse {
+    0%,
+    100% {
+      color: var(--jolt-text-subtle);
+    }
+    5% {
+      color: var(--jolt-spark);
+      text-shadow: 0 0 14px var(--jolt-spark);
+    }
+  }
+</style>

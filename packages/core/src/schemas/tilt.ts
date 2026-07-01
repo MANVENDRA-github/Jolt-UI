@@ -7,7 +7,7 @@ import { z } from 'zod';
  * `<div>` wrapping your content (children/slot).
  */
 export const tiltSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Accent color for the card surface.'),
+  color: z.string().default('#7c5cff').describe('Accent color for the card surface.'),
   maxTilt: z.number().positive().default(12).describe('Max rotation per axis, in degrees.'),
   speed: z.number().positive().default(0.15).describe('Seconds for the tilt to ease.'),
 });

@@ -10,7 +10,7 @@ type SpotlightProps = SpotlightStyleProps & HTMLAttributes<HTMLDivElement>;
 
 /** A card whose radial glow follows the cursor. Renders a <div> wrapping your content. */
 export function Spotlight({
-  color = '#6d5efc',
+  color = '#7c5cff',
   size = 60,
   opacity = 0.35,
   className,

@@ -13,7 +13,7 @@
   width: var(--jolt-size, 40px);
   height: var(--jolt-size, 40px);
   border: var(--jolt-thickness, 4px) solid transparent;
-  border-top-color: var(--jolt-color, #6d5efc);
+  border-top-color: var(--jolt-color, #7c5cff);
   border-radius: 50%;
   animation: jolt-spinner var(--jolt-speed, 0.8s) linear infinite;
 }
@@ -21,7 +21,7 @@
 @media (prefers-reduced-motion: reduce) {
   .jolt-spinner {
     animation: none;
-    border-color: var(--jolt-color, #6d5efc);
+    border-color: var(--jolt-color, #7c5cff);
     opacity: 0.5;
   }
 }

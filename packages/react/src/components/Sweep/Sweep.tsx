@@ -6,7 +6,7 @@ type SweepProps = SweepStyleProps & ButtonHTMLAttributes<HTMLButtonElement>;
 
 /** A ghost button whose fill wipes in on hover (CSS-only). Renders a real <button>. */
 export function Sweep({
-  color = '#6d5efc',
+  color = '#7c5cff',
   speed = 0.3,
   label = 'Button',
   type = 'button',

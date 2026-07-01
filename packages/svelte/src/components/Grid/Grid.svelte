@@ -2,7 +2,7 @@
   import type { GridProps } from '@jolt/core';
   import '@jolt/core/styles/grid.css';
 
-  let { color = '#6d5efc', size = 12, speed = 1.3, label = 'Loading…' }: GridProps = $props();
+  let { color = '#7c5cff', size = 12, speed = 1.3, label = 'Loading…' }: GridProps = $props();
 </script>
 
 <div

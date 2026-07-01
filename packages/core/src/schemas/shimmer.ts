@@ -7,7 +7,7 @@ import { z } from 'zod';
  * or this `label` fallback) and forwards click / disabled / native attributes.
  */
 export const shimmerSchema = z.object({
-  color: z.string().default('#6d5efc').describe('Base button color (any CSS color).'),
+  color: z.string().default('#7c5cff').describe('Base button color (any CSS color).'),
   shine: z.string().default('#b3a9ff').describe('Sheen highlight swept across the surface.'),
   speed: z.number().positive().default(3).describe('Seconds per sheen sweep.'),
   label: z
