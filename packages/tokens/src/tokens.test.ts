@@ -20,3 +20,18 @@ describe('design token parity', () => {
     }
   });
 });
+
+describe('landing tokens (Voltage 2)', () => {
+  const NAMES = ['--jolt-abyss', '--jolt-filament', '--shadow-jolt-glow-lg'];
+
+  it('defines each landing token in both semantic theme blocks', () => {
+    const lightStart = themeCss.indexOf("[data-theme='light']");
+    expect(lightStart).toBeGreaterThan(-1);
+    const darkBlock = themeCss.slice(0, lightStart);
+    const lightBlock = themeCss.slice(lightStart);
+    for (const name of NAMES) {
+      expect(darkBlock).toContain(`${name}:`);
+      expect(lightBlock).toContain(`${name}:`);
+    }
+  });
+});
