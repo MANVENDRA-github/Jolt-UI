@@ -136,13 +136,15 @@ const FRAMEWORKS = ['React', 'Vue', 'Svelte'] as const;
     border-radius: var(--radius-jolt-pill);
     background: color-mix(in srgb, var(--jolt-abyss) 70%, transparent);
   }
+  /* Vertically matched to the three parted filaments at the canvas's right edge
+     (diagonal base 0.30 + half-tilt 0.11 ± spread 0.18, in uv space, y flipped). */
   .filament-label[data-filament='0'] {
-    top: 34%;
+    top: 40%;
   }
   .filament-label[data-filament='1'] {
-    top: 48%;
+    top: 58%;
   }
   .filament-label[data-filament='2'] {
-    top: 62%;
+    top: 76%;
   }
 </style>

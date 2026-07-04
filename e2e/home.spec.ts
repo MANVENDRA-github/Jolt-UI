@@ -49,6 +49,15 @@ test('the final CTA links to the gallery', async ({ page }) => {
   await expect(cta.getByRole('link', { name: /Browse .*components/i })).toBeVisible();
 });
 
+test('the volt-field scene mounts a canvas behind the hero', async ({ page }) => {
+  await page.goto('/');
+  // Headless Chromium has SwiftShader WebGL, so the factory's probe passes and a
+  // canvas mounts; under this suite's reduced motion it renders one static frame.
+  await expect(page.locator('[data-volt-field] canvas')).toBeAttached();
+  // The scene layer must never eat the page content.
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+});
+
 test('the chrome contract holds on the landing page', async ({ page }) => {
   await page.goto('/');
   const nav = page.locator('header nav');

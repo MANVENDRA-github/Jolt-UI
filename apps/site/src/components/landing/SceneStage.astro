@@ -12,6 +12,36 @@
 
 <div class="scene-pin" aria-hidden="true" data-volt-field></div>
 
+<script>
+  // Mount the volt-field scene lazily so `three` stays off the critical path and is
+  // only fetched in the browser. The factory itself guards SSR / no-WebGL (NOOP) and
+  // renders a single static end-state frame under reduced motion.
+  const el = document.querySelector<HTMLElement>('[data-volt-field]');
+  if (el) {
+    const { createVoltField } = await import('../../scenes/volt-field');
+    const { setSceneHandle } = await import('../../scenes/scene-handle');
+    const scene = createVoltField(el);
+    // Hand the scene to the scroll-story script (same-page module singleton).
+    setSceneHandle(scene);
+
+    const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (motionOk) {
+      const track = el.parentElement ?? el;
+      track.addEventListener('pointermove', (e) => scene.setPointer(e.clientX, e.clientY), {
+        passive: true,
+      });
+      const io = new IntersectionObserver(([entry]) => {
+        scene.setPaused(!(entry?.isIntersecting ?? true));
+      });
+      io.observe(el);
+      document.addEventListener('visibilitychange', () => {
+        scene.setPaused(document.hidden);
+      });
+    }
+    window.addEventListener('pagehide', () => scene.revert(), { once: true });
+  }
+</script>
+
 <style>
   .scene-pin {
     position: sticky;
@@ -50,5 +80,19 @@
       );
     background-size: 72px 72px;
     mask-image: radial-gradient(90% 70% at 50% 40%, black, transparent 75%);
+  }
+  /* The canvas fades in over the gradient once the first frame has rendered. */
+  .scene-pin :global(canvas) {
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.8s var(--ease-jolt-out);
+  }
+  .scene-pin :global(canvas[data-ready]) {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scene-pin :global(canvas) {
+      transition: none;
+    }
   }
 </style>
