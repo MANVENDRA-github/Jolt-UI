@@ -54,13 +54,15 @@ export default defineConfig({
       noExternal: [/^@jolt\//],
     },
     optimizeDeps: {
-      // Pre-bundle the heavy motion deps that only enter the module graph through
-      // dynamic imports (volt-field scene, smooth-scroll). Without this, Vite dev
-      // discovers them mid-session, re-optimizes, and pages loaded across that
-      // reload mix chunk versions (`?v=` and bare) — which crashes island
-      // hydration (seen as Svelte "Cannot read properties of undefined (reading
-      // 'call')" and a CountUp frozen at 0 in the parity E2E).
-      include: ['three', 'gsap', 'gsap/ScrollTrigger', 'lenis'],
+      // Pre-bundle deps that Vite dev would otherwise discover mid-session and
+      // re-optimize, invalidating already-served chunks so pages loaded across the
+      // reload mix chunk versions (`?v=` and bare) — which crashes island hydration
+      // (Svelte "Cannot read properties of undefined (reading 'call')", a CountUp
+      // frozen at 0, or the volt-field canvas failing to mount, in the E2E). The
+      // motion libs enter only via dynamic import; `axobject-query` is a transitive
+      // Svelte/Astro dep with a CJS/ESM-interop quirk that races the cold optimizer
+      // under parallel first-loads.
+      include: ['three', 'gsap', 'gsap/ScrollTrigger', 'lenis', 'axobject-query'],
     },
   },
 });
