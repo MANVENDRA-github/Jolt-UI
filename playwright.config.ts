@@ -7,6 +7,9 @@ export default defineConfig({
   testDir: './e2e',
   reporter: 'list',
   forbidOnly: !!process.env.CI,
+  // Warm the dev server's Vite dep-optimizer in a real browser before the parallel
+  // workers hit it (see e2e/global-setup.ts) — avoids a cold-start hydration race.
+  globalSetup: './e2e/global-setup.ts',
   use: {
     baseURL: 'http://localhost:4321',
     reducedMotion: 'reduce',

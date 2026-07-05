@@ -53,5 +53,16 @@ export default defineConfig({
       // node_modules — otherwise dev SSR tries to load the raw .ts via Node.
       noExternal: [/^@jolt\//],
     },
+    optimizeDeps: {
+      // Pre-bundle deps that Vite dev would otherwise discover mid-session and
+      // re-optimize, invalidating already-served chunks so pages loaded across the
+      // reload mix chunk versions (`?v=` and bare) — which crashes island hydration
+      // (Svelte "Cannot read properties of undefined (reading 'call')", a CountUp
+      // frozen at 0, or the volt-field canvas failing to mount, in the E2E). The
+      // motion libs enter only via dynamic import; `axobject-query` is a transitive
+      // Svelte/Astro dep with a CJS/ESM-interop quirk that races the cold optimizer
+      // under parallel first-loads.
+      include: ['three', 'gsap', 'gsap/ScrollTrigger', 'lenis', 'axobject-query'],
+    },
   },
 });

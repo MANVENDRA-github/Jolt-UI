@@ -4,7 +4,8 @@
 // and bails, leaving an empty, inert container — search is a production feature.
 ---
 
-<div id="jolt-search" class="jolt-search"></div>
+{/* data-lenis-prevent: the results drawer scrolls natively even under smooth scroll. */}
+<div id="jolt-search" class="jolt-search" data-lenis-prevent></div>
 
 <script>
   type PagefindUICtor = new (opts: {

@@ -17,7 +17,8 @@ const path = Astro.url.pathname;
 
 <header
   data-pagefind-ignore
-  class="sticky top-0 z-20 border-b border-[color:var(--jolt-border)] bg-[var(--jolt-surface)]/85 backdrop-blur-md"
+  data-site-header
+  class="site-header sticky top-0 z-20 border-b border-[color:var(--jolt-border)] bg-[var(--jolt-surface)]/85 backdrop-blur-md"
 >
   <nav class:list={['mx-auto flex items-center gap-4 px-4 py-3 sm:gap-6 sm:px-6 lg:px-8', maxW]}>
     <a href="/" class="group flex items-center gap-2" aria-label="Jolt UI — home">
@@ -43,7 +44,7 @@ const path = Astro.url.pathname;
                 class:list={[
                   'rounded-[var(--radius-jolt-sm)] px-2.5 py-1.5 transition-colors',
                   active
-                    ? 'font-medium text-[var(--jolt-text)]'
+                    ? 'font-medium text-[var(--jolt-accent)]'
                     : 'text-[var(--jolt-text-subtle)] hover:text-[var(--jolt-text)]',
                 ]}
               >
@@ -59,4 +60,62 @@ const path = Astro.url.pathname;
       <ThemeToggle />
     </div>
   </nav>
+  <span class="nav-progress" aria-hidden="true" data-nav-progress></span>
 </header>
+
+<style>
+  /* A hairline reading-progress bar riding the header's bottom edge. */
+  .nav-progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--jolt-accent), var(--jolt-spark));
+    transform: scaleX(0);
+    transform-origin: left;
+    pointer-events: none;
+  }
+  /* Hide-on-scroll is a motion-mode enhancement (the script also gates itself). */
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header {
+      transition: transform 0.35s var(--ease-jolt-out);
+    }
+    .site-header[data-hidden] {
+      transform: translateY(-100%);
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const progress = document.querySelector<HTMLElement>('[data-nav-progress]');
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  const apply = () => {
+    ticking = false;
+    const y = window.scrollY;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+    if (header && motionOk) {
+      // Hide going down (past the header's own height buffer), reveal going up or near top.
+      if (y > lastY && y > 200) header.dataset.hidden = '';
+      else delete header.dataset.hidden;
+    }
+    lastY = y;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(apply);
+      }
+    },
+    { passive: true },
+  );
+  apply();
+</script>

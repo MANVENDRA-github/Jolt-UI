@@ -105,6 +105,14 @@ const FRAMEWORKS = ['React', 'Vue', 'Svelte'] as const;
     line-height: var(--leading-body);
     color: var(--jolt-text-muted);
   }
+  /* Armed by the scroll story (motion mode only): the inactive beats recede but
+     stay readable — never below 0.35 (the e2e suite sees them all at full). */
+  .story[data-story-armed] .beat:not([data-active]) {
+    opacity: 0.35;
+  }
+  .story[data-story-armed] .beat[data-active] .beat-kicker {
+    color: var(--jolt-spark);
+  }
 
   /* Filament endpoint labels — pinned to the right edge, vertically fanned like the
      three streams the canvas draws. Decorative duplicates of the beat copy, so they
@@ -136,13 +144,15 @@ const FRAMEWORKS = ['React', 'Vue', 'Svelte'] as const;
     border-radius: var(--radius-jolt-pill);
     background: color-mix(in srgb, var(--jolt-abyss) 70%, transparent);
   }
+  /* Vertically matched to the three parted filaments at the canvas's right edge
+     (diagonal base 0.30 + half-tilt 0.11 ± spread 0.18, in uv space, y flipped). */
   .filament-label[data-filament='0'] {
-    top: 34%;
+    top: 40%;
   }
   .filament-label[data-filament='1'] {
-    top: 48%;
+    top: 58%;
   }
   .filament-label[data-filament='2'] {
-    top: 62%;
+    top: 76%;
   }
 </style>
