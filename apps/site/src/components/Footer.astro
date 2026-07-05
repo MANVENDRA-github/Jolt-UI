@@ -14,7 +14,7 @@ const repo = 'https://github.com/MANVENDRA-github/Jolt-UI';
       maxW,
     ]}
   >
-    <span class="flex items-center gap-2">
+    <span class="flex items-center gap-2 font-mono text-xs">
       <svg
         class="h-3.5 w-3.5 text-[var(--jolt-accent)]"
         viewBox="0 0 24 24"
@@ -23,14 +23,18 @@ const repo = 'https://github.com/MANVENDRA-github/Jolt-UI';
       >
         <path d="M13 2 4 13.5h6L9 22l9-11.5h-6L13 2Z"></path>
       </svg>
-      Jolt UI — React · Vue · Svelte from one design language.
+      Jolt UI — one core, three frameworks, zero drift.
     </span>
     <div class="flex gap-5">
-      <a class="transition-colors hover:text-[var(--jolt-text)]" href="/components">Components</a>
-      <a class="transition-colors hover:text-[var(--jolt-text)]" href="/docs/getting-started"
-        >Docs</a
-      >
-      <a class="transition-colors hover:text-[var(--jolt-text)]" href={repo}>GitHub</a>
+      <a class="footer-link transition-colors" href="/components">Components</a>
+      <a class="footer-link transition-colors" href="/docs/getting-started">Docs</a>
+      <a class="footer-link transition-colors" href={repo}>GitHub</a>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-link:hover {
+    color: var(--jolt-accent);
+  }
+</style>

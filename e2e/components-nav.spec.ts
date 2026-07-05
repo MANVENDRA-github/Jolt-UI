@@ -25,3 +25,11 @@ test('a demo page shows the components sub-nav', async ({ page }) => {
   await expect(nav.getByRole('link', { name: 'All' })).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Text Animations' })).toBeVisible();
 });
+
+test('scroll reveals never hide content under reduced motion', async ({ page }) => {
+  // Reveals are an enhancement — under this suite's reduced motion, the reveal
+  // script bails and every below-fold section stays visible from first paint.
+  await page.goto('/components');
+  await expect(page.getByRole('heading', { name: 'Cards' })).toBeVisible();
+  await expect(page.locator('section#cards a').first()).toBeVisible();
+});

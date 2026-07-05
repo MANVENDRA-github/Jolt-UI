@@ -52,6 +52,8 @@ const path = Astro.url.pathname;
     font-size: 2rem;
     font-weight: 600;
     letter-spacing: var(--tracking-tight);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--jolt-border);
   }
   .prose-jolt :global(h2) {
     font-family: var(--font-display);
@@ -60,6 +62,18 @@ const path = Astro.url.pathname;
     letter-spacing: var(--tracking-tight);
     margin-top: 2.5rem;
     margin-bottom: 0.5rem;
+    scroll-margin-top: 5rem;
+  }
+  /* An accent tick before each h2 — the engineering-diagram motif. */
+  .prose-jolt :global(h2)::before {
+    content: '';
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.6rem;
+    border-radius: 2px;
+    background: var(--jolt-accent);
+    vertical-align: middle;
   }
   .prose-jolt :global(h3) {
     font-family: var(--font-display);
@@ -133,5 +147,9 @@ const path = Astro.url.pathname;
   .prose-jolt :global(th) {
     color: var(--jolt-text-subtle);
     font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 </style>

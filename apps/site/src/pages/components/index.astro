@@ -37,7 +37,7 @@ import {
 } from '@jolt/react';
 
 const card =
-  'group block overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5 transition hover:border-[color:var(--jolt-border-strong)] hover:shadow-[var(--shadow-jolt-glow)]';
+  'group block overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[color:var(--jolt-accent)] hover:shadow-[var(--shadow-jolt-glow-lg)]';
 const preview = 'flex h-20 items-center overflow-hidden text-2xl font-bold';
 const name = 'mt-3 text-sm font-semibold';
 const blurb = 'mt-0.5 font-mono text-xs text-[var(--jolt-text-subtle)]';
@@ -49,7 +49,7 @@ const centerPreview = 'flex h-20 items-center justify-center';
 // "View" link — a live <button> must not be nested inside the card's <a> (invalid HTML +
 // a double tab stop). See DECISIONS D-036.
 const buttonCard =
-  'overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5';
+  'overflow-hidden rounded-[var(--radius-jolt-lg)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-raised)] p-5 transition duration-200 hover:border-[color:var(--jolt-border-strong)] hover:shadow-[var(--shadow-jolt-glow)]';
 const viewLink =
   'mt-3 inline-block font-mono text-xs text-[var(--jolt-accent)] transition hover:text-[var(--jolt-accent-hover)]';
 const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4';
@@ -66,7 +66,8 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     automated parity gate. Previews are live (React shown).
   </p>
 
-  <section id="text" class="mt-12 scroll-mt-24">
+  <section id="text" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">text/</p>
     <h2 class="font-display text-xl font-semibold">Text Animations</h2>
     <div class={grid}>
       <a href="/components/text/split-text" class={card}>
@@ -125,7 +126,8 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     </div>
   </section>
 
-  <section id="backgrounds" class="mt-12 scroll-mt-24">
+  <section id="backgrounds" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">backgrounds/</p>
     <h2 class="font-display text-xl font-semibold">Backgrounds</h2>
     <div class={grid}>
       <a href="/components/backgrounds/particles" class={card}>
@@ -161,7 +163,8 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     </div>
   </section>
 
-  <section id="loaders" class="mt-12 scroll-mt-24">
+  <section id="loaders" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">loaders/</p>
     <h2 class="font-display text-xl font-semibold">Loaders</h2>
     <div class={grid}>
       <a href="/components/loaders/spinner" class={card}>
@@ -202,7 +205,8 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     </div>
   </section>
 
-  <section id="buttons" class="mt-12 scroll-mt-24">
+  <section id="buttons" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">buttons/</p>
     <h2 class="font-display text-xl font-semibold">Buttons</h2>
     <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
       Previews are live and interactive — hover, focus, or click a button; follow “View” for the
@@ -248,7 +252,8 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     </div>
   </section>
 
-  <section id="cards" class="mt-12 scroll-mt-24">
+  <section id="cards" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">cards/</p>
     <h2 class="font-display text-xl font-semibold">Cards</h2>
     <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
       Containers that wrap your content — move your cursor over Spotlight and Tilt for the live
@@ -282,3 +287,14 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
     </div>
   </section>
 </ComponentsLayout>
+
+<style>
+  /* Engineering-diagram category label above each section heading. */
+  .cat-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-accent-hover);
+  }
+</style>

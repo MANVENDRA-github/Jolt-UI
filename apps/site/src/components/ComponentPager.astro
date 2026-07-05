@@ -27,7 +27,10 @@ const name = 'font-medium text-[var(--jolt-text)]';
   }
   {
     next ? (
-      <a href={`/components/${next.slug}/${next.id}`} class={`${cell} ml-auto items-end text-right`}>
+      <a
+        href={`/components/${next.slug}/${next.id}`}
+        class={`${cell} ml-auto items-end text-right`}
+      >
         <span class={eyebrow}>Next →</span>
         <span class={name}>{next.name}</span>
       </a>
