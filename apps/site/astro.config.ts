@@ -53,5 +53,14 @@ export default defineConfig({
       // node_modules — otherwise dev SSR tries to load the raw .ts via Node.
       noExternal: [/^@jolt\//],
     },
+    optimizeDeps: {
+      // Pre-bundle the heavy motion deps that only enter the module graph through
+      // dynamic imports (volt-field scene, smooth-scroll). Without this, Vite dev
+      // discovers them mid-session, re-optimizes, and pages loaded across that
+      // reload mix chunk versions (`?v=` and bare) — which crashes island
+      // hydration (seen as Svelte "Cannot read properties of undefined (reading
+      // 'call')" and a CountUp frozen at 0 in the parity E2E).
+      include: ['three', 'gsap', 'gsap/ScrollTrigger', 'lenis'],
+    },
   },
 });

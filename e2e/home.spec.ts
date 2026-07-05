@@ -64,3 +64,19 @@ test('the chrome contract holds on the landing page', async ({ page }) => {
   await expect(nav.getByRole('link', { name: 'Components' })).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Docs' })).toBeVisible();
 });
+
+test('motion enhancements stay off under reduced motion', async ({ page }) => {
+  // The context-level reducedMotion flag is not reliably reflected in matchMedia
+  // (see the PR-7b live-verify note) — assert the gate against an explicit emulation.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  // Lenis never initializes (it stamps a `lenis` class on <html> when it does).
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
+  // Scroll to the bottom: the header never hides, and the scroll story never arms
+  // (all beats stay at full opacity).
+  await page.keyboard.press('End');
+  await page.waitForTimeout(400);
+  await expect(page.locator('header nav')).toBeVisible();
+  await expect(page.locator('#split-story[data-story-armed]')).toHaveCount(0);
+  await expect(page.getByText('One animation core.')).toBeVisible();
+});

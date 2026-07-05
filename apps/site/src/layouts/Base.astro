@@ -95,5 +95,13 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
       <slot />
     </main>
     <Footer maxW={chromeW} />
+    <script>
+      // Site-wide smooth scrolling (Lenis), motion-gated behind a dynamic import so
+      // reduced-motion users never download the chunk.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const { initSmoothScroll } = await import('../lib/smooth-scroll');
+        initSmoothScroll();
+      }
+    </script>
   </body>
 </html>

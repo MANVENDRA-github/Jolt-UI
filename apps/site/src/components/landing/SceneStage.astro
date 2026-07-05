@@ -37,6 +37,11 @@
       document.addEventListener('visibilitychange', () => {
         scene.setPaused(document.hidden);
       });
+
+      // The scroll story: one scrub drives the filament split + beat emphasis.
+      const { initScrollStory } = await import('../../lib/scroll-story');
+      const teardown = initScrollStory(track, scene);
+      window.addEventListener('pagehide', teardown, { once: true });
     }
     window.addEventListener('pagehide', () => scene.revert(), { once: true });
   }

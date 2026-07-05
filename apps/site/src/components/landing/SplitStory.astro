@@ -105,6 +105,14 @@ const FRAMEWORKS = ['React', 'Vue', 'Svelte'] as const;
     line-height: var(--leading-body);
     color: var(--jolt-text-muted);
   }
+  /* Armed by the scroll story (motion mode only): the inactive beats recede but
+     stay readable — never below 0.35 (the e2e suite sees them all at full). */
+  .story[data-story-armed] .beat:not([data-active]) {
+    opacity: 0.35;
+  }
+  .story[data-story-armed] .beat[data-active] .beat-kicker {
+    color: var(--jolt-spark);
+  }
 
   /* Filament endpoint labels — pinned to the right edge, vertically fanned like the
      three streams the canvas draws. Decorative duplicates of the beat copy, so they
