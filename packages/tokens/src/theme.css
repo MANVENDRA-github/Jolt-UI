@@ -101,6 +101,14 @@
   --shadow-jolt-glow:
     0 0 0 1px color-mix(in srgb, var(--color-volt-500) 40%, transparent),
     0 0 28px -6px color-mix(in srgb, var(--color-volt-500) 65%, transparent);
+
+  /* ---- Voltage 2 landing: scene-canvas constants + layered cinematic glow ---- */
+  --jolt-abyss: #07060d; /* the landing scene canvas — always dark, by design */
+  --jolt-filament: #efeaff; /* the current's hot core */
+  --shadow-jolt-glow-lg:
+    0 0 0 1px color-mix(in srgb, var(--color-volt-500) 45%, transparent),
+    0 0 40px -8px color-mix(in srgb, var(--color-volt-500) 80%, transparent),
+    0 0 96px -24px color-mix(in srgb, var(--color-volt-400) 60%, transparent);
 }
 
 [data-theme='light'] {
@@ -121,4 +129,12 @@
   --shadow-jolt-glow:
     0 0 0 1px color-mix(in srgb, var(--color-volt-500) 30%, transparent),
     0 0 24px -8px color-mix(in srgb, var(--color-volt-600) 45%, transparent);
+
+  /* ---- Voltage 2 landing: scene-canvas constants (dark by design) + glow ---- */
+  --jolt-abyss: #07060d;
+  --jolt-filament: #efeaff;
+  --shadow-jolt-glow-lg:
+    0 0 0 1px color-mix(in srgb, var(--color-volt-500) 35%, transparent),
+    0 0 32px -10px color-mix(in srgb, var(--color-volt-600) 55%, transparent),
+    0 0 72px -28px color-mix(in srgb, var(--color-volt-500) 40%, transparent);
 }
