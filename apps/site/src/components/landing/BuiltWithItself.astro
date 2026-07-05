@@ -1,0 +1,137 @@
+---
+import { Aurora, Scramble, Shimmer, Spotlight } from '@jolt/react';
+import { orderedComponents } from '../../lib/categories';
+
+const count = orderedComponents().length;
+---
+
+<section id="built-with-itself" class="dogfood">
+  <div class="inner mx-auto w-full max-w-[84rem] px-4 sm:px-6 lg:px-8">
+    <p class="kicker">proof of work</p>
+    <h2 class="title">Built with itself.</h2>
+    <p class="lede">
+      Everything moving on this page is a Jolt UI component — the same ones you can drop into your
+      app.
+    </p>
+    <div class="grid">
+      <div class="tile tile-aurora">
+        <div class="tile-fill"><Aurora client:visible /></div>
+        <span class="tile-label">backgrounds / aurora</span>
+      </div>
+      <Spotlight client:visible className="tile tile-spotlight">
+        <p class="tile-demo-text">Move your cursor — the glow follows.</p>
+        <span class="tile-label">cards / spotlight</span>
+      </Spotlight>
+      <div class="tile tile-scramble">
+        <p class="tile-demo-display"><Scramble client:visible text="jolt.dev" /></p>
+        <span class="tile-label">text / scramble</span>
+      </div>
+      <div class="tile tile-shimmer">
+        <Shimmer client:visible label="Shimmer" />
+        <span class="tile-label">buttons / shimmer</span>
+      </div>
+    </div>
+    <a class="all-link" href="/components">Browse all {count} components →</a>
+  </div>
+</section>
+
+<style>
+  .dogfood {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(5rem, 12vh, 9rem);
+    background: var(--jolt-surface);
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .title {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+  .lede {
+    margin-top: 1rem;
+    max-width: 38rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+  .grid {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 40rem) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .grid :global(.tile) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 14rem;
+    border: 1px solid var(--jolt-border);
+    border-radius: var(--radius-jolt-lg);
+    background: var(--jolt-surface-raised);
+    overflow: hidden;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+  .grid :global(.tile:hover) {
+    border-color: color-mix(in srgb, var(--jolt-accent) 45%, var(--jolt-border));
+    box-shadow: var(--shadow-jolt-glow);
+  }
+  .tile-fill {
+    position: absolute;
+    inset: 0;
+  }
+  .tile-aurora {
+    background: var(--jolt-abyss);
+  }
+  .tile-demo-text {
+    max-width: 16rem;
+    text-align: center;
+    color: var(--jolt-text-muted);
+    font-size: 0.9375rem;
+  }
+  .tile-demo-display {
+    font-family: var(--font-mono);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+  }
+  .grid :global(.tile-label) {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+    background: color-mix(in srgb, var(--jolt-surface) 75%, transparent);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-jolt-sm);
+    pointer-events: none;
+  }
+  .all-link {
+    display: inline-flex;
+    margin-top: 2rem;
+    font-weight: 600;
+    color: var(--jolt-accent-hover);
+    transition: color 0.15s;
+  }
+  .all-link:hover {
+    color: var(--jolt-text);
+  }
+</style>

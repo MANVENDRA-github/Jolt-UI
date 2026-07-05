@@ -1,0 +1,169 @@
+---
+import { CountUp } from '@jolt/react';
+import { JOLT_ORIGIN } from '@jolt/core';
+import { orderedComponents, categoriesWithComponents } from '../../lib/categories';
+
+const count = orderedComponents().length;
+const catCount = categoriesWithComponents().length;
+const addCommand = `npx jsrepo add ${JOLT_ORIGIN}/r/react/aurora`;
+---
+
+<section id="install" class="install">
+  <div class="inner mx-auto w-full max-w-[84rem] px-4 sm:px-6 lg:px-8">
+    <div class="cols">
+      <div class="copy">
+        <p class="kicker">install</p>
+        <h2 class="title">One command away.</h2>
+        <p class="lede">
+          Copy the source from any component page, or pull it straight into your project with the
+          jsrepo registry — the code lands in your tree, not in <code>node_modules</code>.
+        </p>
+        <a class="docs-link" href="/docs/getting-started">Read the getting-started guide →</a>
+      </div>
+      <div class="panel">
+        <div class="terminal" aria-label="Install command">
+          <div class="terminal-bar" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <pre class="terminal-body"><code>{addCommand}</code></pre>
+        </div>
+        <dl class="stats">
+          <div class="stat">
+            <dt>components</dt>
+            <dd><CountUp client:visible to={count} duration={1.6} /></dd>
+          </div>
+          <div class="stat">
+            <dt>frameworks</dt>
+            <dd><CountUp client:visible to={3} duration={1.6} /></dd>
+          </div>
+          <div class="stat">
+            <dt>categories</dt>
+            <dd><CountUp client:visible to={catCount} duration={1.6} /></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .install {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(5rem, 12vh, 9rem);
+    background: var(--jolt-surface-sunken);
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  @media (min-width: 64rem) {
+    .cols {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 4rem;
+    }
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .title {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+  .lede {
+    margin-top: 1rem;
+    max-width: 34rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+  .lede code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 0.05rem 0.35rem;
+    border-radius: var(--radius-jolt-sm);
+    background: var(--jolt-surface);
+    border: 1px solid var(--jolt-border);
+  }
+  .docs-link {
+    display: inline-flex;
+    margin-top: 1.5rem;
+    font-weight: 600;
+    color: var(--jolt-accent-hover);
+    transition: color 0.15s;
+  }
+  .docs-link:hover {
+    color: var(--jolt-text);
+  }
+
+  .terminal {
+    border: 1px solid var(--jolt-border-strong);
+    border-radius: var(--radius-jolt-lg);
+    background: var(--jolt-abyss);
+    box-shadow: var(--shadow-jolt);
+    overflow: hidden;
+  }
+  .terminal-bar {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid var(--jolt-border);
+  }
+  .terminal-bar span {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--color-steel-700);
+  }
+  .terminal-bar span:first-child {
+    background: color-mix(in srgb, var(--color-volt-500) 70%, var(--color-steel-700));
+  }
+  .terminal-body {
+    margin: 0;
+    padding: 1.1rem 1.2rem 1.3rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.75rem, 1.6vw, 0.9375rem);
+    color: var(--color-ink);
+    overflow-x: auto;
+  }
+  .terminal-body code::before {
+    content: '$ ';
+    color: var(--jolt-spark);
+  }
+
+  .stats {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .stat {
+    border: 1px solid var(--jolt-border);
+    border-radius: var(--radius-jolt);
+    background: var(--jolt-surface-raised);
+    padding: 0.9rem 1rem;
+  }
+  .stat dt {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .stat dd {
+    margin-top: 0.35rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1;
+  }
+</style>

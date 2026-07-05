@@ -1,0 +1,148 @@
+---
+/**
+ * The scroll story over the scene canvas: one current splits into three filaments.
+ * Three copy beats in normal document flow — fully visible with no JS and under
+ * reduced motion (the e2e suite runs with reducedMotion:'reduce'). The scroll
+ * orchestration slice later scrubs the canvas split and *emphasizes* the active
+ * beat (opacity 0.35 ↔ 1) via `data-beat` — it never hides one.
+ */
+const BEATS = [
+  {
+    kicker: 'the core',
+    title: 'One animation core.',
+    body:
+      'Every animation lives once — schemas, math, and motion in framework-agnostic ' +
+      'TypeScript. No per-framework forks to drift apart.',
+  },
+  {
+    kicker: 'the skins',
+    title: 'Three frameworks.',
+    body:
+      'React, Vue, and Svelte components are thin, idiomatic shells over that same core. ' +
+      'Pick your stack; the motion is identical.',
+  },
+  {
+    kicker: 'the gate',
+    title: 'Zero drift.',
+    body:
+      'An automated parity gate pixel-compares every component across all three frameworks ' +
+      'on every pull request. What you copy is what ships.',
+  },
+] as const;
+
+const FRAMEWORKS = ['React', 'Vue', 'Svelte'] as const;
+---
+
+<section id="split-story" class="story" aria-label="One core, three frameworks">
+  <div class="filaments" aria-hidden="true" data-pagefind-ignore>
+    {
+      FRAMEWORKS.map((fw, i) => (
+        <span class="filament-label" data-filament={i}>
+          {fw}
+        </span>
+      ))
+    }
+  </div>
+  <div class="beats mx-auto w-full max-w-[84rem] px-4 sm:px-6 lg:px-8">
+    {
+      BEATS.map((beat, i) => (
+        <div class="beat" data-beat={i}>
+          <p class="beat-kicker">{beat.kicker}</p>
+          <h2 class="beat-title">{beat.title}</h2>
+          <p class="beat-body">{beat.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .story {
+    position: relative;
+    z-index: 1;
+  }
+  .beats {
+    display: flex;
+    flex-direction: column;
+  }
+  .beat {
+    min-height: 66svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 34rem;
+    /* The scroll story dials this between 0.35 and 1; the default is full so the
+       page reads complete with no JS / reduced motion. */
+    opacity: 1;
+    transition: opacity 0.4s var(--ease-jolt-out);
+  }
+  .beat-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-accent-hover);
+  }
+  .beat-kicker::before {
+    content: '[ ';
+    color: var(--jolt-text-subtle);
+  }
+  .beat-kicker::after {
+    content: ' ]';
+    color: var(--jolt-text-subtle);
+  }
+  .beat-title {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+  .beat-body {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+
+  /* Filament endpoint labels — pinned to the right edge, vertically fanned like the
+     three streams the canvas draws. Decorative duplicates of the beat copy, so they
+     are aria-hidden + excluded from the search index. */
+  .filaments {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    margin-bottom: -100svh;
+    z-index: 0;
+    display: none;
+    pointer-events: none;
+  }
+  @media (min-width: 64rem) {
+    .filaments {
+      display: block;
+    }
+  }
+  .filament-label {
+    position: absolute;
+    right: clamp(1.5rem, 6vw, 5rem);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--jolt-border);
+    border-radius: var(--radius-jolt-pill);
+    background: color-mix(in srgb, var(--jolt-abyss) 70%, transparent);
+  }
+  .filament-label[data-filament='0'] {
+    top: 34%;
+  }
+  .filament-label[data-filament='1'] {
+    top: 48%;
+  }
+  .filament-label[data-filament='2'] {
+    top: 62%;
+  }
+</style>

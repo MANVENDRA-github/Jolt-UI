@@ -1,0 +1,54 @@
+---
+/**
+ * The persistent scene layer behind the hero + split story. A CSS-sticky element
+ * that spans the whole `.scene-track` without pinning: `margin-bottom: -100svh`
+ * lets the following content scroll over it while it stays glued to the viewport.
+ *
+ * For now it paints the abyss gradient only; the volt-field WebGL canvas mounts
+ * into `[data-volt-field]` in a follow-up slice and fades in over this gradient,
+ * which stays as the no-WebGL / reduced-data fallback.
+ */
+---
+
+<div class="scene-pin" aria-hidden="true" data-volt-field></div>
+
+<style>
+  .scene-pin {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    margin-bottom: -100svh;
+    z-index: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        110% 75% at 50% -10%,
+        color-mix(in srgb, var(--color-volt-900) 60%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        70% 55% at 78% 105%,
+        color-mix(in srgb, var(--color-volt-800) 28%, transparent),
+        transparent 70%
+      ),
+      var(--jolt-abyss);
+  }
+  /* A faint engineering grid — the scene reads as an instrument bed, not a void. */
+  .scene-pin::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--color-steel-500) 7%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--color-steel-500) 7%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 72px 72px;
+    mask-image: radial-gradient(90% 70% at 50% 40%, black, transparent 75%);
+  }
+</style>

@@ -1,0 +1,169 @@
+---
+import { Wave as ReactWave } from '@jolt/react';
+import { Wave as VueWave } from '@jolt/vue';
+import { Wave as SvelteWave } from '@jolt/svelte';
+---
+
+<section
+  id="parity"
+  class="parity"
+  data-theme="dark"
+  aria-label="The same component, identical across three frameworks"
+>
+  <div class="inner mx-auto w-full max-w-[84rem] px-4 sm:px-6 lg:px-8">
+    <p class="parity-eyebrow">The parity gate, alive</p>
+    <div class="rails">
+      <div class="rail">
+        <span class="rail-fw">React</span>
+        <div class="rail-track">
+          <ReactWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+      <div class="rail">
+        <span class="rail-fw">Vue</span>
+        <div class="rail-track">
+          <VueWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+      <div class="rail">
+        <span class="rail-fw">Svelte</span>
+        <div class="rail-track">
+          <SvelteWave text="Jolt UI" />
+          <span class="rail-line"><span class="rail-spark"></span></span>
+        </div>
+      </div>
+    </div>
+    <p class="parity-caption">
+      The same component in every framework, held in lockstep by an automated parity gate — so the
+      motion you copy is the motion you ship.
+    </p>
+  </div>
+</section>
+
+<style>
+  .parity {
+    position: relative;
+    z-index: 1;
+    padding-block: clamp(5rem, 12vh, 9rem);
+    background:
+      radial-gradient(
+        90% 90% at 50% 110%,
+        color-mix(in srgb, var(--color-volt-900) 45%, transparent),
+        transparent 65%
+      ),
+      var(--jolt-abyss);
+    color: var(--jolt-text);
+  }
+  .parity-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--jolt-text-subtle);
+  }
+  .rails {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+  .rail {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .rail-fw {
+    flex: none;
+    width: 4.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--jolt-text-subtle);
+  }
+  .rail-track {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 600;
+    padding-bottom: 0.75rem;
+  }
+  .rail-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--jolt-border);
+    overflow: visible;
+  }
+  .rail-spark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 999px;
+    background: var(--jolt-spark);
+    box-shadow: 0 0 10px 1px var(--jolt-spark);
+  }
+  .parity-caption {
+    margin-top: 2rem;
+    max-width: 46rem;
+    font-size: 0.9375rem;
+    line-height: var(--leading-body);
+    color: var(--jolt-text-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rail-spark {
+      left: 0;
+      animation: rail-sweep var(--duration-jolt-current) linear infinite;
+    }
+    .rail:nth-child(2) .rail-spark {
+      animation-delay: -0.16s;
+    }
+    .rail:nth-child(3) .rail-spark {
+      animation-delay: -0.32s;
+    }
+    .rail-fw {
+      animation: fw-pulse var(--duration-jolt-current) linear infinite;
+    }
+    .rail:nth-child(2) .rail-fw {
+      animation-delay: -0.16s;
+    }
+    .rail:nth-child(3) .rail-fw {
+      animation-delay: -0.32s;
+    }
+  }
+  @keyframes rail-sweep {
+    0% {
+      left: 0;
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes fw-pulse {
+    0%,
+    100% {
+      color: var(--jolt-text-subtle);
+    }
+    5% {
+      color: var(--jolt-spark);
+      text-shadow: 0 0 14px var(--jolt-spark);
+    }
+  }
+</style>

@@ -3,9 +3,10 @@ import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_NAME, SITE_DESCRIPTION, absoluteUrl, buildWebsiteJsonLd } from '../lib/seo';
-// Preload the body face (latin, weight axis) so first paint isn't a swap. `?url` resolves
-// to the fingerprinted asset path at build time.
+// Preload the body + display faces (latin, weight axis) so first paint isn't a swap.
+// `?url` resolves to the fingerprinted asset path at build time.
 import interWoff2 from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import groteskWoff2 from '@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url';
 
 interface Props {
   title?: string;
@@ -14,8 +15,9 @@ interface Props {
   ogImage?: string;
   /** Set on non-indexable pages (e.g. the internal parity harness). */
   noindex?: boolean;
-  /** Content column width: 'prose' (docs), 'default' (demo pages), or 'wide' (home/gallery). */
-  width?: 'prose' | 'default' | 'wide';
+  /** Content column width: 'prose' (docs), 'default' (demo pages), 'wide' (gallery),
+      or 'full' (the landing — full-bleed sections that manage their own inner column). */
+  width?: 'prose' | 'default' | 'wide' | 'full';
   /** Structured data; defaults to the site-wide WebSite JSON-LD. Pass `null` to omit. */
   jsonLd?: Record<string, unknown> | null;
 }
@@ -31,7 +33,18 @@ const {
 
 // One shared max-width for the chrome + content column so they always align; the same
 // horizontal padding on nav/main/footer keeps their content edges lined up at every size.
-const maxW = width === 'wide' ? 'max-w-[84rem]' : width === 'prose' ? 'max-w-2xl' : 'max-w-4xl';
+// 'full' bleeds main edge-to-edge (sections carry their own inner column) while the
+// chrome keeps the wide column so nav/footer stay aligned with the landing's content.
+const chromeW =
+  width === 'wide' || width === 'full'
+    ? 'max-w-[84rem]'
+    : width === 'prose'
+      ? 'max-w-2xl'
+      : 'max-w-4xl';
+const mainClasses =
+  width === 'full'
+    ? ['w-full flex-1']
+    : ['mx-auto w-full flex-1 px-4 py-10 sm:px-6 lg:px-8', chromeW];
 
 const site = Astro.site;
 const canonical = absoluteUrl(site, Astro.url.pathname);
@@ -49,6 +62,7 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={groteskWoff2} as="font" type="font/woff2" crossorigin />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
@@ -76,13 +90,10 @@ const structuredData = jsonLd === null ? null : (jsonLd ?? buildWebsiteJsonLd(si
     </script>
   </head>
   <body class="flex min-h-screen flex-col">
-    <Nav maxW={maxW} />
-    <main
-      class:list={['mx-auto w-full flex-1 px-4 py-10 sm:px-6 lg:px-8', maxW]}
-      data-pagefind-body={noindex ? undefined : true}
-    >
+    <Nav maxW={chromeW} />
+    <main class:list={mainClasses} data-pagefind-body={noindex ? undefined : true}>
       <slot />
     </main>
-    <Footer maxW={maxW} />
+    <Footer maxW={chromeW} />
   </body>
 </html>
