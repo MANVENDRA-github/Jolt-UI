@@ -1,0 +1,53 @@
+/* Neon — CSS-only whole-text neon sign. Self-contained (no token deps); the skin
+   sets --jolt-* from props. The text is the neon-tube color with a layered glow;
+   it flickers on a few times, then holds a steady glow (one-shot, `forwards`), so
+   the settled state matches the reduced-motion static frame + the parity freeze. */
+@keyframes jolt-neon {
+  0% {
+    opacity: 0.25;
+    text-shadow: none;
+  }
+  8%,
+  16%,
+  26% {
+    opacity: 1;
+    text-shadow:
+      0 0 calc(var(--jolt-glow, 12px) * 0.35) var(--jolt-color, #7c5cff),
+      0 0 var(--jolt-glow, 12px) var(--jolt-color, #7c5cff),
+      0 0 calc(var(--jolt-glow, 12px) * 2) var(--jolt-color, #7c5cff);
+  }
+  12% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+  21% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 calc(var(--jolt-glow, 12px) * 0.35) var(--jolt-color, #7c5cff),
+      0 0 var(--jolt-glow, 12px) var(--jolt-color, #7c5cff),
+      0 0 calc(var(--jolt-glow, 12px) * 2) var(--jolt-color, #7c5cff);
+  }
+}
+
+.jolt-neon {
+  display: inline-block;
+  color: var(--jolt-color, #7c5cff);
+  will-change: opacity, text-shadow;
+  animation: jolt-neon var(--jolt-duration, 1.6s) var(--jolt-ease, ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-neon {
+    animation: none;
+    opacity: 1;
+    /* The settled steady glow — identical to the keyframe's 100%. */
+    text-shadow:
+      0 0 calc(var(--jolt-glow, 12px) * 0.35) var(--jolt-color, #7c5cff),
+      0 0 var(--jolt-glow, 12px) var(--jolt-color, #7c5cff),
+      0 0 calc(var(--jolt-glow, 12px) * 2) var(--jolt-color, #7c5cff);
+    will-change: auto;
+  }
+}

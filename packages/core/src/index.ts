@@ -81,4 +81,10 @@ export { tiltSchema, tiltMeta } from './schemas/tilt';
 export type { TiltProps } from './schemas/tilt';
 export { shineBorderSchema, shineBorderMeta } from './schemas/shine-border';
 export type { ShineBorderProps } from './schemas/shine-border';
+export { fadeUpSchema, fadeUpMeta } from './schemas/fade-up';
+export type { FadeUpProps } from './schemas/fade-up';
+export { flipInSchema, flipInMeta } from './schemas/flip-in';
+export type { FlipInProps } from './schemas/flip-in';
+export { neonSchema, neonMeta } from './schemas/neon';
+export type { NeonProps } from './schemas/neon';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

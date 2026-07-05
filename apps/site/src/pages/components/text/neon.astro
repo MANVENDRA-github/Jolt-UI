@@ -1,0 +1,49 @@
+---
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
+import { Neon as ReactNeon } from '@jolt/react';
+import { Neon as VueNeon } from '@jolt/vue';
+import { Neon as SvelteNeon } from '@jolt/svelte';
+import { neonSchema, neonMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/Neon/Neon.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/Neon/Neon.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/Neon/Neon.svelte?raw';
+
+const sourceTabs = [
+  { label: 'React', lang: 'tsx', code: reactSource },
+  { label: 'Vue', lang: 'vue', code: vueSource },
+  { label: 'Svelte', lang: 'svelte', code: svelteSource },
+];
+---
+
+<ComponentsLayout title="Neon — Jolt UI">
+  <Breadcrumbs id="neon" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Neon</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">Neon sign that flickers on to a steady glow</p>
+
+  <div class="mt-8">
+    <FrameworkSwitcher id="neon">
+      <div class="text-3xl font-semibold" slot="react"><ReactNeon text="Neon" /></div>
+      <div class="text-3xl font-semibold" slot="vue"><VueNeon text="Neon" /></div>
+      <div class="text-3xl font-semibold" slot="svelte"><SvelteNeon text="Neon" /></div>
+    </FrameworkSwitcher>
+  </div>
+
+  <InstallBlock meta={neonMeta} />
+
+  <section class="mt-12">
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Identical behavior, idiomatic per framework.
+    </p>
+    <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
+  </section>
+
+  <PropsTable schema={neonSchema} />
+  <ComponentPager id="neon" />
+</ComponentsLayout>
