@@ -213,4 +213,26 @@ export declare const ShineBorder: (props: {
   speed?: number;
   width?: number;
 }) => unknown;
+export declare const FadeUp: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  distance?: number;
+  stagger?: number;
+  duration?: number;
+  delay?: number;
+}) => unknown;
+export declare const FlipIn: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  duration?: number;
+  stagger?: number;
+  perspective?: number;
+  delay?: number;
+}) => unknown;
+export declare const Neon: (props: {
+  text: string;
+  glow?: number;
+  duration?: number;
+  color?: string;
+}) => unknown;
 // gen:shims

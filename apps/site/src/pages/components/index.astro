@@ -33,6 +33,9 @@ import {
   Spotlight,
   Tilt,
   ShineBorder,
+  FadeUp,
+  FlipIn,
+  Neon,
   // gen:card-import
 } from '@jolt/react';
 
@@ -120,6 +123,21 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={preview}><ScrollVelocity text="Scroll · Velocity ·" client:visible /></div>
         <div class={name}>Scroll Velocity</div>
         <div class={blurb}>Marquee that reacts to scroll (GSAP)</div>
+      </a>
+      <a href="/components/text/fade-up" class={card}>
+        <div class={preview}><FadeUp text="Fade Up" /></div>
+        <div class={name}>Fade Up</div>
+        <div class={blurb}>Per-character rise + fade-in entrance</div>
+      </a>
+      <a href="/components/text/flip-in" class={card}>
+        <div class={preview}><FlipIn text="Flip In" /></div>
+        <div class={name}>Flip In</div>
+        <div class={blurb}>Per-character 3D flip-in entrance</div>
+      </a>
+      <a href="/components/text/neon" class={card}>
+        <div class={preview}><Neon text="Neon" /></div>
+        <div class={name}>Neon</div>
+        <div class={blurb}>Neon sign that flickers on to a steady glow</div>
       </a>
       {/* gen:card */}
     </div>

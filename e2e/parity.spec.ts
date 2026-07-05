@@ -10,6 +10,8 @@ const PER_CHAR = [
   'blur-in',
   'wave',
   'rotating-words',
+  'fade-up',
+  'flip-in',
   // gen:per-char
 ] as const;
 const WHOLE_TEXT = [
@@ -19,6 +21,7 @@ const WHOLE_TEXT = [
   'count-up',
   'scramble',
   'scroll-velocity',
+  'neon',
   // gen:whole-text
 ] as const;
 // Backgrounds are WebGL canvases — no text, and non-deterministic per-frame output
