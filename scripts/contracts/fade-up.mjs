@@ -1,0 +1,51 @@
+// FadeUp — per-character rise + fade-in entrance. CSS-only, staggered.
+export default {
+  id: 'fade-up',
+  name: 'FadeUp',
+  pattern: 'css-per-char',
+  blurb: 'Per-character rise + fade-in entrance',
+  a11y: 'Full text is exposed via aria-label; animated segments are aria-hidden.',
+  deps: [],
+  props: [
+    { name: 'text', type: 'string', required: true, describe: 'The text to animate.' },
+    {
+      name: 'by',
+      type: 'enum',
+      values: ['chars', 'words'],
+      default: 'chars',
+      describe: 'Split granularity.',
+    },
+    {
+      name: 'distance',
+      type: 'number',
+      default: 0.7,
+      describe: 'How far each segment rises from, in em.',
+      cssVar: { name: '--jolt-distance', unit: 'em' },
+    },
+    {
+      name: 'stagger',
+      type: 'number',
+      default: 0.04,
+      describe: 'Seconds between each segment starting.',
+      cssVar: { name: '--jolt-stagger', unit: 's' },
+    },
+    {
+      name: 'duration',
+      type: 'number',
+      default: 0.5,
+      describe: 'Seconds each segment takes to resolve.',
+      cssVar: { name: '--jolt-duration', unit: 's' },
+    },
+    {
+      name: 'delay',
+      type: 'number',
+      default: 0,
+      describe: 'Seconds to wait before the first segment.',
+      cssVar: { name: '--jolt-delay', unit: 's' },
+    },
+  ],
+  parity: { kind: 'per-char', pixelParity: true },
+  demoProps: { text: 'Fade Up' },
+  harnessProps: { text: 'Jolt UI' },
+  cardText: 'Fade Up',
+};

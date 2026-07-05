@@ -216,4 +216,26 @@ export declare const ShineBorder: DefineComponent<{
   speed?: number;
   width?: number;
 }>;
+export declare const FadeUp: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  distance?: number;
+  stagger?: number;
+  duration?: number;
+  delay?: number;
+}>;
+export declare const FlipIn: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  duration?: number;
+  stagger?: number;
+  perspective?: number;
+  delay?: number;
+}>;
+export declare const Neon: DefineComponent<{
+  text: string;
+  glow?: number;
+  duration?: number;
+  color?: string;
+}>;
 // gen:shims

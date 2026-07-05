@@ -31,4 +31,7 @@ export { Tactile } from './components/Tactile';
 export { Spotlight } from './components/Spotlight';
 export { Tilt } from './components/Tilt';
 export { ShineBorder } from './components/ShineBorder';
+export { FadeUp } from './components/FadeUp';
+export { FlipIn } from './components/FlipIn';
+export { Neon } from './components/Neon';
 // gen:exports

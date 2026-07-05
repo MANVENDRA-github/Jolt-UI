@@ -1,0 +1,51 @@
+// FlipIn — per-character 3D flip-in entrance. CSS-only, staggered.
+export default {
+  id: 'flip-in',
+  name: 'FlipIn',
+  pattern: 'css-per-char',
+  blurb: 'Per-character 3D flip-in entrance',
+  a11y: 'Full text is exposed via aria-label; animated segments are aria-hidden.',
+  deps: [],
+  props: [
+    { name: 'text', type: 'string', required: true, describe: 'The text to animate.' },
+    {
+      name: 'by',
+      type: 'enum',
+      values: ['chars', 'words'],
+      default: 'chars',
+      describe: 'Split granularity.',
+    },
+    {
+      name: 'duration',
+      type: 'number',
+      default: 0.6,
+      describe: 'Seconds each segment takes to flip in.',
+      cssVar: { name: '--jolt-duration', unit: 's' },
+    },
+    {
+      name: 'stagger',
+      type: 'number',
+      default: 0.05,
+      describe: 'Seconds between each segment starting.',
+      cssVar: { name: '--jolt-stagger', unit: 's' },
+    },
+    {
+      name: 'perspective',
+      type: 'number',
+      default: 400,
+      describe: 'Depth of the 3D flip, in pixels (smaller is more extreme).',
+      cssVar: { name: '--jolt-perspective', unit: 'px' },
+    },
+    {
+      name: 'delay',
+      type: 'number',
+      default: 0,
+      describe: 'Seconds to wait before the first segment.',
+      cssVar: { name: '--jolt-delay', unit: 's' },
+    },
+  ],
+  parity: { kind: 'per-char', pixelParity: true },
+  demoProps: { text: 'Flip In' },
+  harnessProps: { text: 'Jolt UI' },
+  cardText: 'Flip In',
+};

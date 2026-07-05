@@ -215,6 +215,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/ShineBorder/ShineBorder.tsx' }],
         },
+        {
+          name: 'fade-up',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/FadeUp/FadeUp.tsx' }],
+        },
+        {
+          name: 'flip-in',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/FlipIn/FlipIn.tsx' }],
+        },
+        {
+          name: 'neon',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Neon/Neon.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -386,6 +401,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/ShineBorder/ShineBorder.vue' }],
         },
+        {
+          name: 'fade-up',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/FadeUp/FadeUp.vue' }],
+        },
+        {
+          name: 'flip-in',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/FlipIn/FlipIn.vue' }],
+        },
+        {
+          name: 'neon',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Neon/Neon.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -556,6 +586,21 @@ export default defineConfig({
           name: 'shine-border',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/ShineBorder/ShineBorder.svelte' }],
+        },
+        {
+          name: 'fade-up',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/FadeUp/FadeUp.svelte' }],
+        },
+        {
+          name: 'flip-in',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/FlipIn/FlipIn.svelte' }],
+        },
+        {
+          name: 'neon',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Neon/Neon.svelte' }],
         },
         // gen:svelte-items
       ],

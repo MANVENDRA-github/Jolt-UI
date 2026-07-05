@@ -133,6 +133,9 @@ const COMPONENTS_TO_ADD = [
   'spotlight',
   'tilt',
   'shine-border',
+  'fade-up',
+  'flip-in',
+  'neon',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -185,6 +188,9 @@ const CSS_SKINS = [
   ['Spotlight.tsx', 'spotlight.css'],
   ['Tilt.tsx', 'tilt.css'],
   ['ShineBorder.tsx', 'shine-border.css'],
+  ['FadeUp.tsx', 'fade-up.css'],
+  ['FlipIn.tsx', 'flip-in.css'],
+  ['Neon.tsx', 'neon.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

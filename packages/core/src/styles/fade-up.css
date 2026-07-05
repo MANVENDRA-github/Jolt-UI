@@ -1,0 +1,37 @@
+/* FadeUp — CSS-only per-character rise + fade-in. Self-contained (no token deps);
+   the skin sets --jolt-* custom properties from props, and each segment carries
+   its index in --jolt-i for a staggered start. */
+@keyframes jolt-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--jolt-distance, 0.7em));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.jolt-fade-up {
+  display: inline-block;
+}
+
+.jolt-fade-up [data-jolt-segment] {
+  display: inline-block;
+  white-space: pre;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: jolt-fade-up var(--jolt-duration, 0.5s)
+    var(--jolt-ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  animation-delay: calc(var(--jolt-delay, 0s) + var(--jolt-i, 0) * var(--jolt-stagger, 0.04s));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-fade-up [data-jolt-segment] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    /* Release the GPU layer so the static text rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}
