@@ -139,6 +139,9 @@ const COMPONENTS_TO_ADD = [
   'glitch-text',
   'true-focus',
   'circular-text',
+  'glare',
+  'border-glow',
+  'star-border',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -197,6 +200,9 @@ const CSS_SKINS = [
   ['GlitchText.tsx', 'glitch-text.css'],
   ['TrueFocus.tsx', 'true-focus.css'],
   ['CircularText.tsx', 'circular-text.css'],
+  ['Glare.tsx', 'glare.css'],
+  ['BorderGlow.tsx', 'border-glow.css'],
+  ['StarBorder.tsx', 'star-border.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

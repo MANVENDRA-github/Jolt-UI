@@ -245,6 +245,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/CircularText/CircularText.tsx' }],
         },
+        {
+          name: 'glare',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Glare/Glare.tsx' }],
+        },
+        {
+          name: 'border-glow',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/BorderGlow/BorderGlow.tsx' }],
+        },
+        {
+          name: 'star-border',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/StarBorder/StarBorder.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -446,6 +461,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/CircularText/CircularText.vue' }],
         },
+        {
+          name: 'glare',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Glare/Glare.vue' }],
+        },
+        {
+          name: 'border-glow',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/BorderGlow/BorderGlow.vue' }],
+        },
+        {
+          name: 'star-border',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/StarBorder/StarBorder.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -646,6 +676,21 @@ export default defineConfig({
           name: 'circular-text',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/CircularText/CircularText.svelte' }],
+        },
+        {
+          name: 'glare',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Glare/Glare.svelte' }],
+        },
+        {
+          name: 'border-glow',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/BorderGlow/BorderGlow.svelte' }],
+        },
+        {
+          name: 'star-border',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/StarBorder/StarBorder.svelte' }],
         },
         // gen:svelte-items
       ],

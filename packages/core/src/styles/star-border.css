@@ -1,0 +1,65 @@
+/* StarBorder — a bright star travels around the button's border. The ring is a ::before masked
+   to just the --jolt-width frame (mask-composite: exclude, the Border Draw idiom) whose paint
+   is a repeating gradient: a dim tint everywhere, spiking to the star color and a white core in
+   one narrow band. Sliding its background-position sweeps that band around the frame.
+
+   Self-contained; the skin sets --jolt-color / --jolt-star / --jolt-width / --jolt-speed and
+   renders on a native <button>. Click/disabled are native, so there is no JS in core. */
+@keyframes jolt-star-border {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.jolt-star-border {
+  position: relative;
+  display: inline-block;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.7em 1.5em;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: var(--jolt-color, #14141c);
+}
+
+.jolt-star-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--jolt-width, 2px);
+  background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--jolt-star, #c6ff4f) 22%, transparent) 0%,
+      color-mix(in srgb, var(--jolt-star, #c6ff4f) 22%, transparent) 32%,
+      var(--jolt-star, #c6ff4f) 45%,
+      #fff 50%,
+      var(--jolt-star, #c6ff4f) 55%,
+      color-mix(in srgb, var(--jolt-star, #c6ff4f) 22%, transparent) 68%,
+      color-mix(in srgb, var(--jolt-star, #c6ff4f) 22%, transparent) 100%
+    )
+    border-box;
+  background-size: 200% auto;
+  /* Paint the padding box opaque, subtract it from the border box: only the frame survives. */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: jolt-star-border var(--jolt-speed, 4s) linear infinite;
+  pointer-events: none;
+}
+
+.jolt-star-border:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-star-border::before {
+    animation: none;
+    background-position: 0% center;
+  }
+}
