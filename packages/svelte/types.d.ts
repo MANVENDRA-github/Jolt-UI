@@ -273,4 +273,21 @@ export declare const StarBorder: (props: {
   label?: string;
   disabled?: boolean;
 }) => unknown;
+export declare const FadeContent: (props: {
+  duration?: number;
+  delay?: number;
+  blur?: number;
+}) => unknown;
+export declare const AnimatedContent: (props: {
+  distance?: number;
+  scale?: number;
+  duration?: number;
+  delay?: number;
+}) => unknown;
+export declare const ClickSpark: (props: {
+  color?: string;
+  size?: number;
+  speed?: number;
+}) => unknown;
+export declare const Magnet: (props: { strength?: number; speed?: number }) => unknown;
 // gen:shims

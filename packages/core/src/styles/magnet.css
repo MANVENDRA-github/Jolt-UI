@@ -1,0 +1,28 @@
+/* Magnet — a transparent wrapper that pulls its content toward the cursor while hovered. The
+   shared pointer behavior (behavior/pointer.ts) writes a signed -1..1 pull into --jolt-fx /
+   --jolt-fy via the `writeMagnet` writer; this stylesheet scales it by --jolt-strength.
+
+   Keeping the writer unitless is what lets the travel distance stay a CSS concern: one behavior
+   serves any strength, and the resting state (--jolt-fx: 0) is a plain translate(0, 0) — the
+   same frame in every framework, so the parity pixel diff holds. Under reduced-motion the
+   behavior writes that resting state once and attaches no listeners.
+
+   Self-contained; the skin sets --jolt-strength / --jolt-speed. */
+.jolt-magnet {
+  display: inline-block;
+  transform: translate(
+    calc(var(--jolt-fx, 0) * var(--jolt-strength, 14px)),
+    calc(var(--jolt-fy, 0) * var(--jolt-strength, 14px))
+  );
+  transition: transform var(--jolt-speed, 0.25s) ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-magnet {
+    transform: none;
+    transition: none;
+    /* Release the GPU layer so the static content rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

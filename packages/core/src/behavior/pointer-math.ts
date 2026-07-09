@@ -43,3 +43,17 @@ export function tiltRotation(
     rotateY: (f.x - 0.5) * 2 * max,
   };
 }
+
+/**
+ * Magnet displacement from a `0..1` fraction: a signed `-1..1` pull toward the pointer, `(0, 0)`
+ * at the center. This is a *fraction*, not pixels — the stylesheet multiplies it by the
+ * component's `--jolt-strength`, so the travel distance stays a CSS concern and the behavior
+ * needs no per-component argument (contrast `tiltRotation`, whose cap is a rotation in degrees
+ * and has no useful CSS unit to be scaled by).
+ */
+export function magnetOffset(f: PointerFraction): { x: number; y: number } {
+  return {
+    x: (f.x - 0.5) * 2,
+    y: (f.y - 0.5) * 2,
+  };
+}

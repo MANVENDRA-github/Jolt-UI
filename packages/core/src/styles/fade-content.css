@@ -1,0 +1,35 @@
+/* FadeContent — a transparent wrapper that fades + de-blurs its content in when it scrolls into
+   view. The shared scroll-reveal behavior (behavior/reveal.ts) sets `data-jolt-armed` on mount
+   and removes it on intersection, so the transition below plays as an entrance.
+
+   The hidden state lives on `[data-jolt-armed]`, never on the base rule. That inversion is the
+   whole safety story: server HTML, a JS failure, a browser without IntersectionObserver, and a
+   reduced-motion user all render the content immediately, because nothing ever armed it (the
+   progressive-enhancement invariant D-039 established for the site's own reveals). It is also
+   what keeps the parity freeze deterministic — an un-armed wrapper is just its content.
+
+   Self-contained; the skin sets --jolt-duration / --jolt-delay / --jolt-blur. */
+.jolt-fade-content {
+  display: block;
+  transition:
+    opacity var(--jolt-duration, 0.7s) var(--jolt-ease, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--jolt-delay, 0s),
+    filter var(--jolt-duration, 0.7s) var(--jolt-ease, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--jolt-delay, 0s);
+}
+
+.jolt-fade-content[data-jolt-armed] {
+  opacity: 0;
+  filter: blur(var(--jolt-blur, 6px));
+  will-change: opacity, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-fade-content {
+    transition: none;
+    opacity: 1;
+    filter: none;
+    /* Release the GPU layer so the static content rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

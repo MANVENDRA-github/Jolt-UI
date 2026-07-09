@@ -260,6 +260,26 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/StarBorder/StarBorder.tsx' }],
         },
+        {
+          name: 'fade-content',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/FadeContent/FadeContent.tsx' }],
+        },
+        {
+          name: 'animated-content',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/AnimatedContent/AnimatedContent.tsx' }],
+        },
+        {
+          name: 'click-spark',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/ClickSpark/ClickSpark.tsx' }],
+        },
+        {
+          name: 'magnet',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Magnet/Magnet.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -476,6 +496,26 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/StarBorder/StarBorder.vue' }],
         },
+        {
+          name: 'fade-content',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/FadeContent/FadeContent.vue' }],
+        },
+        {
+          name: 'animated-content',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/AnimatedContent/AnimatedContent.vue' }],
+        },
+        {
+          name: 'click-spark',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/ClickSpark/ClickSpark.vue' }],
+        },
+        {
+          name: 'magnet',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Magnet/Magnet.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -691,6 +731,28 @@ export default defineConfig({
           name: 'star-border',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/StarBorder/StarBorder.svelte' }],
+        },
+        {
+          name: 'fade-content',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/FadeContent/FadeContent.svelte' }],
+        },
+        {
+          name: 'animated-content',
+          type: 'component',
+          files: [
+            { path: 'packages/svelte/src/components/AnimatedContent/AnimatedContent.svelte' },
+          ],
+        },
+        {
+          name: 'click-spark',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/ClickSpark/ClickSpark.svelte' }],
+        },
+        {
+          name: 'magnet',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Magnet/Magnet.svelte' }],
         },
         // gen:svelte-items
       ],

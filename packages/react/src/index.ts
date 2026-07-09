@@ -41,4 +41,8 @@ export { CircularText } from './components/CircularText';
 export { Glare } from './components/Glare';
 export { BorderGlow } from './components/BorderGlow';
 export { StarBorder } from './components/StarBorder';
+export { FadeContent } from './components/FadeContent';
+export { AnimatedContent } from './components/AnimatedContent';
+export { ClickSpark } from './components/ClickSpark';
+export { Magnet } from './components/Magnet';
 // gen:exports

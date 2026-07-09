@@ -1,0 +1,57 @@
+/* ClickSpark — a transparent wrapper that throws a burst of sparks from every click. The shared
+   behavior (behavior/spark.ts) appends a `.jolt-spark-burst` at the click point holding one
+   `<span>` per ray, each carrying its unit direction in --jolt-dx / --jolt-dy; this stylesheet
+   flings them outward and the behavior removes the burst on `animationend`.
+
+   Rays are DOM + CSS, not a <canvas> + requestAnimationFrame loop: no dependency, nothing to
+   paint per frame, and the parity harness's freeze collapses a keyframe to a deterministic
+   end-state (D-015) where a RAF loop would keep drawing. At rest — and the parity spec never
+   clicks — the wrapper is exactly its content.
+
+   Self-contained; the skin sets --jolt-color / --jolt-size / --jolt-speed. */
+@keyframes jolt-spark-ray {
+  from {
+    transform: translate(-50%, -50%) translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%)
+      translate(
+        calc(var(--jolt-dx, 0) * var(--jolt-size, 12px)),
+        calc(var(--jolt-dy, 0) * var(--jolt-size, 12px))
+      )
+      scale(0.2);
+    opacity: 0;
+  }
+}
+
+.jolt-click-spark {
+  position: relative;
+  display: inline-block;
+}
+
+/* A zero-sized anchor placed at the click point; the rays fan out from its origin. */
+.jolt-spark-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.jolt-spark-burst > span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--jolt-color, #c6ff4f);
+  animation: jolt-spark-ray var(--jolt-speed, 0.45s) ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The behavior attaches no click listener here, so no burst is ever created. This rule is the
+     belt to that suspenders: were one to exist, it would not move. */
+  .jolt-spark-burst > span {
+    animation: none;
+    opacity: 0;
+  }
+}
