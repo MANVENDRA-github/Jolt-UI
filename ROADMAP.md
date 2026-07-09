@@ -62,7 +62,7 @@ The first non-text category, built as two slices:
 - **5a — Category infrastructure** ✅: nested `/components/<category>/<id>` routes, a category sub-nav (`ComponentsLayout`), a grouped index, redirects from the old flat paths, and a `categories` registry. No new component.
 - **5b — Particles (Three.js) vertical slice** ✅: one canvas background end-to-end, front-loading the Three.js stack — a `packages/core/src/webgl/` split + a `particles-core` jsrepo item so `three` lands only for the background (D-028), a functional-core/imperative-shell factory with full GPU disposal (D-030), and a non-text "background" parity kind (D-029).
 
-## Phase 6 — Fill the Backgrounds category — **in progress**
+## ✅ Phase 6 — Fill the Backgrounds category — **DONE (2026-06-29)** · merged (#26, #27, #29)
 
 More Three.js backgrounds on the proven Particles pattern (per-component slice + the factory pattern, DECISIONS D-028–D-033).
 
@@ -79,12 +79,32 @@ CSS-only animated loaders across all three frameworks, on the proven shared-CSS 
 - **7b — Pulse + Ripple** ✅ (#33): expanding sonar-ping discs + Material concentric rings. Loaders **3 → 5**.
 - **7c — Grid + Progress Bar** ✅ (#34): a 3×3 diagonal-wave grid + an indeterminate sliding bar. Loaders **5 → 7**. (Follow-up #36: ProgressBar opts out of pixel parity, D-035.)
 
-## Phase 8 — Buttons (the 4th category) — **in progress**
+## ✅ Phase 8 — Buttons (the 4th category) — **DONE (2026-06-29)** · merged (#37)
 
 The gallery's first **interactive** components — a real `<button>` with a text label, animated by interaction (hover/press) or a self-running surface effect. CSS-only, across all three frameworks, on the shared-CSS distribution.
 
-- **Bootstrap (one PR, 6 buttons): Shimmer · Glow · Gradient · Sweep · Border Draw · Tactile** — establishes the **interactive skin pattern** (native `<button>`; `label` via children/slot; `onClick`/`disabled`/native attrs forwarded — React `& ButtonHTMLAttributes` + `...rest`, Vue attribute fallthrough, Svelte 5 `& HTMLButtonAttributes` + Snippet children) and a new **`INTERACTIVE`** parity kind (assert `<button>` + label-text parity + rest-state pixel-compare; hover/focus/press-triggered parity deferred). Buttons are hand-written (the scaffolder stays text-only). Decision **D-036**.
-- Next: more buttons (icon / loading states, button groups), interaction-state parity, or a 5th category.
+- **Bootstrap (one PR, 6 buttons): Shimmer · Glow · Gradient · Sweep · Border Draw · Tactile** — establishes the **interactive skin pattern** (native `<button>`; `label` via children/slot; `onClick`/`disabled`/native attrs forwarded — React `& ButtonHTMLAttributes` + `...rest`, Vue attribute fallthrough, Svelte 5 `& HTMLButtonAttributes` + Snippet children) and a new **`INTERACTIVE`** parity kind (assert `<button>` + label-text parity + rest-state pixel-compare; hover/focus/press-triggered parity deferred). Buttons are hand-written (the scaffolder stays text-only). Decision **D-036**. Follow-up: the 4 self-running keyframe buttons joined `NO_PIXEL_PARITY` (D-035).
+
+## ✅ Phase 9 — Cards (the 5th category) — **DONE (2026-06-30)**
+
+The gallery's first **container** components — a presentational `<div>` wrapping arbitrary child content — and the first DOM-event behavior in core.
+
+- **Spotlight · Tilt · Shine Border**, plus the **pointer-tracking core** (pure `behavior/pointer-math.ts` + the `behavior/pointer.ts` shell, SSR/reduced-motion safe) and a new **`CONTAINER`** parity kind (card root + slotted child text + rest-state pixel-compare; pointer-driven states deferred). Decision **D-037**.
+
+_(Site-only, between phases: the "Voltage" redesign (D-038, #39–#45) and "Voltage 2: The Current" 3D landing (D-039, #48–#54), plus 3 more text components — Fade Up · Flip In · Neon (#53). Neither touched the parity harness.)_
+
+## Phase 10 — Stacked expansion: 15 components, 2 new categories, scaffolder v2 — **in progress**
+
+Broadening the catalog from 35 → 50 across six independently-green PRs. Machinery budget: CSS + the existing pointer behavior + three new core behaviors (scroll-reveal, click-spark, magnet). No new GSAP components; shader backgrounds ride the existing `webgl-core`.
+
+- **10a — Scaffolder v2** ✅: `gen-component` learns the `css-container` (card) and `css-interactive` (button) kinds — the contract's `text`-prop and required-prop rules become kind-conditional, and the contract gains `category` + `hydrate` (D-040). Per-section gallery-card markers `gen:card:<slug>` replace the single frozen `gen:card`, which made a non-text card unsplice-able (D-041). Ships no component; gated by `test:gen`.
+- **10b — Text 13→16:** Glitch Text · True Focus · Circular Text (scaffolded, CSS-only).
+- **10c — Cards 3→5, Buttons 6→7:** Glare · Border Glow (pointer-driven, via scaffolder v2 + `trackPointer`) · Star Border.
+- **10d — Effects (the 6th category):** Fade Content · Animated Content · Click Spark · Magnet, plus three new core behaviors on the functional-core/imperative-shell split. Reuses the `CONTAINER` parity kind.
+- **10e — Backgrounds 6→9:** Silk · Iridescence · Light Rays, on the Aurora `ShaderMaterial` pattern (D-033).
+- **10f — Interface (the 7th category):** Dock (pointer magnification) · Counter (prop-driven CSS digit roll).
+
+Cut from scope: `pixel-card` (canvas + per-pixel RAF — outside the budget) and `stepper` (stateful → per-framework drift).
 
 ## Later (out of v1 scope)
 

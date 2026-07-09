@@ -42,8 +42,12 @@ describe('installInfo', () => {
   });
 
   it('switches the framework segment of the registry path', () => {
-    expect(installInfo(blurInMeta, 'vue').registryPath).toBe('https://jolt-ui.pages.dev/r/vue/blur-in');
-    expect(installInfo(blurInMeta, 'svelte').registryPath).toBe('https://jolt-ui.pages.dev/r/svelte/blur-in');
+    expect(installInfo(blurInMeta, 'vue').registryPath).toBe(
+      'https://jolt-ui.pages.dev/r/vue/blur-in',
+    );
+    expect(installInfo(blurInMeta, 'svelte').registryPath).toBe(
+      'https://jolt-ui.pages.dev/r/svelte/blur-in',
+    );
   });
 
   it('roots every registry path at REGISTRY_BASE', () => {

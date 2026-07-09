@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import sample from './__fixtures__/sample.contract.mjs';
+import container from './__fixtures__/container.contract.mjs';
+import interactive from './__fixtures__/interactive.contract.mjs';
 import * as emit from './emit.mjs';
 
 // A whole-text variant of the fixture (drops `by`, flips parity kind).
@@ -160,4 +162,136 @@ test('emitCard / emitCoreExports / emitPackageExport', () => {
 
 test('emitBehavior rejects non-CSS patterns', () => {
   assert.throws(() => emit.emitBehavior({ ...sample, pattern: 'gsap' }), /only CSS patterns/);
+});
+
+// --- v2: container (card) + interactive (button) kinds -----------------------
+
+test('emitSchema: emits the contract category, not a hardcoded text', () => {
+  assert.match(emit.emitSchema(container), /category: 'card',/);
+  assert.match(emit.emitSchema(interactive), /category: 'button',/);
+  // The text fixture omits `category` and still lands on 'text'.
+  assert.match(emit.emitSchema(sample), /category: 'text',/);
+  // A container has no `text`; an interactive carries `label`.
+  assert.doesNotMatch(emit.emitSchema(container), /^\s*text:/m);
+  assert.match(emit.emitSchema(interactive), /label: z\.string\(\)\.default\('Button'\)/);
+});
+
+test('emitCss (container): styles a div, no segments, no self-running keyframe', () => {
+  const out = emit.emitCss(container);
+  assert.match(out, /\.jolt-glare \{/);
+  assert.doesNotMatch(out, /data-jolt-segment/);
+  assert.match(out, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test('emitCss (interactive): targets a button with :disabled + reduced-motion', () => {
+  const out = emit.emitCss(interactive);
+  assert.match(out, /\.jolt-star-border \{/);
+  assert.match(out, /\.jolt-star-border:disabled \{/);
+  assert.match(out, /cursor: pointer;/);
+  assert.match(out, /@media \(prefers-reduced-motion: reduce\)/);
+});
+
+test('emitReactSkin (container): div root, HTMLAttributes, rest spread, children', () => {
+  const out = emit.emitReactSkin(container);
+  assert.match(out, /type GlareProps = GlareStyleProps & HTMLAttributes<HTMLDivElement>;/);
+  assert.match(out, /\{\.\.\.rest\}/);
+  assert.match(out, /className=\{`jolt-glare\$\{className \? ` \$\{className\}` : ''\}`\}/);
+  assert.match(out, /\{children\}/);
+  assert.doesNotMatch(out, /aria-label/);
+});
+
+test('emitReactSkin (interactive): button root, ButtonHTMLAttributes, children ?? label', () => {
+  const out = emit.emitReactSkin(interactive);
+  assert.match(
+    out,
+    /type StarBorderProps = StarBorderStyleProps & ButtonHTMLAttributes<HTMLButtonElement>;/,
+  );
+  assert.match(out, /type = 'button',/);
+  assert.match(out, /\{children \?\? label\}/);
+  assert.match(out, /<button/);
+});
+
+test('emitVueSkin (container/interactive): single root + fallthrough, no defineEmits', () => {
+  const div = emit.emitVueSkin(container);
+  assert.match(div, /<div class="jolt-glare" :style="style"><slot \/><\/div>/);
+  assert.doesNotMatch(div, /defineEmits/);
+  const btn = emit.emitVueSkin(interactive);
+  assert.match(btn, /<button class="jolt-star-border" :style="style">/);
+  assert.match(btn, /<slot>\{\{ label \}\}<\/slot>/);
+  assert.doesNotMatch(btn, /defineEmits/);
+});
+
+test('emitSvelteSkin (container/interactive): Snippet children + typed rest spread', () => {
+  const div = emit.emitSvelteSkin(container);
+  assert.match(div, /Omit<HTMLAttributes<HTMLDivElement>, 'children' \| 'class' \| 'style'>/);
+  assert.match(div, /\{#if children\}\{@render children\(\)\}\{\/if\}/);
+  const btn = emit.emitSvelteSkin(interactive);
+  assert.match(btn, /Omit<HTMLButtonAttributes, 'children' \| 'class' \| 'style'>/);
+  assert.match(btn, /\{#if children\}\{@render children\(\)\}\{:else\}\{label\}\{\/if\}/);
+});
+
+test('emitReactTest (container): div root, var mapping, mount/unmount does not throw', () => {
+  const out = emit.emitReactTest(container);
+  assert.match(out, /describe\('Glare \(react\)'/);
+  assert.match(out, /\.jolt-glare/);
+  assert.match(out, /expect\(\(\) => unmount\(\)\)\.not\.toThrow\(\)/);
+  assert.match(out, /getPropertyValue\('--jolt-color'\)\)\.toBe\('#7c5cff'\)/);
+});
+
+test('emitReactTest (interactive): button, label fallback, click, disabled', () => {
+  const out = emit.emitReactTest(interactive);
+  assert.match(out, /import \{ render, fireEvent \} from '@testing-library\/react';/);
+  assert.match(out, /expect\(btn\.tagName\)\.toBe\('BUTTON'\)/);
+  assert.match(out, /renders children over the label fallback/);
+  assert.match(out, /fireEvent\.click\(getByRole\('button'\)\)/);
+  assert.match(out, /\)\.disabled\)\.toBe\(true\)/);
+});
+
+test('emitVueTest (interactive): fallthrough props go through `attrs`, not `props`', () => {
+  const out = emit.emitVueTest(interactive);
+  assert.match(out, /render\(StarBorder, \{ attrs: \{ onClick \} \}\)/);
+  assert.match(out, /render\(StarBorder, \{ attrs: \{ disabled: true \} \}\)/);
+  assert.match(out, /slots: \{ default: \(\) => 'Click me' \}/);
+});
+
+test('emitSvelteTest (container): renders children snippet-free and cleans up', () => {
+  const out = emit.emitSvelteTest(container);
+  assert.match(out, /from '@testing-library\/svelte'/);
+  assert.match(out, /expect\(\(\) => unmount\(\)\)\.not\.toThrow\(\)/);
+});
+
+test('emitDemoPage: path/import depth follow the category slug', () => {
+  const card = emit.emitDemoPage(container);
+  assert.match(card, /<Breadcrumbs id="glare" \/>/);
+  // Pointer-driven (hydrate) previews hydrate; the wrapper div carries the slot.
+  assert.match(card, /slot="react"><ReactGlare client:visible>/);
+  const button = emit.emitDemoPage(interactive);
+  assert.match(button, /slot="react"><ReactStarBorder label="Star Border" \/>/);
+  assert.doesNotMatch(button, /client:visible/);
+});
+
+test('emitCard: slug-correct href; buttons use the div card + View link', () => {
+  const card = emit.emitCard(container);
+  assert.match(card, /href="\/components\/cards\/glare"/);
+  assert.match(card, /<Glare client:visible>/);
+  const button = emit.emitCard(interactive);
+  assert.match(button, /class=\{buttonCard\}/);
+  assert.match(button, /<StarBorder label="Star Border" \/>/);
+  assert.match(button, /href="\/components\/buttons\/star-border" class=\{viewLink\}/);
+});
+
+test('emitParityCells: containers slot TEXT (+ client:load when hydrate); buttons render bare', () => {
+  const cells = emit.emitParityCells(container);
+  assert.match(cells, /data-testid="glare-react"><RGlare client:load>\{TEXT\}<\/RGlare>/);
+  assert.match(cells, /data-testid="glare-svelte"><SGlare client:load>\{TEXT\}<\/SGlare>/);
+  const still = emit.emitParityCells({ ...container, hydrate: false });
+  assert.match(still, /<RGlare>\{TEXT\}<\/RGlare>/);
+  const btn = emit.emitParityCells(interactive);
+  assert.match(btn, /data-testid="star-border-vue"><VStarBorder label="Jolt UI" \/>/);
+});
+
+test('emitVueShim / emitSvelteShim: interactive declares disabled?: boolean', () => {
+  assert.match(emit.emitVueShim(interactive), /disabled\?: boolean;/);
+  assert.match(emit.emitSvelteShim(interactive), /disabled\?: boolean;/);
+  assert.doesNotMatch(emit.emitVueShim(container), /disabled\?: boolean;/);
 });

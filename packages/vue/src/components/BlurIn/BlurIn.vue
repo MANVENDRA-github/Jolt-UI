@@ -13,8 +13,14 @@ interface Props {
   duration?: number;
   delay?: number;
 }
-const { text, by = 'chars', blur = 10, stagger = 0.05, duration = 0.6, delay = 0 } =
-  defineProps<Props>();
+const {
+  text,
+  by = 'chars',
+  blur = 10,
+  stagger = 0.05,
+  duration = 0.6,
+  delay = 0,
+} = defineProps<Props>();
 
 const segments = computed(() => splitSegments(text, by));
 const rootStyle = computed(() => ({

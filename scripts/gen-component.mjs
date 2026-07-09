@@ -14,7 +14,7 @@ import { execSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { assertContract } from './gen/contract.mjs';
+import { assertContract, categorySlug } from './gen/contract.mjs';
 import * as emit from './gen/emit.mjs';
 import * as edits from './gen/edits.mjs';
 
@@ -42,11 +42,12 @@ const FW_EXT = { react: 'tsx', vue: 'vue', svelte: 'svelte' };
 const skinEmit = { react: emit.emitReactSkin, vue: emit.emitVueSkin, svelte: emit.emitSvelteSkin };
 const testEmit = { react: emit.emitReactTest, vue: emit.emitVueTest, svelte: emit.emitSvelteTest };
 
-// Files to CREATE: [relativePath, content].
+// Files to CREATE: [relativePath, content]. Demo pages live under their category slug (D-027).
+const slug = categorySlug(c.category);
 const creates = [
   [`packages/core/src/schemas/${id}.ts`, emit.emitSchema(c)],
   [`packages/core/src/styles/${id}.css`, emit.emitBehavior(c)],
-  [`apps/site/src/pages/components/text/${id}.astro`, emit.emitDemoPage(c)],
+  [`apps/site/src/pages/components/${slug}/${id}.astro`, emit.emitDemoPage(c)],
 ];
 for (const fw of ['react', 'vue', 'svelte']) {
   const dir = `packages/${fw}/src/components/${Name}`;

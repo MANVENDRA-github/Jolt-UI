@@ -2,8 +2,14 @@
   import { splitSegments, type BlurInProps } from '@jolt/core';
   import '@jolt/core/styles/blur-in.css';
 
-  let { text, by = 'chars', blur = 10, stagger = 0.05, duration = 0.6, delay = 0 }: BlurInProps =
-    $props();
+  let {
+    text,
+    by = 'chars',
+    blur = 10,
+    stagger = 0.05,
+    duration = 0.6,
+    delay = 0,
+  }: BlurInProps = $props();
   const segments = $derived(splitSegments(text, by));
 </script>
 

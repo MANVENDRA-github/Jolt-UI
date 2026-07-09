@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import sample from './__fixtures__/sample.contract.mjs';
+import container from './__fixtures__/container.contract.mjs';
+import interactive from './__fixtures__/interactive.contract.mjs';
 import {
   insertBeforeMarker,
   applyCoreIndex,
@@ -97,15 +99,20 @@ test('applyCliSmoke adds the id + the css skin/sheet assertion', () => {
   assert.match(out, /\['FadeUp\.tsx', 'fade-up\.css'\],/);
 });
 
-test('applyComponentsIndex inserts the import + the card', () => {
-  const src = [
+/** The gallery index shape: one import marker + one card marker per category section. */
+const indexSrc = () =>
+  [
     'import {',
     '  // gen:card-import',
     "} from '@jolt/react';",
-    '  {/* gen:card */}',
+    '  {/* gen:card:text */}',
+    '  {/* gen:card:cards */}',
+    '  {/* gen:card:buttons */}',
     '',
   ].join('\n');
-  const out = applyComponentsIndex(src, sample);
+
+test('applyComponentsIndex inserts the import + the card', () => {
+  const out = applyComponentsIndex(indexSrc(), sample);
   assert.match(out, /^ {2}FadeUp,$/m);
   assert.match(out, /href="\/components\/text\/fade-up"/);
 });
@@ -115,4 +122,49 @@ test('containsComponent detects an already-applied component (idempotency guard)
   assert.equal(containsComponent(fresh, sample), false);
   const applied = applyCoreIndex(fresh, sample);
   assert.equal(containsComponent(applied, sample), true);
+});
+
+// --- v2: container (card) + interactive (button) kinds -----------------------
+
+test('applyParitySpec routes container/interactive to their own markers', () => {
+  const src = [
+    '// gen:per-char',
+    '// gen:whole-text',
+    '// gen:graphic',
+    '// gen:interactive',
+    '// gen:container',
+    '// gen:no-pixel',
+    '',
+  ].join('\n');
+
+  const card = applyParitySpec(src, container);
+  assert.match(card, /'glare',\n\/\/ gen:container/);
+  assert.doesNotMatch(card, /'glare',\n\/\/ gen:no-pixel/); // pixelParity: true
+
+  const button = applyParitySpec(src, interactive);
+  assert.match(button, /'star-border',\n\/\/ gen:interactive/);
+  assert.match(button, /'star-border',\n\/\/ gen:no-pixel/); // pixelParity: false
+});
+
+test('applyComponentsIndex splices each card into its own category section', () => {
+  const card = applyComponentsIndex(indexSrc(), container);
+  assert.match(card, /href="\/components\/cards\/glare"[\s\S]*\{\/\* gen:card:cards \*\/\}/);
+  // It must NOT land in the text section.
+  assert.doesNotMatch(card, /glare[\s\S]*\{\/\* gen:card:text \*\/\}/);
+
+  const button = applyComponentsIndex(indexSrc(), interactive);
+  assert.match(button, /star-border[\s\S]*\{\/\* gen:card:buttons \*\/\}/);
+});
+
+test('containsComponent is slug-aware (a card re-run must not double-splice)', () => {
+  const fresh = indexSrc();
+  assert.equal(containsComponent(fresh, container), false);
+  const applied = applyComponentsIndex(fresh, container);
+  assert.equal(containsComponent(applied, container), true);
+});
+
+test('applyCliSmoke: container/interactive ship a stylesheet, so both get a CSS assertion', () => {
+  const src = '// gen:add\n// gen:css\n';
+  assert.match(applyCliSmoke(src, container), /\['Glare\.tsx', 'glare\.css'\],/);
+  assert.match(applyCliSmoke(src, interactive), /\['StarBorder\.tsx', 'star-border\.css'\],/);
 });

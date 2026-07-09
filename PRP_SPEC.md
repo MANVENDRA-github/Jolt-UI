@@ -4,7 +4,7 @@
 
 ## 1. Problem
 
-Developers love copy-paste animated component galleries (react-bits, Aceternity, Magic UI) — but they are **React-only**. Vue, Svelte, and Solid developers either go without or use ports that are *separate repos which drift* in look, behavior, and API. There is no gallery that ships one consistent, quality-controlled design language across multiple frameworks from a single source.
+Developers love copy-paste animated component galleries (react-bits, Aceternity, Magic UI) — but they are **React-only**. Vue, Svelte, and Solid developers either go without or use ports that are _separate repos which drift_ in look, behavior, and API. There is no gallery that ships one consistent, quality-controlled design language across multiple frameworks from a single source.
 
 ## 2. Product
 
