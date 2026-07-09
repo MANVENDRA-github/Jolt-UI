@@ -34,4 +34,7 @@ export { ShineBorder } from './components/ShineBorder';
 export { FadeUp } from './components/FadeUp';
 export { FlipIn } from './components/FlipIn';
 export { Neon } from './components/Neon';
+export { GlitchText } from './components/GlitchText';
+export { TrueFocus } from './components/TrueFocus';
+export { CircularText } from './components/CircularText';
 // gen:exports

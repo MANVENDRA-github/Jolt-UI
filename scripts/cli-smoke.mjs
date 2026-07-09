@@ -136,6 +136,9 @@ const COMPONENTS_TO_ADD = [
   'fade-up',
   'flip-in',
   'neon',
+  'glitch-text',
+  'true-focus',
+  'circular-text',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -191,6 +194,9 @@ const CSS_SKINS = [
   ['FadeUp.tsx', 'fade-up.css'],
   ['FlipIn.tsx', 'flip-in.css'],
   ['Neon.tsx', 'neon.css'],
+  ['GlitchText.tsx', 'glitch-text.css'],
+  ['TrueFocus.tsx', 'true-focus.css'],
+  ['CircularText.tsx', 'circular-text.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

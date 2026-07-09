@@ -32,6 +32,9 @@ import {
   FadeUp as RFadeUp,
   FlipIn as RFlipIn,
   Neon as RNeon,
+  GlitchText as RGlitchText,
+  TrueFocus as RTrueFocus,
+  CircularText as RCircularText,
   // gen:react
 } from '@jolt/react';
 import {
@@ -64,6 +67,9 @@ import {
   FadeUp as VFadeUp,
   FlipIn as VFlipIn,
   Neon as VNeon,
+  GlitchText as VGlitchText,
+  TrueFocus as VTrueFocus,
+  CircularText as VCircularText,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -96,6 +102,9 @@ import {
   FadeUp as SFadeUp,
   FlipIn as SFlipIn,
   Neon as SNeon,
+  GlitchText as SGlitchText,
+  TrueFocus as STrueFocus,
+  CircularText as SCircularText,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -191,6 +200,15 @@ const TEXT = 'Jolt UI';
     <div data-testid="neon-react"><RNeon text="Jolt UI" /></div>
     <div data-testid="neon-vue"><VNeon text="Jolt UI" /></div>
     <div data-testid="neon-svelte"><SNeon text="Jolt UI" /></div>
+    <div data-testid="glitch-text-react"><RGlitchText text="Jolt UI" /></div>
+    <div data-testid="glitch-text-vue"><VGlitchText text="Jolt UI" /></div>
+    <div data-testid="glitch-text-svelte"><SGlitchText text="Jolt UI" /></div>
+    <div data-testid="true-focus-react"><RTrueFocus text="Jolt UI" /></div>
+    <div data-testid="true-focus-vue"><VTrueFocus text="Jolt UI" /></div>
+    <div data-testid="true-focus-svelte"><STrueFocus text="Jolt UI" /></div>
+    <div data-testid="circular-text-react"><RCircularText text="Jolt UI" /></div>
+    <div data-testid="circular-text-vue"><VCircularText text="Jolt UI" /></div>
+    <div data-testid="circular-text-svelte"><SCircularText text="Jolt UI" /></div>
     {/* gen:cells */}
   </div>
 </Base>

@@ -1,0 +1,62 @@
+/* GlitchText — a chromatic RGB split with micro-jitter, on a loop. Self-contained; the skin
+   sets --jolt-color / --jolt-offset / --jolt-speed on a single <span> (no pseudo-element text
+   copies, so there is no duplicate string for a screen reader to read twice).
+
+   The cycle rests clean: 0% and 100% are both an unshifted, shadow-free frame identical to the
+   reduced-motion static state. That is what keeps this pixel-parity-safe — the parity harness
+   freezes animations to their end-state while ALSO requesting reduced motion, and those two
+   states must not diverge (D-035). The glitch lives entirely in the middle of the cycle. */
+@keyframes jolt-glitch-text {
+  0%,
+  58%,
+  100% {
+    transform: translateX(0);
+    text-shadow: none;
+  }
+  60% {
+    transform: translateX(calc(var(--jolt-offset, 2px) * -1));
+    text-shadow:
+      var(--jolt-offset, 2px) 0 #ff2e88,
+      calc(var(--jolt-offset, 2px) * -1) 0 #2ee9ff;
+  }
+  64% {
+    transform: translateX(var(--jolt-offset, 2px));
+    text-shadow:
+      calc(var(--jolt-offset, 2px) * -1) 0 #ff2e88,
+      var(--jolt-offset, 2px) 0 #2ee9ff;
+  }
+  68% {
+    transform: translateX(0);
+    text-shadow: none;
+  }
+  82% {
+    transform: translateX(calc(var(--jolt-offset, 2px) * 0.5));
+    text-shadow: calc(var(--jolt-offset, 2px) * -1) 0 #2ee9ff;
+  }
+  86% {
+    transform: translateX(calc(var(--jolt-offset, 2px) * -0.5));
+    text-shadow: var(--jolt-offset, 2px) 0 #ff2e88;
+  }
+  90% {
+    transform: translateX(0);
+    text-shadow: none;
+  }
+}
+
+.jolt-glitch-text {
+  display: inline-block;
+  color: var(--jolt-color, #7c5cff);
+  will-change: transform, text-shadow;
+  /* steps(1, end) holds each frame instead of tweening between them — a glitch snaps. */
+  animation: jolt-glitch-text var(--jolt-speed, 2.5s) steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-glitch-text {
+    animation: none;
+    transform: translateX(0);
+    text-shadow: none;
+    /* Release the GPU layer so the static text rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

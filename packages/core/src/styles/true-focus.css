@@ -1,0 +1,48 @@
+/* TrueFocus — the text rests softly blurred and a sharp focus sweeps across it, one segment
+   at a time. Self-contained; the skin sets --jolt-blur / --jolt-dim / --jolt-speed plus
+   --jolt-count (the segment total), and each segment carries its index in --jolt-i.
+
+   The sweep is a phase offset, not a stagger: every segment runs the SAME cycle — one full
+   pass of the focus, lasting `speed * count` — but starts it `i * speed` earlier via a
+   NEGATIVE delay. So at any instant exactly one segment sits in the sharp spike at the top
+   of its cycle, and the spike travels left to right. (A positive delay would leave the later
+   segments un-started, holding the fill state until their turn came around.)
+
+   0% and 100% are both the sharp, undimmed frame — identical to the reduced-motion static
+   state. The parity harness freezes animations to their end-state while ALSO requesting
+   reduced motion, and those two states must not diverge or the pixel diff flakes (D-035). */
+@keyframes jolt-true-focus {
+  0%,
+  100% {
+    filter: blur(0);
+    opacity: 1;
+  }
+  8%,
+  92% {
+    filter: blur(var(--jolt-blur, 4px));
+    opacity: var(--jolt-dim, 0.55);
+  }
+}
+
+.jolt-true-focus {
+  display: inline-block;
+}
+
+.jolt-true-focus [data-jolt-segment] {
+  display: inline-block;
+  white-space: pre;
+  will-change: filter, opacity;
+  animation: jolt-true-focus calc(var(--jolt-speed, 0.28s) * var(--jolt-count, 1)) ease-in-out
+    infinite;
+  animation-delay: calc(var(--jolt-i, 0) * var(--jolt-speed, 0.28s) * -1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-true-focus [data-jolt-segment] {
+    animation: none;
+    filter: blur(0);
+    opacity: 1;
+    /* Release the GPU layer so the static text rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

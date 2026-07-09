@@ -230,6 +230,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Neon/Neon.tsx' }],
         },
+        {
+          name: 'glitch-text',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/GlitchText/GlitchText.tsx' }],
+        },
+        {
+          name: 'true-focus',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/TrueFocus/TrueFocus.tsx' }],
+        },
+        {
+          name: 'circular-text',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/CircularText/CircularText.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -416,6 +431,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Neon/Neon.vue' }],
         },
+        {
+          name: 'glitch-text',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/GlitchText/GlitchText.vue' }],
+        },
+        {
+          name: 'true-focus',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/TrueFocus/TrueFocus.vue' }],
+        },
+        {
+          name: 'circular-text',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/CircularText/CircularText.vue' }],
+        },
         // gen:vue-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/vue', format: true })],
@@ -601,6 +631,21 @@ export default defineConfig({
           name: 'neon',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Neon/Neon.svelte' }],
+        },
+        {
+          name: 'glitch-text',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/GlitchText/GlitchText.svelte' }],
+        },
+        {
+          name: 'true-focus',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/TrueFocus/TrueFocus.svelte' }],
+        },
+        {
+          name: 'circular-text',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/CircularText/CircularText.svelte' }],
         },
         // gen:svelte-items
       ],
