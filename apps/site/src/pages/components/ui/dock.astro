@@ -1,0 +1,59 @@
+---
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
+import { Dock as ReactDock } from '@jolt/react';
+import { Dock as VueDock } from '@jolt/vue';
+import { Dock as SvelteDock } from '@jolt/svelte';
+import { dockSchema, dockMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/Dock/Dock.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/Dock/Dock.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/Dock/Dock.svelte?raw';
+
+const sourceTabs = [
+  { label: 'React', lang: 'tsx', code: reactSource },
+  { label: 'Vue', lang: 'vue', code: vueSource },
+  { label: 'Svelte', lang: 'svelte', code: svelteSource },
+];
+const previewBox =
+  'flex h-40 w-full items-center justify-center rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)]';
+const codePill = 'rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono';
+---
+
+<ComponentsLayout
+  title="Dock — Jolt UI"
+  description="A row of items that magnify toward the cursor, like the macOS dock — for React, Vue, and Svelte."
+>
+  <Breadcrumbs id="dock" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Dock</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">
+    A row of items that magnify toward the cursor, like the macOS dock. One design language, three
+    frameworks. It's a <code class={codePill}>list</code> with an accessible name per item; under reduced-motion
+    the items rest at their base size and the pointer isn't tracked.
+  </p>
+
+  <div class="mt-8">
+    <FrameworkSwitcher id="dock">
+      <div class={previewBox} slot="react"><ReactDock client:visible /></div>
+      <div class={previewBox} slot="vue"><VueDock client:visible /></div>
+      <div class={previewBox} slot="svelte"><SvelteDock client:visible /></div>
+    </FrameworkSwitcher>
+  </div>
+
+  <InstallBlock meta={dockMeta} />
+
+  <section class="mt-12">
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Identical behavior, idiomatic per framework.
+    </p>
+    <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
+  </section>
+
+  <PropsTable schema={dockSchema} />
+  <ComponentPager id="dock" />
+</ComponentsLayout>

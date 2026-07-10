@@ -6,7 +6,7 @@
 import * as core from '@jolt/core';
 
 /** The data value carried on each component's `meta.category`. */
-export type CategoryId = 'text' | 'background' | 'loader' | 'button' | 'card' | 'effect';
+export type CategoryId = 'text' | 'background' | 'loader' | 'button' | 'card' | 'effect' | 'ui';
 
 export interface Category {
   /** Matches `meta.category` on a component. */
@@ -29,6 +29,9 @@ export const CATEGORIES: readonly Category[] = [
   // "Effects", not "Animations" (which reads as a duplicate of "Text Animations"): these wrap
   // your content and animate it — a reveal, a spark, a pull toward the cursor. See D-042.
   { id: 'effect', slug: 'effects', label: 'Effects', order: 5 },
+  // "Interface" with slug `ui`, NOT `component` — the whole gallery lives at /components, so a
+  // `component` category would read /components/components/<id>. See D-047.
+  { id: 'ui', slug: 'ui', label: 'Interface', order: 6 },
 ];
 
 interface ComponentMeta {

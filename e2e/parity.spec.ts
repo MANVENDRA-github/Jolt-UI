@@ -25,6 +25,11 @@ const WHOLE_TEXT = [
   'scroll-velocity',
   'neon',
   'glitch-text',
+  // Counter renders one digit column per digit; its accessible value is on an aria-label and the
+  // visible glyph strips are aria-hidden. Classed whole-text: cross-framework text identity holds
+  // (identical DOM) and the roll lands, forwards, on the same frame the reduced-motion rule shows,
+  // so the freeze end-state matches and pixel parity holds.
+  'counter',
   // gen:whole-text
 ] as const;
 // Backgrounds are WebGL canvases — no text, and non-deterministic per-frame output
@@ -94,6 +99,10 @@ const CONTAINER: readonly string[] = [
   'animated-content',
   'click-spark',
   'magnet',
+  // Dock is a row of pointer-magnified items — structurally a container (a root wrapping
+  // children), so it reuses this kind. At rest (the spec never moves the pointer) every item
+  // sits at scale 1, deterministic across frameworks, so it keeps pixel parity like Spotlight.
+  'dock',
   // gen:container
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE, ...CONTAINER];

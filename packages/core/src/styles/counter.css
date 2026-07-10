@@ -1,0 +1,53 @@
+/* Counter — a digit-roll display. Each column stacks the glyphs 0–9 in a viewport one glyph
+   tall; translating the strip by `-digit * 10%` shows that digit. On mount the roll keyframe
+   sweeps each strip from 0 up to its target, landing (forwards) on exactly the static frame the
+   reduced-motion rule renders — so the parity freeze's end-state and the reduced-motion state
+   agree, and the pixel diff holds (D-035). The skin sets --jolt-digit per column and marks the
+   root with an aria-label carrying the whole number.
+
+   The variable `--jolt-target` (set per column to `calc(var(--jolt-digit) * -10%)`) is the
+   landing offset; the keyframe interpolates a plain translate to it, since a CSS custom property
+   can't itself be animated without @property. */
+.jolt-counter {
+  display: inline-flex;
+  overflow: hidden;
+  color: var(--jolt-color, #7c5cff);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.jolt-counter [data-jolt-col] {
+  display: block;
+  height: 1em;
+  overflow: hidden;
+}
+
+.jolt-counter [data-jolt-strip] {
+  display: flex;
+  flex-direction: column;
+  --jolt-target: calc(var(--jolt-digit, 0) * -10%);
+  transform: translateY(var(--jolt-target));
+  animation: jolt-counter var(--jolt-duration, 1.1s) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.jolt-counter [data-jolt-strip] > span {
+  display: block;
+  height: 1em;
+}
+
+@keyframes jolt-counter {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--jolt-target));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-counter [data-jolt-strip] {
+    animation: none;
+    transform: translateY(var(--jolt-target));
+  }
+}

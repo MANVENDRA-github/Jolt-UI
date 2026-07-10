@@ -1,0 +1,60 @@
+---
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
+import { Counter as ReactCounter } from '@jolt/react';
+import { Counter as VueCounter } from '@jolt/vue';
+import { Counter as SvelteCounter } from '@jolt/svelte';
+import { counterSchema, counterMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/Counter/Counter.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/Counter/Counter.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/Counter/Counter.svelte?raw';
+
+const sourceTabs = [
+  { label: 'React', lang: 'tsx', code: reactSource },
+  { label: 'Vue', lang: 'vue', code: vueSource },
+  { label: 'Svelte', lang: 'svelte', code: svelteSource },
+];
+const previewBox =
+  'flex h-40 w-full items-center justify-center rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)] text-6xl';
+const codePill = 'rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono';
+---
+
+<ComponentsLayout
+  title="Counter — Jolt UI"
+  description="A digit-roll display that rolls each column up to its target on mount — for React, Vue, and Svelte."
+>
+  <Breadcrumbs id="counter" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Counter</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">
+    A digit-roll display that rolls each column up to its target on mount — a prop-driven, one-shot
+    entrance (unlike <code class={codePill}>Count Up</code>, which counts continuously). The whole
+    number is on an <code class={codePill}>aria-label</code>; under reduced-motion the columns show
+    the final value with no roll.
+  </p>
+
+  <div class="mt-8">
+    <FrameworkSwitcher id="counter">
+      <div class={previewBox} slot="react"><ReactCounter value={2025} client:visible /></div>
+      <div class={previewBox} slot="vue"><VueCounter value={2025} client:visible /></div>
+      <div class={previewBox} slot="svelte"><SvelteCounter value={2025} client:visible /></div>
+    </FrameworkSwitcher>
+  </div>
+
+  <InstallBlock meta={counterMeta} />
+
+  <section class="mt-12">
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Identical behavior, idiomatic per framework.
+    </p>
+    <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
+  </section>
+
+  <PropsTable schema={counterSchema} />
+  <ComponentPager id="counter" />
+</ComponentsLayout>
