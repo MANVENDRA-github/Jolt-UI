@@ -276,4 +276,24 @@ export declare const StarBorder: DefineComponent<{
   label?: string;
   disabled?: boolean;
 }>;
+export declare const FadeContent: DefineComponent<{
+  duration?: number;
+  delay?: number;
+  blur?: number;
+}>;
+export declare const AnimatedContent: DefineComponent<{
+  distance?: number;
+  scale?: number;
+  duration?: number;
+  delay?: number;
+}>;
+export declare const ClickSpark: DefineComponent<{
+  color?: string;
+  size?: number;
+  speed?: number;
+}>;
+export declare const Magnet: DefineComponent<{
+  strength?: number;
+  speed?: number;
+}>;
 // gen:shims

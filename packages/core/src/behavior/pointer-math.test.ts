@@ -1,4 +1,4 @@
-import { pointerFraction, tiltRotation } from './pointer-math';
+import { magnetOffset, pointerFraction, tiltRotation } from './pointer-math';
 
 const RECT = { left: 100, top: 50, width: 200, height: 100 };
 
@@ -44,5 +44,26 @@ describe('tiltRotation', () => {
     const { rotateX, rotateY } = tiltRotation({ x: 0, y: 1 }, 5);
     expect(Math.abs(rotateX)).toBeLessThanOrEqual(5);
     expect(Math.abs(rotateY)).toBeLessThanOrEqual(5);
+  });
+});
+
+describe('magnetOffset', () => {
+  it('is at rest in the center', () => {
+    expect(magnetOffset({ x: 0.5, y: 0.5 })).toEqual({ x: 0, y: 0 });
+  });
+
+  it('pulls toward the pointer: right of center is a positive x offset', () => {
+    expect(magnetOffset({ x: 1, y: 0.5 })).toEqual({ x: 1, y: 0 });
+    expect(magnetOffset({ x: 0, y: 0.5 })).toEqual({ x: -1, y: 0 });
+  });
+
+  it('pulls down toward a pointer below center (screen y grows downward)', () => {
+    expect(magnetOffset({ x: 0.5, y: 1 })).toEqual({ x: 0, y: 1 });
+  });
+
+  it('returns a signed fraction in [-1, 1], not a pixel distance', () => {
+    const { x, y } = magnetOffset({ x: 0.75, y: 0.25 });
+    expect(x).toBeCloseTo(0.5, 10);
+    expect(y).toBeCloseTo(-0.5, 10);
   });
 });

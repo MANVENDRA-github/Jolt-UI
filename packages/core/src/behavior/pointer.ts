@@ -7,7 +7,7 @@
  * mount + revert, so they cannot drift in behavior (cf. the WebGL factories, D-028/D-030).
  */
 import { prefersReducedMotion } from '../motion';
-import { pointerFraction, tiltRotation, type PointerFraction } from './pointer-math';
+import { magnetOffset, pointerFraction, tiltRotation, type PointerFraction } from './pointer-math';
 
 export interface PointerController {
   /** Remove the pointer listeners — call on unmount. */
@@ -66,3 +66,14 @@ export function makeTiltWriter(maxTilt: number): PointerWriter {
     el.style.setProperty('--jolt-ry', `${rotateY}deg`);
   };
 }
+
+/**
+ * Magnet writer: publishes a signed `-1..1` pull toward the pointer (`--jolt-fx` / `--jolt-fy`).
+ * Unitless on purpose — the stylesheet scales it by the component's `--jolt-strength`, so the
+ * travel distance is a CSS concern and this needs no factory (contrast `makeTiltWriter`).
+ */
+export const writeMagnet: PointerWriter = (el, f) => {
+  const { x, y } = magnetOffset(f);
+  el.style.setProperty('--jolt-fx', String(x));
+  el.style.setProperty('--jolt-fy', String(y));
+};

@@ -42,6 +42,10 @@ import {
   Glare,
   BorderGlow,
   StarBorder,
+  FadeContent,
+  AnimatedContent,
+  ClickSpark,
+  Magnet,
   // gen:card-import
 } from '@jolt/react';
 
@@ -355,6 +359,58 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={blurb}>The border lights up where the cursor is</div>
       </a>
       {/* gen:card:cards */}
+    </div>
+  </section>
+
+  <section id="effects" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">effects/</p>
+    <h2 class="font-display text-xl font-semibold">Effects</h2>
+    <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
+      Wrappers that animate whatever you put inside them — scroll into view, click, or move your
+      cursor over one.
+    </p>
+    <div class={grid}>
+      <a href="/components/effects/fade-content" class={card}>
+        <FadeContent client:visible>
+          <div class="text-sm font-semibold">Fade Content</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            Fades your content in when it scrolls into view
+          </div>
+        </FadeContent>
+        <div class={name}>Fade Content</div>
+        <div class={blurb}>Fades your content in when it scrolls into view</div>
+      </a>
+      <a href="/components/effects/animated-content" class={card}>
+        <AnimatedContent client:visible>
+          <div class="text-sm font-semibold">Animated Content</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            Slides and scales your content in when it scrolls into view
+          </div>
+        </AnimatedContent>
+        <div class={name}>Animated Content</div>
+        <div class={blurb}>Slides and scales your content in when it scrolls into view</div>
+      </a>
+      <a href="/components/effects/click-spark" class={card}>
+        <ClickSpark client:visible>
+          <div class="text-sm font-semibold">Click Spark</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            Throws a burst of sparks from every click
+          </div>
+        </ClickSpark>
+        <div class={name}>Click Spark</div>
+        <div class={blurb}>Throws a burst of sparks from every click</div>
+      </a>
+      <a href="/components/effects/magnet" class={card}>
+        <Magnet client:visible>
+          <div class="text-sm font-semibold">Magnet</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            Pulls your content toward the cursor
+          </div>
+        </Magnet>
+        <div class={name}>Magnet</div>
+        <div class={blurb}>Pulls your content toward the cursor</div>
+      </a>
+      {/* gen:card:effects */}
     </div>
   </section>
 </ComponentsLayout>

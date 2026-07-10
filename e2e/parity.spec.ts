@@ -87,6 +87,10 @@ const CONTAINER: readonly string[] = [
   'shine-border',
   'glare',
   'border-glow',
+  'fade-content',
+  'animated-content',
+  'click-spark',
+  'magnet',
   // gen:container
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE, ...CONTAINER];

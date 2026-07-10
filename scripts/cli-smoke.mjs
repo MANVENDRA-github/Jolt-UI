@@ -142,6 +142,10 @@ const COMPONENTS_TO_ADD = [
   'glare',
   'border-glow',
   'star-border',
+  'fade-content',
+  'animated-content',
+  'click-spark',
+  'magnet',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -203,6 +207,10 @@ const CSS_SKINS = [
   ['Glare.tsx', 'glare.css'],
   ['BorderGlow.tsx', 'border-glow.css'],
   ['StarBorder.tsx', 'star-border.css'],
+  ['FadeContent.tsx', 'fade-content.css'],
+  ['AnimatedContent.tsx', 'animated-content.css'],
+  ['ClickSpark.tsx', 'click-spark.css'],
+  ['Magnet.tsx', 'magnet.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

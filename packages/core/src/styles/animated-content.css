@@ -1,0 +1,33 @@
+/* AnimatedContent — a transparent wrapper that slides + scales its content in when it scrolls
+   into view. Same shared scroll-reveal behavior as FadeContent (behavior/reveal.ts), a
+   different entrance.
+
+   The hidden state lives on `[data-jolt-armed]`, never on the base rule: server HTML, a JS
+   failure, a browser without IntersectionObserver, and a reduced-motion user all render the
+   content immediately, because nothing ever armed it.
+
+   Self-contained; the skin sets --jolt-distance / --jolt-scale / --jolt-duration / --jolt-delay. */
+.jolt-animated-content {
+  display: block;
+  transition:
+    opacity var(--jolt-duration, 0.7s) var(--jolt-ease, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--jolt-delay, 0s),
+    transform var(--jolt-duration, 0.7s) var(--jolt-ease, cubic-bezier(0.22, 1, 0.36, 1))
+      var(--jolt-delay, 0s);
+}
+
+.jolt-animated-content[data-jolt-armed] {
+  opacity: 0;
+  transform: translateY(var(--jolt-distance, 40px)) scale(var(--jolt-scale, 0.94));
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-animated-content {
+    transition: none;
+    opacity: 1;
+    transform: none;
+    /* Release the GPU layer so the static content rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

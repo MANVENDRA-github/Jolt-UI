@@ -38,6 +38,10 @@ import {
   Glare as RGlare,
   BorderGlow as RBorderGlow,
   StarBorder as RStarBorder,
+  FadeContent as RFadeContent,
+  AnimatedContent as RAnimatedContent,
+  ClickSpark as RClickSpark,
+  Magnet as RMagnet,
   // gen:react
 } from '@jolt/react';
 import {
@@ -76,6 +80,10 @@ import {
   Glare as VGlare,
   BorderGlow as VBorderGlow,
   StarBorder as VStarBorder,
+  FadeContent as VFadeContent,
+  AnimatedContent as VAnimatedContent,
+  ClickSpark as VClickSpark,
+  Magnet as VMagnet,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -114,6 +122,10 @@ import {
   Glare as SGlare,
   BorderGlow as SBorderGlow,
   StarBorder as SStarBorder,
+  FadeContent as SFadeContent,
+  AnimatedContent as SAnimatedContent,
+  ClickSpark as SClickSpark,
+  Magnet as SMagnet,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -227,6 +239,24 @@ const TEXT = 'Jolt UI';
     <div data-testid="star-border-react"><RStarBorder label="Jolt UI" /></div>
     <div data-testid="star-border-vue"><VStarBorder label="Jolt UI" /></div>
     <div data-testid="star-border-svelte"><SStarBorder label="Jolt UI" /></div>
+    <div data-testid="fade-content-react"><RFadeContent client:load>{TEXT}</RFadeContent></div>
+    <div data-testid="fade-content-vue"><VFadeContent client:load>{TEXT}</VFadeContent></div>
+    <div data-testid="fade-content-svelte"><SFadeContent client:load>{TEXT}</SFadeContent></div>
+    <div data-testid="animated-content-react">
+      <RAnimatedContent client:load>{TEXT}</RAnimatedContent>
+    </div>
+    <div data-testid="animated-content-vue">
+      <VAnimatedContent client:load>{TEXT}</VAnimatedContent>
+    </div>
+    <div data-testid="animated-content-svelte">
+      <SAnimatedContent client:load>{TEXT}</SAnimatedContent>
+    </div>
+    <div data-testid="click-spark-react"><RClickSpark client:load>{TEXT}</RClickSpark></div>
+    <div data-testid="click-spark-vue"><VClickSpark client:load>{TEXT}</VClickSpark></div>
+    <div data-testid="click-spark-svelte"><SClickSpark client:load>{TEXT}</SClickSpark></div>
+    <div data-testid="magnet-react"><RMagnet client:load>{TEXT}</RMagnet></div>
+    <div data-testid="magnet-vue"><VMagnet client:load>{TEXT}</VMagnet></div>
+    <div data-testid="magnet-svelte"><SMagnet client:load>{TEXT}</SMagnet></div>
     {/* gen:cells */}
   </div>
 </Base>

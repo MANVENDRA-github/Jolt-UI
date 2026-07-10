@@ -1,0 +1,75 @@
+---
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
+import { ClickSpark as ReactClickSpark } from '@jolt/react';
+import { ClickSpark as VueClickSpark } from '@jolt/vue';
+import { ClickSpark as SvelteClickSpark } from '@jolt/svelte';
+import { clickSparkSchema, clickSparkMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/ClickSpark/ClickSpark.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/ClickSpark/ClickSpark.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/ClickSpark/ClickSpark.svelte?raw';
+
+const sourceTabs = [
+  { label: 'React', lang: 'tsx', code: reactSource },
+  { label: 'Vue', lang: 'vue', code: vueSource },
+  { label: 'Svelte', lang: 'svelte', code: svelteSource },
+];
+const previewBox =
+  'h-40 w-full rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)] p-3';
+const cardBody = 'space-y-2';
+const cardTitle = 'text-lg font-semibold';
+const cardCopy = 'text-sm text-[var(--jolt-text-muted)]';
+---
+
+<ComponentsLayout title="ClickSpark — Jolt UI">
+  <Breadcrumbs id="click-spark" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">ClickSpark</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">Throws a burst of sparks from every click</p>
+
+  <div class="mt-8">
+    <FrameworkSwitcher id="click-spark">
+      <div class={previewBox} slot="react">
+        <ReactClickSpark client:visible>
+          <div class={cardBody}>
+            <div class={cardTitle}>Click Spark</div>
+            <p class={cardCopy}>Throws a burst of sparks from every click</p>
+          </div>
+        </ReactClickSpark>
+      </div>
+      <div class={previewBox} slot="vue">
+        <VueClickSpark client:visible>
+          <div class={cardBody}>
+            <div class={cardTitle}>Click Spark</div>
+            <p class={cardCopy}>Throws a burst of sparks from every click</p>
+          </div>
+        </VueClickSpark>
+      </div>
+      <div class={previewBox} slot="svelte">
+        <SvelteClickSpark client:visible>
+          <div class={cardBody}>
+            <div class={cardTitle}>Click Spark</div>
+            <p class={cardCopy}>Throws a burst of sparks from every click</p>
+          </div>
+        </SvelteClickSpark>
+      </div>
+    </FrameworkSwitcher>
+  </div>
+
+  <InstallBlock meta={clickSparkMeta} />
+
+  <section class="mt-12">
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Identical behavior, idiomatic per framework.
+    </p>
+    <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
+  </section>
+
+  <PropsTable schema={clickSparkSchema} />
+  <ComponentPager id="click-spark" />
+</ComponentsLayout>
