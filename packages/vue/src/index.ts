@@ -47,4 +47,6 @@ export { Magnet } from './components/Magnet';
 export { Silk } from './components/Silk';
 export { Iridescence } from './components/Iridescence';
 export { LightRays } from './components/LightRays';
+export { Dock } from './components/Dock';
+export { Counter } from './components/Counter';
 // gen:exports

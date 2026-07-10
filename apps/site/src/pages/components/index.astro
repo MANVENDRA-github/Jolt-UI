@@ -49,6 +49,8 @@ import {
   AnimatedContent,
   ClickSpark,
   Magnet,
+  Dock,
+  Counter,
   // gen:card-import
 } from '@jolt/react';
 
@@ -429,6 +431,29 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={blurb}>Pulls your content toward the cursor</div>
       </a>
       {/* gen:card:effects */}
+    </div>
+  </section>
+
+  <section id="ui" class="mt-12 scroll-mt-24" data-reveal>
+    <p class="cat-eyebrow">ui/</p>
+    <h2 class="font-display text-xl font-semibold">Interface</h2>
+    <p class="mt-1 font-mono text-xs text-[var(--jolt-text-subtle)]">
+      Interface pieces with a little motion of their own — hover the dock, watch the counter roll.
+    </p>
+    <div class={grid}>
+      <a href="/components/ui/dock" class={card}>
+        <div class={centerPreview}><Dock client:visible size={32} /></div>
+        <div class={name}>Dock</div>
+        <div class={blurb}>Items magnify toward the cursor (CSS + pointer)</div>
+      </a>
+      <a href="/components/ui/counter" class={card}>
+        <div class={centerPreview}>
+          <div class="text-3xl"><Counter value={2025} client:visible /></div>
+        </div>
+        <div class={name}>Counter</div>
+        <div class={blurb}>Digit-roll to a target on mount (CSS)</div>
+      </a>
+      {/* gen:card:ui */}
     </div>
   </section>
 </ComponentsLayout>

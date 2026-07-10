@@ -295,6 +295,16 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/LightRays/LightRays.tsx' }],
         },
+        {
+          name: 'dock',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Dock/Dock.tsx' }],
+        },
+        {
+          name: 'counter',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Counter/Counter.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -545,6 +555,16 @@ export default defineConfig({
           name: 'light-rays',
           type: 'component',
           files: [{ path: 'packages/vue/src/components/LightRays/LightRays.vue' }],
+        },
+        {
+          name: 'dock',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Dock/Dock.vue' }],
+        },
+        {
+          name: 'counter',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Counter/Counter.vue' }],
         },
         // gen:vue-items
       ],
@@ -798,6 +818,16 @@ export default defineConfig({
           name: 'light-rays',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/LightRays/LightRays.svelte' }],
+        },
+        {
+          name: 'dock',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Dock/Dock.svelte' }],
+        },
+        {
+          name: 'counter',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Counter/Counter.svelte' }],
         },
         // gen:svelte-items
       ],

@@ -1,0 +1,43 @@
+/* Dock — a row of items that magnify toward the cursor. The shared pointer behavior
+   (behavior/dock.ts) writes each item's --jolt-scale (1 at rest, up to the magnification under
+   the cursor); this stylesheet applies it, anchored to the bottom edge so items grow upward like
+   the macOS dock. Self-contained; the skin sets --jolt-size / --jolt-color per item and marks
+   each with data-jolt-dock-item.
+
+   No @keyframes: the whole animation is the behavior writing --jolt-scale, eased by the
+   transition below. Under reduced-motion the behavior stops tracking (rest scale 1) and the
+   transition is dropped, so the row is a plain static strip. */
+.jolt-dock {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--jolt-color, #7c5cff) 8%, #14141c);
+  border: 1px solid color-mix(in srgb, var(--jolt-color, #7c5cff) 20%, transparent);
+}
+
+.jolt-dock [data-jolt-dock-item] {
+  display: grid;
+  place-items: center;
+  width: var(--jolt-size, 44px);
+  height: var(--jolt-size, 44px);
+  border-radius: 12px;
+  font-size: calc(var(--jolt-size, 44px) * 0.3);
+  font-weight: 600;
+  color: #fff;
+  background: color-mix(in srgb, var(--jolt-color, #7c5cff) 65%, #14141c);
+  transform-origin: center bottom;
+  transform: scale(var(--jolt-scale, 1));
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-dock [data-jolt-dock-item] {
+    transform: none;
+    transition: none;
+    /* Release the GPU layer so the static row rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

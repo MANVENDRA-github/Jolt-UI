@@ -314,4 +314,17 @@ export declare const LightRays: (props: {
   origin?: number;
   opacity?: number;
 }) => unknown;
+export declare const Dock: (props: {
+  items?: string[];
+  size?: number;
+  magnification?: number;
+  range?: number;
+  color?: string;
+}) => unknown;
+export declare const Counter: (props: {
+  value?: number;
+  digits?: number;
+  duration?: number;
+  color?: string;
+}) => unknown;
 // gen:shims

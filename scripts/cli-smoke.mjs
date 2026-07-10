@@ -149,6 +149,8 @@ const COMPONENTS_TO_ADD = [
   'silk',
   'iridescence',
   'light-rays',
+  'dock',
+  'counter',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -214,6 +216,8 @@ const CSS_SKINS = [
   ['AnimatedContent.tsx', 'animated-content.css'],
   ['ClickSpark.tsx', 'click-spark.css'],
   ['Magnet.tsx', 'magnet.css'],
+  ['Dock.tsx', 'dock.css'],
+  ['Counter.tsx', 'counter.css'],
   // gen:css
 ];
 for (const [skin, sheet] of CSS_SKINS) {

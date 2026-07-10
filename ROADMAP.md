@@ -102,9 +102,11 @@ Broadening the catalog from 35 → 50 across six independently-green PRs. Machin
 - **10c — Cards 3→5, Buttons 6→7:** Glare · Border Glow (pointer-driven, via scaffolder v2 + `trackPointer`) · Star Border.
 - **10d — Effects (the 6th category):** Fade Content · Animated Content · Click Spark · Magnet, plus three new core behaviors on the functional-core/imperative-shell split. Reuses the `CONTAINER` parity kind.
 - **10e — Backgrounds 6→9:** Silk · Iridescence · Light Rays, on the Aurora `ShaderMaterial` pattern (D-033).
-- **10f — Interface (the 7th category):** Dock (pointer magnification) · Counter (prop-driven CSS digit roll).
+- **10f — Interface (the 7th category)** ✅: Dock (pointer magnification via a new `dockScale` + `trackDock`) · Counter (prop-driven CSS digit roll). Slug `ui`, label "Interface" — not `component` (which would route `/components/components`, D-047).
 
 Cut from scope: `pixel-card` (canvas + per-pixel RAF — outside the budget) and `stepper` (stateful → per-framework drift).
+
+**Phase 10 complete — 50 components across 7 categories.**
 
 ## Later (out of v1 scope)
 

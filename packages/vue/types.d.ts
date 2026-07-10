@@ -320,4 +320,17 @@ export declare const LightRays: DefineComponent<{
   origin?: number;
   opacity?: number;
 }>;
+export declare const Dock: DefineComponent<{
+  items?: string[];
+  size?: number;
+  magnification?: number;
+  range?: number;
+  color?: string;
+}>;
+export declare const Counter: DefineComponent<{
+  value?: number;
+  digits?: number;
+  duration?: number;
+  color?: string;
+}>;
 // gen:shims

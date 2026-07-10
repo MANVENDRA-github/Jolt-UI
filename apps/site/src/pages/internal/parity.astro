@@ -42,6 +42,8 @@ import {
   AnimatedContent as RAnimatedContent,
   ClickSpark as RClickSpark,
   Magnet as RMagnet,
+  Dock as RDock,
+  Counter as RCounter,
   // gen:react
 } from '@jolt/react';
 import {
@@ -84,6 +86,8 @@ import {
   AnimatedContent as VAnimatedContent,
   ClickSpark as VClickSpark,
   Magnet as VMagnet,
+  Dock as VDock,
+  Counter as VCounter,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -126,6 +130,8 @@ import {
   AnimatedContent as SAnimatedContent,
   ClickSpark as SClickSpark,
   Magnet as SMagnet,
+  Dock as SDock,
+  Counter as SCounter,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -257,6 +263,12 @@ const TEXT = 'Jolt UI';
     <div data-testid="magnet-react"><RMagnet client:load>{TEXT}</RMagnet></div>
     <div data-testid="magnet-vue"><VMagnet client:load>{TEXT}</VMagnet></div>
     <div data-testid="magnet-svelte"><SMagnet client:load>{TEXT}</SMagnet></div>
+    <div data-testid="dock-react"><RDock client:load /></div>
+    <div data-testid="dock-vue"><VDock client:load /></div>
+    <div data-testid="dock-svelte"><SDock client:load /></div>
+    <div data-testid="counter-react"><RCounter /></div>
+    <div data-testid="counter-vue"><VCounter /></div>
+    <div data-testid="counter-svelte"><SCounter /></div>
     {/* gen:cells */}
   </div>
 </Base>

@@ -121,4 +121,13 @@ export { iridescenceSchema, iridescenceMeta } from './schemas/iridescence';
 export type { IridescenceProps, IridescenceOptions } from './schemas/iridescence';
 export { lightRaysSchema, lightRaysMeta } from './schemas/light-rays';
 export type { LightRaysProps, LightRaysOptions } from './schemas/light-rays';
+export { dockScale } from './behavior/dock-math';
+export { trackDock, DOCK_ITEM_SELECTOR } from './behavior/dock';
+export type { DockController, DockOptions } from './behavior/dock';
+export { counterCells } from './dom/counter';
+export type { CounterCells } from './dom/counter';
+export { dockSchema, dockMeta } from './schemas/dock';
+export type { DockProps } from './schemas/dock';
+export { counterSchema, counterMeta } from './schemas/counter';
+export type { CounterProps } from './schemas/counter';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line
