@@ -27,9 +27,7 @@ export function createSplitText(
   props: SplitTextProps,
 ): SplitTextController {
   const opts = splitTextSchema.parse(props);
-  const segments = Array.from(
-    container.querySelectorAll<HTMLElement>(SEGMENT_SELECTOR),
-  );
+  const segments = Array.from(container.querySelectorAll<HTMLElement>(SEGMENT_SELECTOR));
 
   if (segments.length === 0) {
     return { play() {}, revert() {} };

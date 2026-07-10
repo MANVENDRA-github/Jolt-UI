@@ -3,6 +3,12 @@
 // as `export default { ... }`. `assertContract` validates it at runtime (the
 // generator is plain Node — no compiler to lean on), failing loudly and early so
 // a malformed contract never writes a half-broken slice.
+//
+// Three component kinds are scaffoldable (D-040):
+//   - text       (`per-char` / `whole-text`) — a `text` prop, split or rendered whole
+//   - container  (`container`)               — a presentational <div> wrapping children (cards, effects)
+//   - interactive(`interactive`)             — a native <button> with a `label` fallback
+// Loaders (`graphic`) and Three.js backgrounds stay hand-written.
 
 /**
  * @typedef {Object} PropSpec
@@ -19,20 +25,48 @@
  * @typedef {Object} ComponentContract
  * @property {string} id            kebab-case id (file/route/registry/testid).
  * @property {string} name          PascalCase component name (export + folder).
- * @property {'css-per-char'|'css-whole-text'|'css-structural'|'gsap'} pattern
+ * @property {'css-per-char'|'css-whole-text'|'css-structural'|'css-container'|'css-interactive'|'gsap'} pattern
+ * @property {'text'|'card'|'button'|'effect'|'ui'} [category]  meta.category + URL segment. Default 'text'.
  * @property {string} blurb         one-line description (demo page subtitle).
  * @property {string} a11y          meta.a11y string.
  * @property {string[]} deps        peer deps beyond zod — [] or ['gsap'].
+ * @property {boolean} [hydrate]    true → previews/parity cells need a client directive (pointer-driven).
  * @property {PropSpec[]} props     ordered prop list.
- * @property {{ kind: 'per-char'|'whole-text', pixelParity: boolean }} parity
+ * @property {{ kind: 'per-char'|'whole-text'|'container'|'interactive', pixelParity: boolean }} parity
  * @property {Record<string, unknown>} demoProps    props for the three live demos.
  * @property {Record<string, unknown>} harnessProps props for the parity-harness cells.
  * @property {string} cardText      label on the /components index card.
  */
 
-export const PATTERNS = ['css-per-char', 'css-whole-text', 'css-structural', 'gsap'];
-export const PARITY_KINDS = ['per-char', 'whole-text'];
+export const PATTERNS = [
+  'css-per-char',
+  'css-whole-text',
+  'css-structural',
+  'css-container',
+  'css-interactive',
+  'gsap',
+];
+export const PARITY_KINDS = ['per-char', 'whole-text', 'container', 'interactive'];
 export const PROP_TYPES = ['string', 'number', 'boolean', 'enum', 'string[]'];
+
+/**
+ * The categories the scaffolder can emit, mapped to their plural URL segment. The
+ * singular id matches `meta.category`; the slug is the `/components/<slug>/` route
+ * and the `gen:card:<slug>` marker in the gallery index (mirrors `apps/site/src/lib/categories.ts`).
+ */
+export const CATEGORY_SLUGS = {
+  text: 'text',
+  card: 'cards',
+  button: 'buttons',
+  effect: 'effects',
+  ui: 'ui',
+};
+export const CATEGORIES = Object.keys(CATEGORY_SLUGS);
+
+/** A contract's category (defaulted) → its plural URL segment. */
+export function categorySlug(category) {
+  return CATEGORY_SLUGS[category ?? 'text'];
+}
 
 const KEBAB = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 const PASCAL = /^[A-Z][A-Za-z0-9]*$/;
@@ -40,8 +74,16 @@ const IDENT = /^[a-z][A-Za-z0-9]*$/;
 
 /** A CSS-only pattern (behavior is a stylesheet, not a GSAP factory). */
 export function isCssPattern(pattern) {
-  return pattern === 'css-per-char' || pattern === 'css-whole-text' || pattern === 'css-structural';
+  return pattern !== 'gsap' && PATTERNS.includes(pattern);
 }
+
+/** A text component (a `text` prop the skin renders or splits). */
+export function isTextKind(kind) {
+  return kind === 'per-char' || kind === 'whole-text';
+}
+
+/** Props that never map to a `--jolt-*` custom property. */
+const NON_CSS_VAR_PROPS = new Set(['text', 'by', 'label']);
 
 function fail(msg) {
   throw new Error(`gen-component: invalid contract — ${msg}`);
@@ -97,6 +139,10 @@ export function assertContract(raw) {
   if (!PATTERNS.includes(/** @type {string} */ (c.pattern))) {
     fail(`pattern must be one of ${PATTERNS.join(', ')} (got ${String(c.pattern)})`);
   }
+  if (c.category !== undefined && !CATEGORIES.includes(/** @type {string} */ (c.category))) {
+    fail(`category must be one of ${CATEGORIES.join(', ')} (got ${String(c.category)})`);
+  }
+  if (c.hydrate !== undefined && typeof c.hydrate !== 'boolean') fail('hydrate must be a boolean');
   for (const key of ['blurb', 'a11y', 'cardText']) {
     if (typeof c[key] !== 'string' || c[key].trim() === '')
       fail(`${key} must be a non-empty string`);
@@ -111,31 +157,55 @@ export function assertContract(raw) {
     fail("a CSS pattern must not list 'gsap' in deps");
   }
 
+  const parity = /** @type {Record<string, unknown>} */ (c.parity);
+  if (!parity || typeof parity !== 'object') fail('parity must be an object');
+  const kind = /** @type {string} */ (parity.kind);
+  if (!PARITY_KINDS.includes(kind)) fail(`parity.kind must be one of ${PARITY_KINDS.join(', ')}`);
+  if (typeof parity.pixelParity !== 'boolean') fail('parity.pixelParity must be a boolean');
+
+  // The container/interactive patterns and kinds are two views of one decision — a
+  // mismatch would emit a <div> skin behind an INTERACTIVE parity assert (or vice versa).
+  if (c.pattern === 'css-container' && kind !== 'container') {
+    fail("pattern 'css-container' requires parity.kind 'container'");
+  }
+  if (c.pattern === 'css-interactive' && kind !== 'interactive') {
+    fail("pattern 'css-interactive' requires parity.kind 'interactive'");
+  }
+  if (kind === 'container' && c.pattern !== 'css-container') {
+    fail("parity.kind 'container' requires pattern 'css-container'");
+  }
+  if (kind === 'interactive' && c.pattern !== 'css-interactive') {
+    fail("parity.kind 'interactive' requires pattern 'css-interactive'");
+  }
+
   if (!Array.isArray(c.props) || c.props.length === 0) fail('props must be a non-empty array');
   c.props.forEach(assertProp);
-  if (!c.props.some((p) => p.required)) fail('at least one prop must be required');
-  // The generated skins render `text` (the animated content); per-char skins also
-  // split it with `splitSegments(text, by)`.
-  const textProp = c.props.find((p) => p.name === 'text');
-  if (!textProp || textProp.type !== 'string') fail("a 'text' string prop is required");
-  // For CSS components, every tunable beyond text/by maps to a --jolt-* custom
+
+  if (isTextKind(kind)) {
+    // The generated skins render `text` (the animated content); per-char skins also
+    // split it with `splitSegments(text, by)`, so it must be a required prop.
+    if (!c.props.some((p) => p.required)) fail('at least one prop must be required');
+    const textProp = c.props.find((p) => p.name === 'text');
+    if (!textProp || textProp.type !== 'string') fail("a 'text' string prop is required");
+    if (kind === 'per-char') {
+      const byProp = c.props.find((p) => p.name === 'by');
+      if (!byProp || byProp.type !== 'enum') fail("a per-char component needs a 'by' enum prop");
+    }
+  } else if (kind === 'interactive') {
+    // A button's text comes from children/slot, with `label` as the fallback (D-036).
+    // Its visual props are all defaulted, so there is no required prop.
+    const labelProp = c.props.find((p) => p.name === 'label');
+    if (!labelProp || labelProp.type !== 'string') fail("a 'label' string prop is required");
+  }
+  // Containers carry neither `text` nor `label` — the content is the consumer's (D-037).
+
+  // For CSS components, every tunable beyond text/by/label maps to a --jolt-* custom
   // property the skin sets — so each such prop must declare a cssVar (and is used).
   if (isCssPattern(/** @type {string} */ (c.pattern))) {
     for (const p of c.props) {
-      if (p.name === 'text' || p.name === 'by') continue;
+      if (NON_CSS_VAR_PROPS.has(p.name)) continue;
       if (!p.cssVar) fail(`CSS prop '${p.name}' must declare a cssVar`);
     }
-  }
-
-  const parity = /** @type {Record<string, unknown>} */ (c.parity);
-  if (!parity || typeof parity !== 'object') fail('parity must be an object');
-  if (!PARITY_KINDS.includes(/** @type {string} */ (parity.kind))) {
-    fail(`parity.kind must be one of ${PARITY_KINDS.join(', ')}`);
-  }
-  if (typeof parity.pixelParity !== 'boolean') fail('parity.pixelParity must be a boolean');
-  if (parity.kind === 'per-char') {
-    const byProp = c.props.find((p) => p.name === 'by');
-    if (!byProp || byProp.type !== 'enum') fail("a per-char component needs a 'by' enum prop");
   }
 
   for (const key of ['demoProps', 'harnessProps']) {

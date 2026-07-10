@@ -22,7 +22,12 @@ export function BlurIn({
   return (
     <span className="jolt-blur-in" aria-label={text} style={rootStyle}>
       {segments.map((segment, i) => (
-        <span key={i} data-jolt-segment="" aria-hidden="true" style={{ '--jolt-i': i } as CSSProperties}>
+        <span
+          key={i}
+          data-jolt-segment=""
+          aria-hidden="true"
+          style={{ '--jolt-i': i } as CSSProperties}
+        >
           {segment}
         </span>
       ))}

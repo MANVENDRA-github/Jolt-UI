@@ -1,10 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { assertContract, isCssPattern } from './contract.mjs';
+import { assertContract, isCssPattern, categorySlug } from './contract.mjs';
 import sample from './__fixtures__/sample.contract.mjs';
+import container from './__fixtures__/container.contract.mjs';
+import interactive from './__fixtures__/interactive.contract.mjs';
 
 /** The fixture with one top-level field overridden. */
 const withField = (over) => ({ ...sample, ...over });
+const withContainer = (over) => ({ ...container, ...over });
+const withInteractive = (over) => ({ ...interactive, ...over });
 
 test('accepts the valid fixture and returns it', () => {
   assert.equal(assertContract(sample), sample);
@@ -125,5 +129,80 @@ test('isCssPattern distinguishes css from gsap', () => {
   assert.equal(isCssPattern('css-per-char'), true);
   assert.equal(isCssPattern('css-whole-text'), true);
   assert.equal(isCssPattern('css-structural'), true);
+  assert.equal(isCssPattern('css-container'), true);
+  assert.equal(isCssPattern('css-interactive'), true);
   assert.equal(isCssPattern('gsap'), false);
+});
+
+// --- v2: container (card) + interactive (button) kinds -----------------------
+
+test('accepts the container fixture: no text, no label, zero required props', () => {
+  assert.equal(assertContract(container), container);
+});
+
+test('accepts the interactive fixture: a label prop instead of text', () => {
+  assert.equal(assertContract(interactive), interactive);
+});
+
+test('category defaults to text and rejects an unknown category', () => {
+  // The text fixture omits `category` entirely.
+  assert.equal(sample.category, undefined);
+  assert.equal(assertContract(sample).category ?? 'text', 'text');
+  assert.throws(() => assertContract(withField({ category: 'loader' })), /category must be one of/);
+});
+
+test('categorySlug maps a category id to its plural URL segment', () => {
+  assert.equal(categorySlug('text'), 'text');
+  assert.equal(categorySlug('card'), 'cards');
+  assert.equal(categorySlug('button'), 'buttons');
+  assert.equal(categorySlug('effect'), 'effects');
+  assert.equal(categorySlug('ui'), 'ui');
+  assert.equal(categorySlug(undefined), 'text');
+});
+
+test('an interactive contract must declare a label string prop', () => {
+  const props = interactive.props.filter((p) => p.name !== 'label');
+  assert.throws(
+    () => assertContract(withInteractive({ props })),
+    /a 'label' string prop is required/,
+  );
+});
+
+test("the label prop is exempt from the cssVar rule (it isn't a --jolt-*)", () => {
+  // Sanity: the fixture's label carries no cssVar and still validates.
+  assert.equal(interactive.props.find((p) => p.name === 'label').cssVar, undefined);
+  assert.equal(assertContract(interactive), interactive);
+});
+
+test('a container prop other than text/by/label still needs a cssVar', () => {
+  const props = [...container.props, { name: 'gap', type: 'number', default: 1, describe: 'x' }];
+  assert.throws(() => assertContract(withContainer({ props })), /must declare a cssVar/);
+});
+
+test('pattern and parity.kind must agree for the container/interactive kinds', () => {
+  assert.throws(
+    () => assertContract(withContainer({ parity: { kind: 'interactive', pixelParity: true } })),
+    /pattern 'css-container' requires parity.kind 'container'/,
+  );
+  assert.throws(
+    () => assertContract(withInteractive({ pattern: 'css-whole-text' })),
+    /parity.kind 'interactive' requires pattern 'css-interactive'/,
+  );
+});
+
+test('container/interactive contracts need at least one prop but no required prop', () => {
+  assert.throws(() => assertContract(withContainer({ props: [] })), /props must be a non-empty/);
+  assert.equal(
+    container.props.some((p) => p.required),
+    false,
+  );
+});
+
+test('hydrate defaults to false and must be a boolean', () => {
+  assert.equal(assertContract(sample).hydrate ?? false, false);
+  assert.equal(assertContract(container).hydrate, true);
+  assert.throws(
+    () => assertContract(withContainer({ hydrate: 'yes' })),
+    /hydrate must be a boolean/,
+  );
 });

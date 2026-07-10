@@ -2,8 +2,14 @@
   import { splitSegments, type WaveProps } from '@jolt/core';
   import '@jolt/core/styles/wave.css';
 
-  let { text, by = 'chars', amplitude = 10, duration = 1.5, stagger = 0.08, delay = 0 }: WaveProps =
-    $props();
+  let {
+    text,
+    by = 'chars',
+    amplitude = 10,
+    duration = 1.5,
+    stagger = 0.08,
+    delay = 0,
+  }: WaveProps = $props();
   const segments = $derived(splitSegments(text, by));
 </script>
 

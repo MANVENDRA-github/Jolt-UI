@@ -10,7 +10,10 @@
 
 .jolt-gradient-text {
   display: inline-block;
-  background-image: var(--jolt-gradient, linear-gradient(90deg, #6ee7b7, #3b82f6, #a78bfa, #6ee7b7));
+  background-image: var(
+    --jolt-gradient,
+    linear-gradient(90deg, #6ee7b7, #3b82f6, #a78bfa, #6ee7b7)
+  );
   background-size: 200% auto;
   background-clip: text;
   -webkit-background-clip: text;

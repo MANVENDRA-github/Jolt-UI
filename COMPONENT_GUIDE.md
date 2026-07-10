@@ -4,16 +4,24 @@ The repeatable unit of work. A new component = **one small PR** touching a predi
 
 > **Naming:** kebab-case id (`blur-in`), PascalCase component (`BlurIn`). Use the id in the registry, schema filename, CSS filename, demo page, and parity testid; the PascalCase name for the exported component + folder.
 
-## Generate with the scaffolder (CSS components)
+## Generate with the scaffolder (CSS text / card / button components)
 
-For a **CSS** component you don't write the slice by hand — `scripts/gen-component.mjs` stamps all of it (steps 1–7 below) from one contract, including a **working** opacity-fade animation and passing invariant tests, then you customize the motion test-first.
+For a **CSS** component you don't write the slice by hand — `scripts/gen-component.mjs` stamps all of it (steps 1–7 below) from one contract, including a **working** starting effect and passing invariant tests, then you customize the motion test-first.
 
-1. Write `scripts/contracts/<id>.mjs` (`export default { ... }`, typed by the `ComponentContract` JSDoc in `scripts/gen/contract.mjs`): `id`, `name`, `pattern` (`css-per-char` | `css-whole-text` | `css-structural`), `blurb`, `a11y`, `deps` (`[]`), `props` (each `{ name, type, default|required, describe, cssVar? }` — a `text` string prop is required; per-char also needs a `by` enum), `parity` (`{ kind, pixelParity }`), `demoProps`, `harnessProps`, `cardText`. Use `scripts/gen/__fixtures__/sample.contract.mjs` as the template.
-2. `node scripts/gen-component.mjs <id>` — writes the 12 slice files, splices the component into the 8 central files at their `gen:*` markers, and runs Prettier. Re-running aborts (no duplicate writes).
-3. **Customize the animation test-first:** write the real motion's behavior test (red), then edit `packages/core/src/styles/<id>.css` to make it pass (green). The scaffold's opacity fade + reduced-motion block are a parity-safe starting point.
+It covers three kinds (D-040):
+
+| `pattern`                                            | `parity.kind`             | `category`             | Renders                                  |
+| ---------------------------------------------------- | ------------------------- | ---------------------- | ---------------------------------------- |
+| `css-per-char` / `css-whole-text` / `css-structural` | `per-char` / `whole-text` | `text` (default)       | a `<span>` of text                       |
+| `css-container`                                      | `container`               | `card`, `effect`, `ui` | a `<div>` wrapping children/slot         |
+| `css-interactive`                                    | `interactive`             | `button`               | a native `<button>` (+ `label` fallback) |
+
+1. Write `scripts/contracts/<id>.mjs` (`export default { ... }`, typed by the `ComponentContract` JSDoc in `scripts/gen/contract.mjs`): `id`, `name`, `pattern`, `category` (omit for text), `blurb`, `a11y`, `deps` (`[]`), `props` (each `{ name, type, default|required, describe, cssVar? }`), `parity` (`{ kind, pixelParity }`), `demoProps`, `harnessProps`, `cardText`, and `hydrate: true` for a cursor-tracking card. Per kind: **text** needs a required `text` string prop (per-char also a `by` enum); **interactive** needs a `label` string prop; **container** needs neither. Every other prop must declare a `cssVar`. Templates: `scripts/gen/__fixtures__/{sample,container,interactive}.contract.mjs`.
+2. `node scripts/gen-component.mjs <id>` — writes the 12 slice files (the demo page under `components/<category-slug>/`), splices the component into the 11 central files at their `gen:*` markers, and runs Prettier. Re-running aborts (no duplicate writes).
+3. **Customize the effect test-first:** write the real behavior's test (red), then edit `packages/core/src/styles/<id>.css` to make it pass (green). The scaffold's starting effect + reduced-motion block are a parity-safe baseline. A **cursor-tracking** card also adds its `trackPointer(el, writer)` mount/`revert` wiring to the three skins by hand — the writer is component-specific, so the scaffold emits a static card (set `hydrate: true` so the previews/cells hydrate).
 4. Gate: `pnpm verify` **and** `pnpm test:cli` **and** `pnpm test:e2e` — already green right after generation; keep them green as you customize. Branch → PR → merge.
 
-GSAP components are **not** scaffolded yet (the generator rejects `pattern: 'gsap'`) — hand-write them per the steps below. The manual procedure is also the reference for what the scaffolder emits.
+**Loaders (`GRAPHIC`) and Three.js backgrounds are not scaffolded** — a loader's markup is bespoke per effect and a background is a WebGL factory, not a stylesheet. **GSAP is not scaffolded** (the generator rejects `pattern: 'gsap'`). Hand-write those per the steps below; the manual procedure is also the reference for what the scaffolder emits.
 
 ## First, pick a pattern
 

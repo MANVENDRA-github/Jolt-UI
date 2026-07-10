@@ -6,6 +6,7 @@
 // so these never double-insert in practice.
 
 import * as emit from './emit.mjs';
+import { categorySlug } from './contract.mjs';
 
 /**
  * Insert `block` immediately before the line containing `marker`.
@@ -60,9 +61,9 @@ export function applyParityHarness(src, c) {
   return insertBeforeMarker(out, '{/* gen:cells */}', emit.emitParityCells(c));
 }
 
+/** Each parity kind has its own bucket array in `e2e/parity.spec.ts`, marked `// gen:<kind>`. */
 export function applyParitySpec(src, c) {
-  const marker = c.parity.kind === 'per-char' ? '// gen:per-char' : '// gen:whole-text';
-  let out = insertBeforeMarker(src, marker, `  '${c.id}',`);
+  let out = insertBeforeMarker(src, `// gen:${c.parity.kind}`, `  '${c.id}',`);
   if (!c.parity.pixelParity) out = insertBeforeMarker(out, '// gen:no-pixel', `  '${c.id}',`);
   return out;
 }
@@ -73,22 +74,27 @@ export function applyCliSmoke(src, c) {
   return insertBeforeMarker(out, '// gen:css', `  ['${c.name}.tsx', '${c.id}.css'],`);
 }
 
+/**
+ * The gallery index is hand-written per category, so each `<section>` carries its own
+ * `{/* gen:card:<slug> *\/}` anchor and the card lands in the right one. (One shared marker
+ * can't work: `insertBeforeMarker` requires exactly one occurrence.)
+ */
 export function applyComponentsIndex(src, c) {
   let out = insertBeforeMarker(src, '// gen:card-import', `  ${c.name},`);
-  return insertBeforeMarker(out, '{/* gen:card */}', emit.emitCard(c));
+  return insertBeforeMarker(out, `{/* gen:card:${categorySlug(c.category)} */}`, emit.emitCard(c));
 }
 
 /**
  * True if `content` already references this component — the per-file collision
  * check the shell runs across every edit target before writing anything.
  * @param {string} content
- * @param {{ id: string, name: string }} c
+ * @param {{ id: string, name: string, category?: string }} c
  */
 export function containsComponent(content, c) {
   return (
     content.includes(`'${c.id}'`) || // jsrepo item / parity-spec / cli-smoke add
     content.includes(`"${c.id}-react"`) || // parity harness cell
-    content.includes(`/components/text/${c.id}`) || // components index card
+    content.includes(`/components/${categorySlug(c.category)}/${c.id}`) || // index card
     content.includes(`./schemas/${c.id}`) || // core barrel export
     content.includes(`./components/${c.name}`) || // package barrel export
     content.includes(`${c.name}:`) // vue/svelte shim declaration
