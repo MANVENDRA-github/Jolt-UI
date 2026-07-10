@@ -1,18 +1,15 @@
 import * as THREE from 'three';
-import { auroraSchema, type AuroraProps } from '../schemas/aurora';
+import { lightRaysSchema, type LightRaysProps } from '../schemas/light-rays';
 import { prefersReducedMotion } from '../motion';
 import { packColorStops } from './uniforms';
 
-export interface AuroraController {
+export interface LightRaysController {
   /** Stop the loop, dispose every GPU resource, and remove the canvas — call on unmount. */
   revert(): void;
 }
 
-const NOOP: AuroraController = { revert() {} };
+const NOOP: LightRaysController = { revert() {} };
 
-// A `ShaderMaterial` (not Raw) — three injects the precision qualifier and the built-in
-// attributes/uniforms (position, uv, projectionMatrix, modelViewMatrix), so we declare only
-// our own varying + uniforms.
 const VERTEX = /* glsl */ `
   varying vec2 vUv;
   void main() {
@@ -21,16 +18,20 @@ const VERTEX = /* glsl */ `
   }
 `;
 
-// Flowing aurora curtains: layered value-noise (fbm) over uv, scrolled by uTime, with a
-// vertical glow falloff and a colour ramp across the three stops. Alpha falls to ~0 in the
-// gaps so the curtains blend over the (transparent) page background.
+// God-rays from a point on the top edge. Everything is polar: the ray pattern is a function of
+// the ANGLE from the source (so rays stay straight no matter the aspect), while brightness is a
+// function of DISTANCE (an exponential falloff). Noise on the angle makes the fan flicker and
+// keeps the rays from reading as a perfectly regular star. Alpha, not black, carries the
+// falloff — the canvas is transparent, so the rays blend over whatever is behind them.
 const FRAGMENT = /* glsl */ `
   varying vec2 vUv;
   uniform float uTime;
-  uniform vec3 uColors[3];
+  uniform vec3 uColors[2];
   uniform float uSpeed;
-  uniform float uIntensity;
-  uniform float uScale;
+  uniform float uCount;
+  uniform float uSpread;
+  uniform float uFalloff;
+  uniform float uOrigin;
   uniform float uOpacity;
   uniform vec2 uResolution;
 
@@ -45,7 +46,7 @@ const FRAGMENT = /* glsl */ `
   float fbm(vec2 p) {
     float v = 0.0;
     float a = 0.5;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
       v += a * noise(p);
       p *= 2.0;
       a *= 0.5;
@@ -55,39 +56,36 @@ const FRAGMENT = /* glsl */ `
 
   void main() {
     float aspect = uResolution.x / max(uResolution.y, 1.0);
-    vec2 uv = vUv;
     float t = uTime * uSpeed;
 
-    // Vertical aurora curtains that sway horizontally and scroll upward over time.
-    vec2 q = vec2(uv.x * aspect, uv.y) * uScale;
-    float sway = (fbm(vec2(uv.y * 1.5, t * 0.6)) - 0.5) * 1.5;
-    float curtain = fbm(vec2(q.x * 3.0 + sway, q.y * 1.2 - t * 1.2));
-    float detail = fbm(vec2(q.x * 7.0 - t * 0.8, q.y * 2.0 + t * 0.4));
-    float density = pow(clamp(curtain * 0.8 + detail * 0.4 - 0.1, 0.0, 1.0), 1.8);
+    // Source on the top edge; y grows downward from it.
+    vec2 p = vec2((vUv.x - uOrigin) * aspect, 1.0 - vUv.y);
+    float dist = length(p);
+    float angle = atan(p.x, max(p.y, 0.0001));
 
-    // Glow vertically: brightest in the lower-mid, fading toward the top and very bottom.
-    float vfall = smoothstep(1.0, 0.15, uv.y) * smoothstep(0.0, 0.25, uv.y);
-    density *= vfall * 1.8;
+    float flicker = fbm(vec2(angle * 4.0, t)) * 1.6;
+    float rays = 0.5 + 0.5 * sin(angle * uCount + flicker);
+    rays = pow(rays, uSpread);
 
-    float ramp = clamp(curtain + 0.35 * sin(t + uv.y * 4.0), 0.0, 1.0);
-    vec3 col = mix(uColors[0], uColors[1], smoothstep(0.0, 0.55, ramp));
-    col = mix(col, uColors[2], smoothstep(0.45, 1.0, ramp));
+    // Exponential falloff, plus a bright core right at the source.
+    float falloff = exp(-dist * uFalloff);
+    float core = exp(-dist * 9.0) * 0.7;
 
-    float a = clamp(density, 0.0, 1.0) * uIntensity * uOpacity;
-    gl_FragColor = vec4(col * (0.7 + 0.6 * density), a);
+    float a = clamp(rays * falloff + core, 0.0, 1.0) * uOpacity;
+    vec3 col = mix(uColors[0], uColors[1], clamp(rays + core, 0.0, 1.0));
+
+    gl_FragColor = vec4(col, a);
   }
 `;
 
 /**
- * Render a flowing aurora light-curtain into `el` (a sized container) with a Three.js custom
- * `ShaderMaterial` on a fullscreen quad — the whole animation lives in the fragment shader
- * (driven by the `uTime` uniform), so the React/Vue/Svelte skins, which only mount `el` and
- * call this, cannot drift. WebGL is created lazily and never on the server or in jsdom (the
- * guards below bail before any `WebGLRenderer`); the GLSL is exercised only by the Playwright
- * parity harness + live verification. See D-030, D-033.
+ * Render volumetric god-rays into `el` (a sized container) with a Three.js custom
+ * `ShaderMaterial` on a fullscreen quad — the whole animation lives in the fragment shader, so
+ * the three skins, which only mount `el` and call this, cannot drift. WebGL is created lazily
+ * and never on the server or in jsdom. See D-030, D-033.
  */
-export function createAurora(el: HTMLElement, props: AuroraProps): AuroraController {
-  const opts = auroraSchema.parse(props);
+export function createLightRays(el: HTMLElement, props: LightRaysProps): LightRaysController {
+  const opts = lightRaysSchema.parse(props);
 
   if (typeof window === 'undefined') return NOOP;
   const probe = document.createElement('canvas');
@@ -97,12 +95,12 @@ export function createAurora(el: HTMLElement, props: AuroraProps): AuroraControl
   const height = el.clientHeight || 1;
 
   const scene = new THREE.Scene();
-  // A fullscreen quad in clip space — the fragment shader does all the work.
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
   camera.position.z = 1;
 
-  const packed = packColorStops(opts.colors, 3);
-  const uColors = [0, 1, 2].map(
+  // Two stops here, not three: a ray has a dim edge and a bright core, nothing between.
+  const packed = packColorStops(opts.colors, 2);
+  const uColors = [0, 1].map(
     (i) => new THREE.Vector3(packed[i * 3], packed[i * 3 + 1], packed[i * 3 + 2]),
   );
 
@@ -115,15 +113,16 @@ export function createAurora(el: HTMLElement, props: AuroraProps): AuroraControl
       uTime: { value: 0 },
       uColors: { value: uColors },
       uSpeed: { value: opts.speed },
-      uIntensity: { value: opts.intensity },
-      uScale: { value: opts.scale },
+      uCount: { value: opts.count },
+      uSpread: { value: opts.spread },
+      uFalloff: { value: opts.falloff },
+      uOrigin: { value: opts.origin },
       uOpacity: { value: opts.opacity },
       uResolution: { value: new THREE.Vector2(width, height) },
     },
   });
   const geometry = new THREE.PlaneGeometry(2, 2);
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(new THREE.Mesh(geometry, material));
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));

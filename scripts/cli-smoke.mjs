@@ -146,6 +146,9 @@ const COMPONENTS_TO_ADD = [
   'animated-content',
   'click-spark',
   'magnet',
+  'silk',
+  'iridescence',
+  'light-rays',
   // gen:add
 ];
 run(`pnpm exec jsrepo add ${COMPONENTS_TO_ADD.join(' ')} --yes --cwd "${fixture}"`, root);
@@ -230,6 +233,9 @@ for (const skin of [
   'Globe.tsx',
   'Rings.tsx',
   'Aurora.tsx',
+  'Silk.tsx',
+  'Iridescence.tsx',
+  'LightRays.tsx',
 ]) {
   if (!files.some((f) => f.endsWith(skin))) die(`${skin} component not added`);
 }

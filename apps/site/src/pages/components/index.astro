@@ -17,6 +17,9 @@ import {
   Globe,
   Rings,
   Aurora,
+  Silk,
+  Iridescence,
+  LightRays,
   Spinner,
   DotBounce,
   Bars,
@@ -206,6 +209,21 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={bgPreview}><Aurora client:visible /></div>
         <div class={name}>Aurora</div>
         <div class={blurb}>Flowing light-curtain shader (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/silk" class={card}>
+        <div class={bgPreview}><Silk client:visible /></div>
+        <div class={name}>Silk</div>
+        <div class={blurb}>Rippling folds of silk shader (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/iridescence" class={card}>
+        <div class={bgPreview}><Iridescence client:visible /></div>
+        <div class={name}>Iridescence</div>
+        <div class={blurb}>Shifting thin-film sheen shader (Three.js)</div>
+      </a>
+      <a href="/components/backgrounds/light-rays" class={card}>
+        <div class={bgPreview}><LightRays client:visible /></div>
+        <div class={name}>Light Rays</div>
+        <div class={blurb}>Volumetric god-rays shader (Three.js)</div>
       </a>
     </div>
   </section>

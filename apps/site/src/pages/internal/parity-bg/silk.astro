@@ -1,0 +1,17 @@
+---
+// Internal E2E harness — one WebGL background, three frameworks, on its OWN page so
+// only 3 live WebGL contexts exist per page load. The parity spec visits one of these
+// per background (newPage/close) to stay under Chromium's context cap (D-032).
+import Base from '../../../layouts/Base.astro';
+import { Silk as RSilk } from '@jolt/react';
+import { Silk as VSilk } from '@jolt/vue';
+import { Silk as SSilk } from '@jolt/svelte';
+---
+
+<Base title="parity harness — silk" noindex>
+  <div class="space-y-6">
+    <div data-testid="silk-react" class="relative h-40 w-64"><RSilk client:load /></div>
+    <div data-testid="silk-vue" class="relative h-40 w-64"><VSilk client:load /></div>
+    <div data-testid="silk-svelte" class="relative h-40 w-64"><SSilk client:load /></div>
+  </div>
+</Base>

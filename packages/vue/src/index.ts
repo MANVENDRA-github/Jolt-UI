@@ -44,4 +44,7 @@ export { FadeContent } from './components/FadeContent';
 export { AnimatedContent } from './components/AnimatedContent';
 export { ClickSpark } from './components/ClickSpark';
 export { Magnet } from './components/Magnet';
+export { Silk } from './components/Silk';
+export { Iridescence } from './components/Iridescence';
+export { LightRays } from './components/LightRays';
 // gen:exports
