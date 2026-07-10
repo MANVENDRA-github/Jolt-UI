@@ -280,6 +280,21 @@ export default defineConfig({
           type: 'component',
           files: [{ path: 'packages/react/src/components/Magnet/Magnet.tsx' }],
         },
+        {
+          name: 'silk',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Silk/Silk.tsx' }],
+        },
+        {
+          name: 'iridescence',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/Iridescence/Iridescence.tsx' }],
+        },
+        {
+          name: 'light-rays',
+          type: 'component',
+          files: [{ path: 'packages/react/src/components/LightRays/LightRays.tsx' }],
+        },
         // gen:react-items
       ],
       outputs: [distributed({ dir: 'apps/site/public/r/react', format: true })],
@@ -515,6 +530,21 @@ export default defineConfig({
           name: 'magnet',
           type: 'component',
           files: [{ path: 'packages/vue/src/components/Magnet/Magnet.vue' }],
+        },
+        {
+          name: 'silk',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Silk/Silk.vue' }],
+        },
+        {
+          name: 'iridescence',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/Iridescence/Iridescence.vue' }],
+        },
+        {
+          name: 'light-rays',
+          type: 'component',
+          files: [{ path: 'packages/vue/src/components/LightRays/LightRays.vue' }],
         },
         // gen:vue-items
       ],
@@ -753,6 +783,21 @@ export default defineConfig({
           name: 'magnet',
           type: 'component',
           files: [{ path: 'packages/svelte/src/components/Magnet/Magnet.svelte' }],
+        },
+        {
+          name: 'silk',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Silk/Silk.svelte' }],
+        },
+        {
+          name: 'iridescence',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/Iridescence/Iridescence.svelte' }],
+        },
+        {
+          name: 'light-rays',
+          type: 'component',
+          files: [{ path: 'packages/svelte/src/components/LightRays/LightRays.svelte' }],
         },
         // gen:svelte-items
       ],

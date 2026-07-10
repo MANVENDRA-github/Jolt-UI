@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { packColorStops } from '@jolt/core/webgl/aurora-field';
+import { packColorStops } from '@jolt/core/webgl/uniforms';
 import { prefersReducedMotion } from '@jolt/core';
 import { filamentOffsets, normalizePointer, type DOMRectLike } from './volt-field-uniforms';
 

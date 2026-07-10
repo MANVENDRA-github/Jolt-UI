@@ -1,0 +1,21 @@
+---
+// Internal E2E harness — one WebGL background, three frameworks, on its OWN page so
+// only 3 live WebGL contexts exist per page load. The parity spec visits one of these
+// per background (newPage/close) to stay under Chromium's context cap (D-032).
+import Base from '../../../layouts/Base.astro';
+import { Iridescence as RIridescence } from '@jolt/react';
+import { Iridescence as VIridescence } from '@jolt/vue';
+import { Iridescence as SIridescence } from '@jolt/svelte';
+---
+
+<Base title="parity harness — iridescence" noindex>
+  <div class="space-y-6">
+    <div data-testid="iridescence-react" class="relative h-40 w-64">
+      <RIridescence client:load />
+    </div>
+    <div data-testid="iridescence-vue" class="relative h-40 w-64"><VIridescence client:load /></div>
+    <div data-testid="iridescence-svelte" class="relative h-40 w-64">
+      <SIridescence client:load />
+    </div>
+  </div>
+</Base>

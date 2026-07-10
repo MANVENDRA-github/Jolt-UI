@@ -1,5 +1,22 @@
 import { describe, it, expect } from 'vitest';
-import { hexToRgb, packColorStops } from './aurora-field';
+import { degreesToRadians, hexToRgb, packColorStops } from './uniforms';
+
+describe('degreesToRadians', () => {
+  it('converts the cardinal angles', () => {
+    expect(degreesToRadians(0)).toBe(0);
+    expect(degreesToRadians(180)).toBeCloseTo(Math.PI, 12);
+    expect(degreesToRadians(-90)).toBeCloseTo(-Math.PI / 2, 12);
+  });
+
+  it('is linear across a full turn', () => {
+    expect(degreesToRadians(360)).toBeCloseTo(2 * Math.PI, 12);
+  });
+
+  it('passes a non-finite angle through as 0 rather than poisoning a uniform with NaN', () => {
+    expect(degreesToRadians(Number.NaN)).toBe(0);
+    expect(degreesToRadians(Number.POSITIVE_INFINITY)).toBe(0);
+  });
+});
 
 describe('hexToRgb', () => {
   it('parses #rrggbb', () => {

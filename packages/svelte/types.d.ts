@@ -290,4 +290,28 @@ export declare const ClickSpark: (props: {
   speed?: number;
 }) => unknown;
 export declare const Magnet: (props: { strength?: number; speed?: number }) => unknown;
+export declare const Silk: (props: {
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  rotation?: number;
+  noise?: number;
+  opacity?: number;
+}) => unknown;
+export declare const Iridescence: (props: {
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  amplitude?: number;
+  opacity?: number;
+}) => unknown;
+export declare const LightRays: (props: {
+  colors?: string[];
+  speed?: number;
+  count?: number;
+  spread?: number;
+  falloff?: number;
+  origin?: number;
+  opacity?: number;
+}) => unknown;
 // gen:shims

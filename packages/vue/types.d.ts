@@ -296,4 +296,28 @@ export declare const Magnet: DefineComponent<{
   strength?: number;
   speed?: number;
 }>;
+export declare const Silk: DefineComponent<{
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  rotation?: number;
+  noise?: number;
+  opacity?: number;
+}>;
+export declare const Iridescence: DefineComponent<{
+  colors?: string[];
+  speed?: number;
+  scale?: number;
+  amplitude?: number;
+  opacity?: number;
+}>;
+export declare const LightRays: DefineComponent<{
+  colors?: string[];
+  speed?: number;
+  count?: number;
+  spread?: number;
+  falloff?: number;
+  origin?: number;
+  opacity?: number;
+}>;
 // gen:shims

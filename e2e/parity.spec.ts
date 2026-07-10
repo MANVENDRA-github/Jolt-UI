@@ -41,6 +41,9 @@ const BACKGROUND: readonly string[] = [
   'globe',
   'rings',
   'aurora',
+  'silk',
+  'iridescence',
+  'light-rays',
   // gen:background
 ];
 // Loaders (+ future non-text graphics) are self-animating CSS — no text, not a canvas — so

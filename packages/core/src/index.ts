@@ -115,4 +115,10 @@ export { clickSparkSchema, clickSparkMeta } from './schemas/click-spark';
 export type { ClickSparkProps } from './schemas/click-spark';
 export { magnetSchema, magnetMeta } from './schemas/magnet';
 export type { MagnetProps } from './schemas/magnet';
+export { silkSchema, silkMeta } from './schemas/silk';
+export type { SilkProps, SilkOptions } from './schemas/silk';
+export { iridescenceSchema, iridescenceMeta } from './schemas/iridescence';
+export type { IridescenceProps, IridescenceOptions } from './schemas/iridescence';
+export { lightRaysSchema, lightRaysMeta } from './schemas/light-rays';
+export type { LightRaysProps, LightRaysOptions } from './schemas/light-rays';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

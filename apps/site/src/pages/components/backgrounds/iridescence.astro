@@ -1,0 +1,65 @@
+---
+import ComponentsLayout from '../../../layouts/ComponentsLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import FrameworkSwitcher from '../../../components/FrameworkSwitcher.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
+import InstallBlock from '../../../components/InstallBlock.astro';
+import PropsTable from '../../../components/PropsTable.astro';
+import ComponentPager from '../../../components/ComponentPager.astro';
+import { Iridescence as ReactIridescence } from '@jolt/react';
+import { Iridescence as VueIridescence } from '@jolt/vue';
+import { Iridescence as SvelteIridescence } from '@jolt/svelte';
+import { iridescenceSchema, iridescenceMeta } from '@jolt/core';
+import reactSource from '../../../../../../packages/react/src/components/Iridescence/Iridescence.tsx?raw';
+import vueSource from '../../../../../../packages/vue/src/components/Iridescence/Iridescence.vue?raw';
+import svelteSource from '../../../../../../packages/svelte/src/components/Iridescence/Iridescence.svelte?raw';
+
+const sourceTabs = [
+  { label: 'React', lang: 'tsx', code: reactSource },
+  { label: 'Vue', lang: 'vue', code: vueSource },
+  { label: 'Svelte', lang: 'svelte', code: svelteSource },
+];
+const previewBox =
+  'relative h-64 w-full overflow-hidden rounded-[var(--radius-jolt)] border border-[color:var(--jolt-border)] bg-[var(--jolt-surface-sunken)]';
+const codePill = 'rounded bg-[var(--jolt-surface-sunken)] px-1 font-mono';
+---
+
+<ComponentsLayout
+  title="Iridescence — Jolt UI"
+  description="A thin-film sheen whose color shifts with the viewing angle, rendered entirely in a fragment shader with Three.js — one design language, three frameworks."
+>
+  <Breadcrumbs id="iridescence" />
+  <h1 class="font-display text-3xl font-semibold tracking-tight">Iridescence</h1>
+  <p class="mt-2 text-[var(--jolt-text-muted)]">
+    A thin-film sheen whose color shifts with the viewing angle, rendered entirely in a fragment
+    shader with Three.js — one design language, three frameworks. The canvas is <code
+      class={codePill}>aria-hidden</code
+    > (it conveys nothing to assistive tech), and reduced-motion renders a single static frame.
+  </p>
+
+  <div class="mt-8">
+    <FrameworkSwitcher id="iridescence">
+      <div class={previewBox} slot="react"><ReactIridescence client:visible /></div>
+      <div class={previewBox} slot="vue"><VueIridescence client:visible /></div>
+      <div class={previewBox} slot="svelte"><SvelteIridescence client:visible /></div>
+    </FrameworkSwitcher>
+  </div>
+
+  <InstallBlock meta={iridescenceMeta} />
+  <p class="mt-3 text-sm text-[var(--jolt-text-subtle)]">
+    TypeScript consumers also need the Three.js types: <code class={codePill}
+      >npm i -D @types/three</code
+    >.
+  </p>
+
+  <section class="mt-12">
+    <h2 class="font-display text-xl font-semibold">Source</h2>
+    <p class="mt-2 text-sm text-[var(--jolt-text-subtle)]">
+      Identical behavior, idiomatic per framework.
+    </p>
+    <div class="mt-3"><CodeTabs tabs={sourceTabs} /></div>
+  </section>
+
+  <PropsTable schema={iridescenceSchema} />
+  <ComponentPager id="iridescence" />
+</ComponentsLayout>
