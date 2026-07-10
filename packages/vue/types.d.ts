@@ -257,4 +257,23 @@ export declare const CircularText: DefineComponent<{
   radius?: number;
   speed?: number;
 }>;
+export declare const Glare: DefineComponent<{
+  color?: string;
+  angle?: number;
+  spread?: number;
+  opacity?: number;
+}>;
+export declare const BorderGlow: DefineComponent<{
+  color?: string;
+  width?: number;
+  glow?: number;
+}>;
+export declare const StarBorder: DefineComponent<{
+  color?: string;
+  star?: string;
+  width?: number;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}>;
 // gen:shims

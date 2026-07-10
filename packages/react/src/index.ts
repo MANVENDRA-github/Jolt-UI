@@ -38,4 +38,7 @@ export { Neon } from './components/Neon';
 export { GlitchText } from './components/GlitchText';
 export { TrueFocus } from './components/TrueFocus';
 export { CircularText } from './components/CircularText';
+export { Glare } from './components/Glare';
+export { BorderGlow } from './components/BorderGlow';
+export { StarBorder } from './components/StarBorder';
 // gen:exports

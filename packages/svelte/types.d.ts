@@ -254,4 +254,23 @@ export declare const CircularText: (props: {
   radius?: number;
   speed?: number;
 }) => unknown;
+export declare const Glare: (props: {
+  color?: string;
+  angle?: number;
+  spread?: number;
+  opacity?: number;
+}) => unknown;
+export declare const BorderGlow: (props: {
+  color?: string;
+  width?: number;
+  glow?: number;
+}) => unknown;
+export declare const StarBorder: (props: {
+  color?: string;
+  star?: string;
+  width?: number;
+  speed?: number;
+  label?: string;
+  disabled?: boolean;
+}) => unknown;
 // gen:shims

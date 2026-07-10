@@ -93,4 +93,10 @@ export { trueFocusSchema, trueFocusMeta } from './schemas/true-focus';
 export type { TrueFocusProps } from './schemas/true-focus';
 export { circularTextSchema, circularTextMeta } from './schemas/circular-text';
 export type { CircularTextProps } from './schemas/circular-text';
+export { glareSchema, glareMeta } from './schemas/glare';
+export type { GlareProps } from './schemas/glare';
+export { borderGlowSchema, borderGlowMeta } from './schemas/border-glow';
+export type { BorderGlowProps } from './schemas/border-glow';
+export { starBorderSchema, starBorderMeta } from './schemas/star-border';
+export type { StarBorderProps } from './schemas/star-border';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

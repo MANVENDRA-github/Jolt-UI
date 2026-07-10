@@ -39,6 +39,9 @@ import {
   GlitchText,
   TrueFocus,
   CircularText,
+  Glare,
+  BorderGlow,
+  StarBorder,
   // gen:card-import
 } from '@jolt/react';
 
@@ -289,6 +292,12 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={blurb}>Presses down on click (CSS)</div>
         <a href="/components/buttons/tactile" class={viewLink}>View →</a>
       </div>
+      <div class={buttonCard}>
+        <div class={centerPreview}><StarBorder label="Star Border" /></div>
+        <div class={name}>Star Border</div>
+        <div class={blurb}>A star travels around the border</div>
+        <a href="/components/buttons/star-border" class={viewLink}>View →</a>
+      </div>
       {/* gen:card:buttons */}
     </div>
   </section>
@@ -324,6 +333,26 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         </ShineBorder>
         <div class={name}>Shine Border</div>
         <div class={blurb}>Gradient border flows around the edge (CSS)</div>
+      </a>
+      <a href="/components/cards/glare" class={card}>
+        <Glare client:visible>
+          <div class="text-sm font-semibold">Glare</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            A glossy sheen that follows the cursor across the card
+          </div>
+        </Glare>
+        <div class={name}>Glare</div>
+        <div class={blurb}>A glossy sheen that follows the cursor across the card</div>
+      </a>
+      <a href="/components/cards/border-glow" class={card}>
+        <BorderGlow client:visible>
+          <div class="text-sm font-semibold">Border Glow</div>
+          <div class="text-xs text-[var(--jolt-text-subtle)]">
+            The border lights up where the cursor is
+          </div>
+        </BorderGlow>
+        <div class={name}>Border Glow</div>
+        <div class={blurb}>The border lights up where the cursor is</div>
       </a>
       {/* gen:card:cards */}
     </div>

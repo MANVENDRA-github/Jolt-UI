@@ -35,6 +35,9 @@ import {
   GlitchText as RGlitchText,
   TrueFocus as RTrueFocus,
   CircularText as RCircularText,
+  Glare as RGlare,
+  BorderGlow as RBorderGlow,
+  StarBorder as RStarBorder,
   // gen:react
 } from '@jolt/react';
 import {
@@ -70,6 +73,9 @@ import {
   GlitchText as VGlitchText,
   TrueFocus as VTrueFocus,
   CircularText as VCircularText,
+  Glare as VGlare,
+  BorderGlow as VBorderGlow,
+  StarBorder as VStarBorder,
   // gen:vue
 } from '@jolt/vue';
 import {
@@ -105,6 +111,9 @@ import {
   GlitchText as SGlitchText,
   TrueFocus as STrueFocus,
   CircularText as SCircularText,
+  Glare as SGlare,
+  BorderGlow as SBorderGlow,
+  StarBorder as SStarBorder,
   // gen:svelte
 } from '@jolt/svelte';
 
@@ -209,6 +218,15 @@ const TEXT = 'Jolt UI';
     <div data-testid="circular-text-react"><RCircularText text="Jolt UI" /></div>
     <div data-testid="circular-text-vue"><VCircularText text="Jolt UI" /></div>
     <div data-testid="circular-text-svelte"><SCircularText text="Jolt UI" /></div>
+    <div data-testid="glare-react"><RGlare client:load>{TEXT}</RGlare></div>
+    <div data-testid="glare-vue"><VGlare client:load>{TEXT}</VGlare></div>
+    <div data-testid="glare-svelte"><SGlare client:load>{TEXT}</SGlare></div>
+    <div data-testid="border-glow-react"><RBorderGlow client:load>{TEXT}</RBorderGlow></div>
+    <div data-testid="border-glow-vue"><VBorderGlow client:load>{TEXT}</VBorderGlow></div>
+    <div data-testid="border-glow-svelte"><SBorderGlow client:load>{TEXT}</SBorderGlow></div>
+    <div data-testid="star-border-react"><RStarBorder label="Jolt UI" /></div>
+    <div data-testid="star-border-vue"><VStarBorder label="Jolt UI" /></div>
+    <div data-testid="star-border-svelte"><SStarBorder label="Jolt UI" /></div>
     {/* gen:cells */}
   </div>
 </Base>

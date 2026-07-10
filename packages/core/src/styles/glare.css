@@ -1,0 +1,42 @@
+/* Glare — a glossy sheen band that slides across the card toward the cursor. The pointer
+   behavior (behavior/pointer.ts) writes --jolt-x / --jolt-y as percentages, which position an
+   oversized linear-gradient band: the band is `--jolt-spread` larger than the card, so moving
+   its background-position slides a different stretch of it into view. No JS animation, and no
+   keyframe — under reduced-motion the behavior simply stops tracking and the sheen rests
+   centered. Self-contained; the skin sets --jolt-color / --jolt-angle / --jolt-spread /
+   --jolt-opacity and wraps the consumer's content. */
+.jolt-glare {
+  position: relative;
+  display: block;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #14141c;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.jolt-glare::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(
+    var(--jolt-angle, 105deg),
+    transparent 38%,
+    var(--jolt-color, #ffffff) 50%,
+    transparent 62%
+  );
+  background-size: var(--jolt-spread, 220%) var(--jolt-spread, 220%);
+  background-position: var(--jolt-x, 50%) var(--jolt-y, 50%);
+  background-repeat: no-repeat;
+  opacity: var(--jolt-opacity, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-glare::before {
+    /* Release the GPU layer so the static card rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

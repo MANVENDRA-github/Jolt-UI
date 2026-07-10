@@ -72,6 +72,7 @@ const INTERACTIVE: readonly string[] = [
   'sweep',
   'border-draw',
   'tactile',
+  'star-border',
   // gen:interactive
 ];
 // Cards are presentational <div> containers wrapping slotted child content. Parity asserts
@@ -84,6 +85,8 @@ const CONTAINER: readonly string[] = [
   'spotlight',
   'tilt',
   'shine-border',
+  'glare',
+  'border-glow',
   // gen:container
 ];
 const COMPONENTS = [...PER_CHAR, ...WHOLE_TEXT, ...GRAPHIC, ...INTERACTIVE, ...CONTAINER];
@@ -126,6 +129,7 @@ const NO_PIXEL_PARITY: readonly string[] = [
   // CSS + the per-framework unit tests + the CONTAINER root/child-text assert. Spotlight/Tilt are
   // NOT excluded — their rest frame (centered glow / flat card) is deterministic under the freeze.
   'shine-border',
+  'star-border',
   // gen:no-pixel
 ];
 

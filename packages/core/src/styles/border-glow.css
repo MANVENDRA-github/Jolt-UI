@@ -1,0 +1,61 @@
+/* BorderGlow — the card's border lights up where the cursor is. The ring is a ::before masked
+   to just the --jolt-width frame (mask-composite: exclude, the Shine Border / Border Draw
+   idiom), so the center stays transparent and the card works on any background. Its paint is a
+   radial gradient centered on --jolt-x / --jolt-y, which the pointer behavior
+   (behavior/pointer.ts) writes — so the lit stretch of border follows the cursor.
+
+   Nothing here self-animates: no @keyframes, no transition. That is deliberate. A self-running
+   ring (as in Shine Border) has a reduced-motion static frame that diverges from the harness's
+   freeze end-state, which forces NO_PIXEL_PARITY (D-035). Pointer-only means the rest frame is
+   the same deterministic centered glow in every framework, so the pixel diff holds.
+
+   Self-contained; the skin sets --jolt-color / --jolt-width / --jolt-glow and wraps the
+   consumer's content. */
+.jolt-border-glow {
+  position: relative;
+  display: block;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #14141c;
+}
+
+.jolt-border-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--jolt-width, 2px);
+  background: radial-gradient(
+      circle var(--jolt-glow, 120px) at var(--jolt-x, 50%) var(--jolt-y, 50%),
+      var(--jolt-color, #7c5cff) 0%,
+      color-mix(in srgb, var(--jolt-color, #7c5cff) 30%, transparent) 55%,
+      transparent 100%
+    )
+    border-box;
+  /* Paint the padding box opaque, subtract it from the border box: only the frame survives. */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* A faint always-on frame so the card still reads as bounded away from the cursor. */
+.jolt-border-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  border: var(--jolt-width, 2px) solid
+    color-mix(in srgb, var(--jolt-color, #7c5cff) 18%, transparent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-border-glow::before {
+    /* Release the GPU layer so the static ring rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}
