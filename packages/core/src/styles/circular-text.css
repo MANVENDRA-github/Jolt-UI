@@ -1,0 +1,46 @@
+/* CircularText — the text is laid out around a circle and the ring turns slowly.
+   Self-contained; the skin sets --jolt-radius / --jolt-speed plus --jolt-count (the segment
+   total), and each segment carries its index in --jolt-i.
+
+   Layout, not animation, puts each glyph on the ring: a segment is absolutely positioned with
+   its left edge at the top-center of a `2 * radius` box, then rotated to its own `i / count`
+   slot about an origin `radius` directly below that edge — the ring's center. The functions
+   read `rotate() translateX()` because CSS applies them right-to-left, so the -50% half-width
+   nudge that centers the glyph on the ring happens BEFORE the rotation, in unrotated space.
+   Only the container animates — one continuous turn.
+
+   The turn ends where it began (360deg renders identically to 0deg), so the freeze's
+   end-state and the reduced-motion static state agree and the pixel diff can't flake (D-035). */
+@keyframes jolt-circular-text {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.jolt-circular-text {
+  position: relative;
+  display: inline-block;
+  width: calc(var(--jolt-radius, 48px) * 2);
+  height: calc(var(--jolt-radius, 48px) * 2);
+  will-change: transform;
+  animation: jolt-circular-text var(--jolt-speed, 14s) linear infinite;
+}
+
+.jolt-circular-text [data-jolt-segment] {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: inline-block;
+  white-space: pre;
+  transform-origin: 0 var(--jolt-radius, 48px);
+  transform: rotate(calc(var(--jolt-i, 0) * 1turn / var(--jolt-count, 1))) translateX(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jolt-circular-text {
+    animation: none;
+    transform: rotate(0);
+    /* Release the GPU layer so the static ring rasterizes deterministically (D-014). */
+    will-change: auto;
+  }
+}

@@ -87,4 +87,10 @@ export { flipInSchema, flipInMeta } from './schemas/flip-in';
 export type { FlipInProps } from './schemas/flip-in';
 export { neonSchema, neonMeta } from './schemas/neon';
 export type { NeonProps } from './schemas/neon';
+export { glitchTextSchema, glitchTextMeta } from './schemas/glitch-text';
+export type { GlitchTextProps } from './schemas/glitch-text';
+export { trueFocusSchema, trueFocusMeta } from './schemas/true-focus';
+export type { TrueFocusProps } from './schemas/true-focus';
+export { circularTextSchema, circularTextMeta } from './schemas/circular-text';
+export type { CircularTextProps } from './schemas/circular-text';
 // gen:exports — scripts/gen-component.mjs appends new schema/meta exports above this line

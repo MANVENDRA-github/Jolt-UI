@@ -36,6 +36,9 @@ import {
   FadeUp,
   FlipIn,
   Neon,
+  GlitchText,
+  TrueFocus,
+  CircularText,
   // gen:card-import
 } from '@jolt/react';
 
@@ -139,6 +142,25 @@ const grid = 'mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-
         <div class={preview}><Neon text="Neon" /></div>
         <div class={name}>Neon</div>
         <div class={blurb}>Neon sign that flickers on to a steady glow</div>
+      </a>
+      <a href="/components/text/glitch-text" class={card}>
+        <div class={preview}><GlitchText text="Glitch Text" /></div>
+        <div class={name}>Glitch Text</div>
+        <div class={blurb}>Chromatic split and jitter, glitching on a loop</div>
+      </a>
+      <a href="/components/text/true-focus" class={card}>
+        <div class={preview}><TrueFocus text="True Focus" /></div>
+        <div class={name}>True Focus</div>
+        <div class={blurb}>A sharp focus sweeps across softly blurred text</div>
+      </a>
+      <a href="/components/text/circular-text" class={card}>
+        <div class={`${preview} justify-center`}>
+          <div class="text-[10px] font-semibold tracking-[0.25em]">
+            <CircularText text="CIRCULAR TEXT · " radius={32} />
+          </div>
+        </div>
+        <div class={name}>Circular Text</div>
+        <div class={blurb}>Text laid around a circle, turning slowly</div>
       </a>
       {/* gen:card:text */}
     </div>

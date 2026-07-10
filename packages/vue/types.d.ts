@@ -238,4 +238,23 @@ export declare const Neon: DefineComponent<{
   duration?: number;
   color?: string;
 }>;
+export declare const GlitchText: DefineComponent<{
+  text: string;
+  color?: string;
+  offset?: number;
+  speed?: number;
+}>;
+export declare const TrueFocus: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  blur?: number;
+  dim?: number;
+  speed?: number;
+}>;
+export declare const CircularText: DefineComponent<{
+  text: string;
+  by?: 'chars' | 'words';
+  radius?: number;
+  speed?: number;
+}>;
 // gen:shims

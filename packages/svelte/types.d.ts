@@ -235,4 +235,23 @@ export declare const Neon: (props: {
   duration?: number;
   color?: string;
 }) => unknown;
+export declare const GlitchText: (props: {
+  text: string;
+  color?: string;
+  offset?: number;
+  speed?: number;
+}) => unknown;
+export declare const TrueFocus: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  blur?: number;
+  dim?: number;
+  speed?: number;
+}) => unknown;
+export declare const CircularText: (props: {
+  text: string;
+  by?: 'chars' | 'words';
+  radius?: number;
+  speed?: number;
+}) => unknown;
 // gen:shims
